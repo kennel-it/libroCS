@@ -56,7 +56,9 @@ Socket connessione = new Socket("snoopy.quercia.org",876);
 OutputStream flussoByte = connessione.getOutputStream();
 OutputStreamWriter flussoCaratteri = new OutputStreamWriter(flussoByte);
 flussoCaratteri.write("saluti!\n");
-flussoCaratteri.flush();
+flussoCaratteri.close();
+flussoByte.close();
+connessione.close();
 </pre>
 	 
 </article>
