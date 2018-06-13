@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="richiestaHttp rispostaHttp" -->
+<!-- changelog 2018-01-24 inserita prima parte dei contenuti -->
+<!-- changelog 2018-02-21 inserito esempio commentato di uso -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>XMLHttpRequest</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>XMLHttpRequest</h1>
+	<p>richieste asincrone via javascript</p>
+</header>
+<article>
+	
+	<p><code>XMLHttpRequest</code> è un oggetto utilizzabile nei programmi
+	Javascript per interagire con un server remoto.</p>
+
+	<p>Microsoft ha sviluppato inizialmengte questo oggetto (perché di un oggetto si tratta) 
+	prima del 2000, successivamente nel 2006 ne è stata publicata una bozza di 
+	<a href="https://www.w3.org/TR/XMLHttpRequest/">standard dal World Wide Web Consortium</a>. 
+	Come il nome suggerisce è stato inventato per trasferire contenuto XML
+	ma attualmente viene usato per diversi formati di file.</p>
+	
+	<p>Lo scopo per cui viene usato è solitamente quello di trasferire informazioni senza cambiare
+	l'intera pagina e senza bloccare l'utente in attesa di una risposta: viene inviata la richiesta 
+	al server e 	la pagina continua ad essere normalmente interattiva, all'arrivo della risposta
+	questa verrà elaborata (in maniera asincrona) magari per aggiornare la pagina.</p>
+	
+	<h2>Breve riferimento</h2>
+	<p>Quelle sotto sono le proprietà e i metodi più utili, per avere informazioni più dettagliate
+	oltre che sulla pagina dello standard è possibile consultare 
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">MDN</a> o 
+	<a href="https://www.w3schools.com/xml/xml_http.asp">w3schools</a>. </p>
+	<dl>
+		<dt>onreadystatechange</dt>
+		<dd>è una funzione che viene chiamata ogni volta che cambia lo stato della richiesta</dd>
+		<dt>open(metodo, risorsa)</dt>
+		<dd>definisce quale metodo di HTTP (es: get o post) va usato e quale è la risorsa
+		da recuperare</dd>
+		<dt>send</dt>
+		<dd>è il metodo che serve per inviare la richiesta</dd>
+		<dt>readyState</dt>
+		<dd>una variabile che contiene l'attuale 
+		<a href="https://developer.mozilla.org/it/docs/Web/API/XMLHttpRequest/readyState">stato dell'oggetto</a>
+		</dd>
+		<dt>responseText</dt>
+		<dd>contiene la risposta del server o null in caso di errore</dd>
+		<dt>status</dt>
+		<dd><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/status">lo stato della risposta</a>
+		</dd>
+	</dl>
+	<h2>Un esempio</h2>
+
+<div class="prog">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Richiesta via http&lt;/title&gt;
+&lt;script type="text/javascript"&gt;
+
+<span class="evidenza">// conterrà la richiesta, deve essere globale perché</span>
+<span class="evidenza">// viene usata in due diverse funzioni</span>
+var httpRequest;
+
+function statoCambiato(){
+
+  <span class="evidenza">// lo stato è cambiato ma non è detto che sia già arrivata</span>
+  <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</span>
+  <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</span>
+  if (httpRequest.readyState === XMLHttpRequest.DONE) {
+
+    <span class="evidenza">scrivo la risposta nel paragrafo identificato da "risposta"</span>	
+    document.getElementById("risposta").innerHTML = httpRequest.responseText;
+
+  }
+}
+
+function premuto(){
+
+  <span class="evidenza ">// creo l'oggetto</span>
+  httpRequest = new XMLHttpRequest();
+  
+  <span class="evidenza ">// imposto la funzione da chiamare ogni volta che ci sarà</span>
+  <span class="evidenza ">// un cambiamento di stato</span>
+  httpRequest.onreadystatechange = statoCambiato;
+  
+  <span class="evidenza ">// inizializzo la richiesta </span>
+  httpRequest.open('GET', 'info.txt');
+  
+  <span class="evidenza ">// non voglio avere dati presenti nella cache locale</span>
+  httpRequest.setRequestHeader( 'Cache-Control', 'no-cache');
+  
+  <span class="evidenza ">// invio la richiesta al server </span>
+  httpRequest.send();
+}
+
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+<span class="evidenza ">
+&lt;!-- l'attributo <code>onclick</code> indica al browser il codice javascript da eseguire quando
+     l'utente fa click sull'elemento (un paragrafo in questo caso)  --&gt;</span> 
+&lt;p onclick="premuto()" id="risposta"&gt;premi qui&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</div>
+	
+
+</article>
+</body>
+</html>

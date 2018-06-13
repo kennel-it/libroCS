@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Programmazione client/server</title>
+        <link type="text/css" rel="stylesheet" href="style.css"/>
+        <style type="text/css">
+        	#copertina { width:100% } 
+        	ol a { text-decoration:none }
+        	p { text-indent: 0px }
+        	h1 { margin-bottom:0px ; text-align: center }
+        	#pager span { 
+        		display: inline-block; text-align: center ; width: 50% ;
+        		background-color: #d9f1c6 ; padding:1em ;  border:0.25em solid white
+        	}
+        	footer { margin:1em; margin-top:4em }
+        </style>
+        <script type="text/javascript">
+        //<![CDATA[
+        	function grafo(){
+        		document.getElementById("pg").style.fontWeight='bold';
+        		document.getElementById("pe").style.fontWeight='normal';
+        		document.getElementById("grafo").style.display='block';
+        		document.getElementById("toc").style.display='none';
+        	}
+        	function elenco(){
+        		document.getElementById("pg").style.fontWeight='normal';
+        		document.getElementById("pe").style.fontWeight='bold';
+        		document.getElementById("grafo").style.display='none';
+        		document.getElementById("toc").style.display='block';
+        	}
+        //]]>
+        </script>
+        <script type="application/javascript"><!-- animazione C/S -->
+      	//<![CDATA[
+			var partenzaS = new Array();
+			var arrivoS = new Array();
+			var partenzaD = new Array();
+			var arrivoD = new Array();
+			var posizione = 1;
+			var step = -1.00/100;
+			var elementoS;
+			var elementoD;
+			var durataCS = 1000;
+			var durataPasso = 10;
+			function init(){
+  				elementoS = document.getElementById("pathCs");
+  				elementoD = document.getElementById("pathSd");
+  				var pS = document.getElementById("pathCs").getAttribute("d").split(" ");
+  				var aS = document.getElementById("pathSs").getAttribute("d").split(" ");
+  				var pD = document.getElementById("pathSd").getAttribute("d").split(" ");
+  				var aD = document.getElementById("pathCd").getAttribute("d").split(" ");
+  				for(var i=0;i<pS.length;i++){
+  					// si suppone che gli elementi in p e in a siano nella stessa sequenza
+    					if(isNaN(pS[i])){
+            				partenzaS[i] = pS[i];
+            				arrivoS[i] = aS[i];
+            				partenzaD[i] = pD[i];
+            				arrivoD[i] = aD[i];
+    					}else{
+            				partenzaS[i] = parseFloat(pS[i]);
+            				arrivoS[i] = parseFloat(aS[i]); // sebbene sia non utilizzata
+            				partenzaD[i] = parseFloat(pD[i]);
+            				arrivoD[i] = parseFloat(aD[i]); // sebbene sia non utilizzata
+    					}
+  				}
+ 				window.setTimeout(morphing, durataCS);
+			}
+			function morphing(){
+    				posizione+=step;
+    				var nuovoS = "";
+    				var nuovoD = "";
+    				for(var i=0; i<partenzaS.length; i++){
+        				if(typeof(partenzaS[i])=="number"){
+        					nuovoS += partenzaS[i]*posizione + arrivoS[i]*(1-posizione);
+        					nuovoD += partenzaD[i]*posizione + arrivoD[i]*(1-posizione);
+        				}else{
+        					nuovoS += partenzaS[i];
+        					nuovoD += partenzaD[i];
+        				}
+        				nuovoS+=" ";
+        				nuovoD+=" ";
+    				}
+    				elementoS.setAttribute("d",nuovoS);
+    				elementoD.setAttribute("d",nuovoD);
+        			if(posizione>=1 || posizione<=0){
+        				step = -step;
+        				window.setTimeout(morphing, durataCS);
+    				}else{
+    					window.setTimeout(morphing, durataPasso);
+    				}
+			}	
+			//]]>
+		</script>       
+    </head>
+    <body onload="init()">        
+        <div style="font-size:9em;text-align: center">
+        		<h1 style="font-size:20px">programmazione</h1>
+        		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="220" viewBox="0 0 100 50" >
+		        <path id="pathCs"
+			       style="fill:none;stroke:#32822a;stroke-width:4;stroke-linecap:round;stroke-opacity:1"
+			       d="m 35 , 5 c -35 , 0 -35 , 40 0 , 40"
+			    />
+			    <path id="pathSs"
+			       style="fill:none;stroke:#fd0000;stroke-width:0;stroke-linecap:round;stroke-opacity:1"
+			       d="m 35 , 5 c -80 , 0 50 , 40 -30 , 40"
+			    />
+			    <path id="pathBarra"
+			       style="fill:none;stroke:#32822a;stroke-width:4;stroke-linecap:round;stroke-opacity:1"
+			       d="m 60 , 5 c 0 , 0 0 , 0 -15 , 40"
+			    />
+			    <path id="pathSd"
+			       style="fill:none;stroke:#32822a;stroke-width:4;stroke-linecap:round;stroke-opacity:1"
+			       d="m 95 , 5 c -80 , 0 50 , 40 -30 , 40"
+			    />
+			    <path id="pathCd"
+			       style="fill:none;stroke:#0000f9;stroke-width:0;stroke-linecap:round;stroke-opacity:1"
+			       d="m 95 , 5 c -35 , 0 -35 , 40 0 , 40"
+			    />
+			</svg>
+        </div>        
+        <div id="pagina"> 
+        	<h1>indice</h1>
+        	<div id="pager">
+        		<span onclick="grafo()" id="pg" style="font-weight: bold">grafo</span><span onclick="elenco()" id="pe">elenco</span>
+        	</div> 
+        	<div id="grafo" style="text-align: center">
+        		<!-- placeholder: indice grafo -->
+        	</div> 
+	        <nav id="toc" style="display:none;">
+	            <!-- placeholder: indice html -->
+	        </nav>    
+        </div>
+        <footer>
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="immagini/cc-by-nc-sa.png" /></a>Quest'opera è distribuita con Licenza <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribuzione - Non commerciale - Condividi allo stesso modo 4.0 Internazionale</a>.
+        </footer>
+    </body>
+</html>

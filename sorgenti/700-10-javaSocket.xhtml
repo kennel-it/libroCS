@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="comunicazione" -->
+<!-- 2017-10-18 inserita prima parte del contenuto -->
+<!-- 2017-11-17 aggiunti chiarimenti in più per l'uso di flush e dei writer -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>javaSocket</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>javaSocket</h1>
+	<p>oggetti per gestire le connessioni</p>
+</header>
+<article>
+	<h2>Oggetti</h2>
+	<p>Per gestire le connessioni TCP/IP in Java abbiamo a disposizione
+	alcuni oggetti nel pacchetto <code>java.net</code>: ne useremo
+	in particolare due: Socket e ServerSocket.
+	Il primo ci permette di connetterci e di ottenere due canali di ingresso/uscita,
+	il secondo di metterci in ascolto in attesa di connessioni.</p>
+	<p>Al solito la documentazione di java è 
+	<a href="http://docs.oracle.com/javase/9/docs/api/index.html?overview-summary.html">
+	reperibile online</a>.</p>
+	
+	<h2>Socket</h2>
+	<div class="test">
+	   	<p>Quali parametri servono per avere una connessione TCP/IP verso un server?</p>
+		<a onclick="sbagliata(this)">porta<span class="spiegazione">non basta</span></a> 
+		<a onclick="sbagliata(this)">nome server<span class="spiegazione">non basta</span></a>
+		<a onclick="giusta(this)">nome del server e porta</a> 
+		<a onclick="sbagliata(this)">IP e porta<span class="spiegazione">può andare ma non è necessario avere l'ip...</span></a>
+	</div>
+	<p>la classe Socket ha un costruttore che ci permette di collegarci ad un server
+	scrivendo semplicemente una istruzione del tipo 
+	<code>Socket s = new Socket("snoopy.quercia.org",876)</code> in cui il primo parametro è 
+	il nome del server e il secondo è la porta.</p>
+	<p>Una volta creato l'oggetto è possibile ottenere il canale di uscita
+	usando il metodo <code>getOutputStream()</code> (ritorna un OutputStream) e 
+	quello di ingresso utilizzando <code>getInputStream()</code> (ritorna un InputStream).</p>
+	<p>Se la comunicazione avviene scambiandosi messaggi di testo dopo aver preso gli stream
+	dovremo creare dei Reader/Writer che ci permettreranno di inviare testi. 
+	Attenzione ad una cosa: gli oggetti che stiamo usando inviano i dati quando ritengono che ce ne siano 
+	a sufficienza: il mesaggio "ciao" solitamente non è ritenuto abbastanza! Per ovviare
+	a questo problema diversi oggetti java che lavorano sui flussi di dati (es: Writer)
+	hanno un metodo <code>flush()</code> che serve a forzare a svuotare i buffer locali e
+	quindi ad inviare dei dati.</p> 
+	
+	<p>Un frammento di programma come quello qui sotto serve ad inviare una semplice
+	stringa di testo al server:</p>
+<pre>
+Socket connessione = new Socket("snoopy.quercia.org",876);
+OutputStream flussoByte = connessione.getOutputStream();
+OutputStreamWriter flussoCaratteri = new OutputStreamWriter(flussoByte);
+flussoCaratteri.write("saluti!\n");
+flussoCaratteri.flush();
+</pre>
+	 
+</article>
+</body>
+</html>

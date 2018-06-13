@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="http" -->
+<!-- changelog 2017-09-16 inserito contenuto del capitolo -->
+<!-- changelog 2017-09-20 corretti errori di battitura e di organizzazione delle frasi -->
+<!-- changelog 2017-09-27 Inserito riferimento al corpo del messaggio -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>richiestaHttp</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>richiestaHttp</h1>
+	<p>cosa contiene e come è formattata una richiesta http</p>
+</header>
+<article>
+	<pre>GET /pagina1.html HTTP/1.1
+Host: www.w3.org
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0) Gecko/20100101 Firefox/56.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: it-IT,it;q=0.8,en;q=0.3
+Accept-Encoding: gzip, deflate
+</pre>
+	<p>Quello qui sopra è un esempio di richiesta, guardando con un po' di attenzione
+	si può vedere che il formato è piuttosto ripetitivo... con una eccezione.</p>
+
+	<div class="test">
+	   	<p>Quale è l'eccezione?</p>
+	    <a onclick="giusta(this)">la prima riga<span class="spiegazione">si, non è "nome: valore"</span></a>
+	    <a onclick="sbagliata(this)">la terza riga<span class="spiegazione">no, la lunghezza non è indicativa</span></a>  
+	</div>
+	
+	<p>La prima riga contiene tre informazioni separate da uno spazio:</p>
+	<ol>
+		<li>metodo</li>
+		<li>URI</li>
+		<li>versione</li>
+	</ol>
+	
+	<h3>Metodo</h3>
+	<p>Potremmo dire che in qualche modo è l'azione da eseguire sull'oggetto riferito 
+	dalla URI,  
+	<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">i metotodi</a>
+	possibili sono molti ma trattiamo qui quelli più comuni.</p>
+	<dl>
+		<dt>GET</dt>
+		<dd>voglio recuperare il contenuto di una risorsa (ad esempio di un file),
+		se eseguo tante volte la stessa richiesta con questo metodo ottengo
+		sempre lo stesso risultato (si suppone che questa richiesta non implichi la
+		modifica dell'oggetto che viene richiesto)</dd>
+		<dt>POST</dt>
+		<dd>voglio inviare delle informazioni ad una risorsa sul server (ad esempio 
+		ad uno script) che plausibilmente modificheranno lo stato del server, 
+		se invio più volte la stessa richiesta potrei ottenere risultati diversi
+		come risposta</dd>
+		<dt>DELETE</dt>
+		<dd>è la richiesta di cancellazione di una risorsa</dd>
+	</dl> 
+	
+	<h3>URI</h3>
+	<p><em>U</em>niform <em>R</em>esource <em>I</em>dentifier, in particolare viene specificato
+	il solo percorso all'interno del server (ad esempio <code>/home/pagina.html</code>).</p>
+	<p>Questo percorso non fa riferimento al disco di sistema del server ma alla cartella
+	principale di servizio del server http con cui si dialoga.</p>
+	
+	<h3>versione</h3>
+	<p>Nel nostro caso è praticamente sempre <code>HTTP/1.1</code></p>
+	
+	<h2>Headers</h2>
+	<p>Tutte le righe che seguono la prima fino alla prima riga vuota sono
+	scritte nello stesso formato <code>nome: valore</code> e contengono varie
+	informazioni utili al server per gestire la richiesta.</p>
+	<p>Gli header possibili sono tantissimi 
+	(è possibile trovarne un elenco nelle pagine
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers">MDN HTTP headers</a>,
+	<a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields">Wikipedia (en)</a> o
+	<a href="http://www.html.it/articoli/request-e-response-header-del-protocollo-http-2/">html.it</a>
+	)
+	e possono anche essere 
+	creati all'occorrenza ma alcuni di uso comune li vediamo in dettaglio.</p>
+	 
+	<h3>User-Agent</h3>
+	<p>Nel nostro caso è <code>Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0) Gecko/20100101 Firefox/56.0</code>
+	e riporta delle informazioni sul programma con cui l'utente sta inviando 
+	le informazioni. Praticamente tutti i browser riportano "Mozilla/5.0" all'inizio
+	(e <a href="http://webaim.org/blog/user-agent-string-history/">WebAIM</a> riporta il perché),
+	successivamente possiamo vedere alcune informazioni riguardanti la macchina, il sistema operativo
+	e la versione del browsers in uso.</p>
+	
+	<h3>Accept</h3>
+	<p>Con questo header il client dice al server in che formato vuole avere la risorsa richiesta, 
+	la maniera che usa per farlo è piuttosto articolata: un elenco di possibilità separate da ",".</p>
+	<p>Ogni possibilità è fatta da due parti di cui la seconda è opzionale: la prima parte è
+	il tipo mime (
+	<a href="https://it.wikipedia.org/wiki/Multipurpose_Internet_Mail_Extensions">su Wikipedia</a> o su
+	<a href="http://www.iana.org/assignments/media-types/media-types.xhtml">IANA</a>
+	) e la seconda è il livello di preferenza espresso con un numero nell'intervallo [0,1].
+	La parte preferenza si riconosce perché inizia con <code>q=</code> e se manca per
+	default è 1.</p>
+	<pre>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</pre>
+	<p>parafrasi: voglio un testo html (lo preferisco al 100%), 
+	oppure un file xhtml (va sempre bene al 100%),
+	un file xml con preferenza al 90%, qualsiasi altra cosa mi va bene all'80%.</p>
+	
+	<h3>Accept-Language</h3>
+	<p>Il formato è lo stesso di accept soltanto che la prima parte di ogni coppia
+	è un <em>locale</em> (ce ne sono molti, questa ad esempio è la 
+	<a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html">lista di quelli supportati da java</a>)
+	anziché un tipo mime.</p>
+	
+	<div class="test">
+	   	<p>Quale è il linguaggio che preferisco in assoluto se invio l'header
+	   	<code>Accept-Language: en-US,en-AU;q=0.8,en;q=0.3</code>?</p>
+	    <a onclick="sbagliata(this)">l'inglese<span class="spiegazione">non è molto precisa come risposta</span></a>
+	    <a onclick="giusta(this)">l'inglese americano<span class="spiegazione">giusto, en-US sta appunto per questo</span></a> 
+	    <a onclick="sbagliata(this)">l'inglese australiano<span class="spiegazione">no, il suo livello di preferenza non è il più alto</span></a> 
+	</div>
+	<div class="test">
+	   	<p>Quale è il linguaggio che preferisco in caso non sia disponibile l'inglese americano?
+	   	<code>Accept-Language: en-US,en-AU;q=0.8,en;q=0.3</code>?</p>
+	    <a onclick="sbagliata(this)">l'inglese<span class="spiegazione">no, questa sarebbe la terza scelta</span></a>
+	    <a onclick="sbagliata(this)">l'inglese americano<span class="spiegazione">no, abbiamo detto che non era disponibile</span></a> 
+	    <a onclick="giusta(this)">l'inglese australiano<span class="spiegazione">si, mi va bene all'80%</span></a> 
+	</div>
+	
+	<h3>Accept-Encoding</h3>
+	<p>Un elenco di formati di compresisone dei dati che il client è in grado di 
+	interpretare.</p>
+
+	<h3>Host</h3>
+	<p>Sembra strano che io debba specificare il nome dell'host visto che
+	sto parlando con lui... in verità però il server che mi risponde potrebbe
+	gestire molti siti diversi e quindi sapere con quale intendo parlare 
+	gli è necessario per fornirmi il contenuto opportuno.</p>
+	
+	<h2>Corpo</h2>
+	<p>Non è presente nel nostro esempio ma in generale dopo gli headers si trova una riga vuota
+	seguita dall'oggetto che si vuole trasferire.</p>
+</article>
+</body>
+</html>

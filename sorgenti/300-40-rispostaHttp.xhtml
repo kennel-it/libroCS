@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="http richiestaHttp" -->
+<!-- changelog 2017-09-27 inserito contenuto del capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>rispostaHttp</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>rispostaHttp</h1>
+	<p>cosa contiene e come è formattata una risposta http</p>
+</header>
+<article>
+	<pre>HTTP/1.1 200 OK
+Date: Tue, 19 Sep 2017 18:48:18 GMT
+Server: Apache
+Expires: Thu, 19 Nov 2017 08:52:00 GMT
+Cache-Control: no-store, no-cache
+Connection: Keep-Alive
+Content-Encoding: gzip
+Content-Type	: text/html; charset=UTF-8
+
+&lt;!doctype html&gt;
+&lt;html&gt;
+....
+</pre>
+<p>A meno della prima riga (riga di stato)
+la risposta ha lo stesso formato della richiesta.</p>
+<p>Nel caso delle risposta ri vede meglio la distinzione tra intestazione
+(la parte prima della riga vuota) e il corpo (la parte dopo la riga vuota)
+di cui in questo esempio si vedono soltanto le prime due righe.</p>
+
+<h2>riga di stato</h2>
+<p>Come è lecito aspettarsi ci viene detto l'esito della nostra richiesta!
+Analogamente alla risposta anche qui ci sono tre parti separate da uno spazio:
+protocollo, codice e descrizione dell'esito.</p>
+<p>Il protocollo è specificato esattamente come nella richiesta, quel che segue
+è invece una doppia descrizione della risposta: in formato numerico e come testo.</p>
+<p>In realtà la descrizione è ridondante perché dipende dal codice direttamente
+(ad esempio il codice 200 corrisponde alla descrizione "ok").
+Ci sonono <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">molti codici</a> di risposta
+(<a href="https://httpstatuses.com/">qui</a> una lista di più veloce consultazione): ognuno è
+formato da tre cifre in cui la prima dice l'esito generale. I gruppi sono questi:</p>
+<dl>
+<dt>1xx</dt><dd>Informational</dd>
+<dt>2xx</dt><dd>Success</dd>
+<dt>3xx</dt><dd>Redirection</dd>
+<dt>4xx</dt><dd>Client error</dd>
+<dt>5xx</dt><dd>Server error</dd>
+</dl>
+<p>Vediamo alcuni esempi specifici con relative descrizioni testuali:</p>
+<dl>
+<dt>200 OK</dt>
+<dd>La richiesta ha avuto successo. Se ad esempio era un GET il contenuto 
+della risorsa è nella sezione body della risposta.</dd>
+<dt>301 Moved Permanently</dt>
+<dd>La risorsa che abbiamo richiesto non è raggiungibile perché 
+è stata spostata in modo permanente.
+Negli header in un campo <code>Location</code> si trova la nuova posizione.</dd>
+<dt>302 Found</dt> 
+<dd>La risorsa è raggiungibile temporaneamente con un altro URI indicato nel header Location.
+Di norma i browser eseguono la richiesta all'URI indicato in modo automatico senza interazione dell'utente.</dd>
+<dt>404 Not Found</dt>
+<dd>La risorsa richiesta non è stata trovata e non se ne conosce l'ubicazione. Di solito avviene quando l'URI 
+è stato indicato in modo incorretto, oppure è stato rimosso il contenuto dal server.</dd>
+<dt>500 Internal Server Error</dt>
+<dd>Il server non è in grado di rispondere alla richiesta per un suo problema interno.</dd>
+<dt>505 HTTP Version Not Supported</dt>
+<dd>La versione di http non è supportata.</dd>
+</dl>
+
+<h2>intestazione</h2>
+<p>Analoga a quella del client nel formato, vediamo alcuni header di esempio.</p>
+<h3>Server</h3>
+<p>La controparte di <code>User-Agent</code> nella richiesta, il server 
+descrive se stesso!</p>
+<h3>Cache-Control</h3>
+<p>Sono indicazioni di come gestire il contenuto fornito in relazione alla cache del
+programma che lo riceve. Ad esempio il valore <code>public</code> indica che il contenuto può
+essere memorizzato in cache mentre <code>no-cache</code> indica che il contenuto della cache
+deve essere validato dal server prima di essere usato.
+Il valore <code>no-store</code> indica che il contenuto non va memorizzato in cache.</p>
+
+<h3>Expires</h3>
+<p>Indica in pratica una data di scadenza dell'oggetto fornito, il formato è quello
+delle marche temporali (timestamp) di HTTP, ad esempio: 
+<code>Expires: Wed, 21 Oct 2015 07:28:00 GMT</code></p>
+
+<h3>Content-Type	</h3>
+<p>È in pratica la risposta all'header <code>Accept</code> della richiesta,
+in questo modo il server dichiara il tipo mime della risposta e 
+la codifica dei caratteri, ad esempio: <code>text/html; charset=UTF-8</code>.</p>
+ 
+<p>Due possibili valori: close o keep-alive.</p>
+<p><code>close</code> indica che la connessione va chiusta dopo questa risposta 
+(default per HTTP 1.0).</p>
+<p><code>keep-alive</code> indica che il canale di comunicazione deve 
+rimanere aperto così da poter essere utilizzato per ulteriori richieste, è il default per
+HTTP 1.1</p>
+
+<h2>corpo</h2>
+<p>È la risorsa che è stata richiesta ad esempio con un GET, può essere qualsiasi cosa,
+ad esempio una pagina html.</p> 
+</article>
+</body>
+</html>

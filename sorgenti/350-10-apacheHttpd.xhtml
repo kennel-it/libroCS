@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="comunicazione" -->
+<!-- changelog 2017-09-16 inserito contenuto del capitolo -->
+<!-- changelog 2017-09-21 inserito link per XAMPP -->
+<!-- changelog 2018-01-12 inserita spiegazione per parametri di configurazione -->
+<!-- changelog 2018-01-13 inserite spiegazioni per file di log -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>apacheHttpd</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>apacheHttpd</h1>
+	<p>il Progetto Server Apache HTTP</p>
+</header>
+<article>
+	<p>Il server web che installeremo non è l'unico server disponibile,
+	ne esistono diversi largamente utilizzati e fortunatamente tutti gratis.
+	In pratica sono tre i più usati secondo <a href="https://news.netcraft.com/">Netcraft</a>:
+	<a href="http://httpd.apache.org/">httpd di Apache (free)</a>, 
+	<a href="https://nginx.org/en/">nginx (free)</a> e
+	<a href="https://www.iis.net/">IIS di Microsoft (proprietario)</a>.</p> 
+	<p>Quello che vedremo noi è il più conosciuto, il più usato, disponibile per molte piattaforme e free.</p>
+	
+	<h2>httpd</h2>
+	<p>Intanto i nomi: quello del server è "httpd" ma è conosciuto come "Apache" che è il nome 
+	del gruppo che lo sviluppa (e che sviluppa molto altro software).</p>
+	<p>A seconda del tipo di installazione che vogliamo fare (su un server in produzione o per sviluppare)
+	e del sistema operativo in uso cambia cambia il percorso da seguire. Su Linux (qualsiasi distribuzione)
+	normalmente il pacchetto per l'installazione di apache è disponibile, 
+	su Windows è possibile 
+	<a href="http://httpd.apache.org/docs/current/platform/windows.html#down">scaricare diversi programmi</a> 
+	che installano httpd a volte insieme ad altri server.</p>
+	
+	<h3>Configurazione</h3>
+	<p>È possibile configurare moltissimi parametri di Apache e installare molti moduli aggiuntivi 
+	sul server, ci occupiamo soltanto di alcune configurazioni di base!</p>
+	<p>Il file di configurazione di Apache è in verità piuttosto comeplesso, alcuni parametri valgono per 
+	l'intero server, altri per determinati server virtuali (una singola macchina fisica può
+	fornire più siti) e altri per singole cartelle, cercheremo di non complicare troppo la vita elencandone alcune.
+	In pratica nel filie di configurazione vanno semplicemente modificati i valori delle proprietà...
+	senza spostarle se non sappiamo bene cosa stiamo facendo! La configurazione che prendiamo
+	in considerazione è quella di un singiolo server (senza server virtuali).</p>
+	<p>Il file di configurazione di apache è un file di testo usualmente chiamato
+	<code>apache.conf</code> o <code>httpd.conf</code> situati usualmente nella cartella <code>/etc</code>.</p>
+	<dl>
+		<dt>DocumentRoot</dt>
+		<dd>Dice in quale cartella sono contenuti i file che dobbiamo fornire ai client.
+		Poniamo caso che il nostro server sia <code>www.esempio.org</code> e che l'URL richiesta
+		sia <code>http://eee.esempio.org/immagini/peperone.jpg</code> e che il valore di
+		<code>DocumentRoot</code> sia <code>c:\cane\pluto\</code> il file che verrà
+		inviato al client è <code>c:\cane\pluto\immagini\peperone.jpg</code>.</dd>
+		<dt>DirectoryIndex</dt>
+		<dd>Specifica un elenco di risorse da cercare (fornisce la prima che trova)
+		quando il client richiede una cartella.</dd>
+		<dt>ErrorDocument</dt>
+		<dd>Specifica il contenuto da fornire in caso di errore. Bisogna specificare due valori:
+		il primo è il codice dell'errore (ad esempio 500) e il secondo può essere o un messaggio
+		tra virgolette o il nome di un file. I valori vanno come sempre separati da spazi.</dd>
+	</dl>
+	
+	<h3>File di log</h3>
+	<p>Come tutti i server anche Apache registra delle informazioni riguardo al suo funzionamento nei
+	file di log, in particolare ne vengono usati due diversi: uno per gli accessi legittimi e uno per gli errori.
+	Il primo si configura specificando il suo percorso dopo il parametro di configurazione 
+	<code>CustomLog</code> e contiene informazioni sugli accessi da parte degli utenti andati a buon fine.
+	Il secondo si configura utilizzando il parametro <code>ErrorLog</code> in maniera analoga e contiene
+	delle informazioni sugli errori interni al server (utile ad esempio in caso che uno script PHP non funzioni).</p>
+	
+	
+	<h2><a href="https://www.apachefriends.org/index.html">XAMPP</a></h2>
+	<p style="font-family:serif;font-style:italic">XAMPP è una distribuzione di Apache completamente gratuita e semplice da installare, 
+	contenente MySQL, PHP e Perl. Il pacchetto open source XAMPP è stato creato per essere estremamente 
+	facile da installare e utilizzare.</p>
+	<p style="text-align:right"><i>Home page di XAMPP</i></p>
+	<p>In pratica XAMPP è un programma che installa una serie di server e un pannello di controllo
+	che ci rende la vita più semplice!</p>
+</article>
+</body>
+</html>

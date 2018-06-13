@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="richiestaHttp rispostaHttp" -->
+<!-- changelog 2018-02-21 inserita prima parte dei contenuti -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>form</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>form</h1>
+	<p>invio dei dati al server tramite form</p>
+</header>
+<article>
+
+	<p>Il modo più semplice per inviare le informazioni al server è quello di usare un form HTML.
+	Quando un utente chiede di inviare i dati (normalmente premendo un pulsate "invia" o simile)
+	il browser invia una richiesta http al server e la risposta prende il posto
+	della pagina attuale.</p>
+	
+	<p>Il tag HTML che serve per realizzare un form è <code>form</code> di cui dobbiamo usare almeno
+	due attributi: <code>action</code> e <code>method</code>: il primo indica a quale URL inviare
+	i dati e il secondo con quale metodo farlo (GET o POST nel nostro caso).</p>
+	
+	<p>All'interno del tag form possiamo utilizzare altri tag a seconda del dato che vogliamo 
+	chiedere all'utente, esistono diversi dati che possono essere chiesti con diverse modalità e con
+	<a href="https://caniuse.com">diverso supporto</a> da parte dei browser.</p>
+
+	<h2>input</h2>
+	<p>Di <code>input</code> di interessano in particolare tre attributi: 
+	<code>name</code>, <code>value</code> e <code>type</code>.</p>
+	<dl>
+		<dt>name</dt>
+		<dd>è il nome che verrà associato al dato immesso dal'utente</dd>
+		<dt>value</dt>
+		<dd>il valore predefinito del dato</dd>
+		<dt>type</dt>
+		<dd>indica il tipo di campo da creare, ad esempio
+			<dl>
+				<dt>text</dt>
+				<dd>una casella per immettere del testo</dd>
+				<dt>submit</dt>
+				<dd>un pulsante, alla pressione verranno inviati i dati al server
+				e la pagina di risposta verrà caricata</dd>
+				<dt>password</dt>
+				<dd>come "text" ma i dati immessi non sono visibili</dd>
+				<dt>hidden</dt>
+				<dd>campo non visibile all'utente... serve l'attributo <code>value</code></dd>
+			</dl>
+		</dd>
+	</dl>
+	
+	<h2>select</h2>
+	<p>Questo tag realizza un menu con delle voci al suo interno.
+	L'attributo <code>name</code> indica quale sarà il nome associato al dato inviato al
+	server mentre il suo valore va specificato nei tag <code>option</code> in esso contenuti.
+	A sua volta il tag option ha un attributo <code>value</code> che indica il valore
+	che sarà inviato al server, questo valore non viene però mostrato all'utente che vedrà invece
+	il contenuto di option.</p>
+	
+	<h2>esempio</h2>
+<div class="prog">&lt;form action="script.php" method="post"&gt;
+	&lt;p&gt;nome:&lt;input type="text" name="nome"&gt;&lt;/p&gt;
+	&lt;p&gt;cognome:&lt;input type="text" name="cognome"&gt;&lt;/p&gt;
+	&lt;p&gt;continente: &lt;select name="continente"&gt;
+		&lt;option value="eu"&gt;Europa&lt;/option&gt;
+		&lt;option value="as"&gt;Asia&lt;/option&gt;
+		&lt;option value="oc"&gt;Oceania&lt;/option&gt;
+		&lt;option value="af"&gt;Africa&lt;/option&gt;
+		&lt;option value="am"&gt;America&lt;/option&gt;
+	&lt;/select&gt;&lt;/p&gt;
+	&lt;input type="submit"&gt;
+&lt;/form&gt;
+</div>
+	
+</article>
+</body>
+</html>

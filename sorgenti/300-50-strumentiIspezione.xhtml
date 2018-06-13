@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="rispostaHttp richiestaHttp" -->
+<!-- changelog 2017-09-26 inserito contenuto capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>http</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>strumentiIspezione</h1>
+	<p>strumenti per visualizare richiesta/risposta http</p>
+</header>
+<article>
+	<p>La maggior parte dei browser ha degli strumenti per ispezionare la richiesta e la risposta http,
+	qui vedremo quelli di Firefox accessibili dal menu "/sviluppo/attiva strumenti".</p>
+	<p>In particolare a noi interessa la scheda "Rete" nella quale sono accessibili molte
+	informazioni che riguardano la comunicazione.</p>
+	
+	<img src="immagini/firefox_1.jpg" style="width:100%; border:1px solid black" alt="scheda rete degli strumenti per sviluppatori"/>	
+	<p>Quella qui sopra è la richiesta di una singola pagina che origina poi altre due ulteriori richieste,
+	il primo numero sulla sinistra è il codice di risposta fornito dal server per ogni richiesta.</p>
+	<p>facendo click su una singola richiesta si apre un ulteriore pannello che divide in due l'area delle
+	informazioni e che contiene
+	i dati della richiesta specifica. Sulla destra c'è un pulsante "Header non elaborati (raw)" 
+	che mostra gli header così come sono stati inviati/ricevuti.</p>
+	
+	<p>Le informazioni contenute nella prima riga della richiesta e della risposta 
+	(più alcune aggiuntive) sono mostrate nella parte alta del pannello.</p> 
+</article>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="javaSocket" -->
+<!-- 2017-11-11 inserito capitolo -->
+<!-- 2017-11-15 primo blocco di contenuti -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>javaAsincrono</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>javaAsincrono</h1>
+	<p>come gestire comunicazioni asincrone</p>
+</header>
+<article>
+	<h2>Il problema</h2>
+	<p>Nella comunicazione client/server non tutto avviene in maniera sincrona!</p>
+	<p>Gestire la comunicazione nel caso in cui io invio un messaggio e subito
+	dopo leggo la risposta non c'è molto di complicato... il problema nasce
+	quando l'invio di un messagio da parte del server avviene in un momento non predicibile</p>
+	
+	<h2>Thread</h2>
+	<p>Siccome abbiamo bisogno di una parte di programma che resti in ascolto 
+	l'unico modo che abbiamo di farlo è di usare un thead diverso estendendo la classe Thread.</p>
+	<p></p>
+<pre>
+public class Esecutore extends Thread{
+
+	private boolean continua=true;
+
+	@Override
+	public void run(){
+		
+	}
+}
+</pre>
+
+	<p>Tutto quello che verrà scritto nel metodo run() verrà eseguito nel nuouvo thread che
+	può essere creato utilizzando:</p>
+<pre>
+Esecutore x = new Esecutore();
+x.start();
+</pre>
+
+	<div class="test">
+	   	<p>la riga <code>x.start()</code>...</p>
+	    <a onclick="sbagliata(this)">è errata (Esecutore non definisce start)<span class="spiegazione">no, potrebbe averla definita qualcun'altro</span></a> 
+	    <a onclick="giusta(this)">è giusta<span class="spiegazione">si, viene definita da Thread</span></a> 
+	</div>
+	
+<p>Il programma che ha creato il thread continuerà nel normale flusso delle istruzioni e parallelamente
+verrà avviato il nuovo thread che terminerà quando uscirà dal meotodo <code>run()</code>.</p>
+
+<h2>JavaFX</h2>
+<p>Ci crea qualche complessità in più...</p>
+<p>Il vincolo che abbiamo è che non è possibile modificare l'interfaccia grafica di JavaFX 
+da un thread diverso rispetto a quello di JavaFX: esiste però un metodo per chiedergli di
+eseguire una parte di codice nel suo thread usando l'oggetto 
+<a href="https://docs.oracle.com/javase/9/docs/api/javafx/application/Platform.html">Platform</a>.</p> 
+<p>In particolare di <code>Platform</code> ci interessa il metodo <code>runLater​()</code> che eseguirà
+la parte di programma che gli indichiamo nel thread di JavaFX, non è assicurato che venga fatto
+subito ma il ritardo è normalmente accettabile.</p>
+<p>L'oggetto che <code>runLater​()</code> vuole come argomento è di tipo <code>Runnable</code> 
+ma per semplicità poossiamo scrivere una cosa di questo genere:</p>
+<pre>
+Platform.runLater(() -> {
+	casella.setText("xyz");
+}); 
+</pre>
+
+</article>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="richiestaHttp rispostaHttp" -->
+<!-- changelog 2018-02-21 inseriti contenuti -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>php</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>php</h1>
+	<p>variabili e funzioni php per la comunicazione via http</p>
+</header>
+<article>
+	
+	<dl>
+		<dt>$_GET</dt>
+		<dd>è un vettore che contiene le variabili passate tramite una richiesta get di http
+		es: <code>$_GET['nome']</code></dd>
+		<dt>$_POST</dt>
+		<dd>è un vettore che contiene le variabili passate tramite una richiesta post di http
+		es: <code>$_POST['password']</code></dd>
+		<dt>$_SESSION</dt>
+		<dd>è un vettore che contiene dei dati che vengono mantenuti (per lo stesso utente)
+		da una richiesta all'altra, va usata dopo <code>session_start()</code></dd>
+		<dt>session_start()</dt>
+		<dd>avvia una sessione o ne apre una già avviata, va usata all'inizio dello script/pagina
+		prima di produrre output</dd>
+	</dl>
+
+</article>
+</body>
+</html>

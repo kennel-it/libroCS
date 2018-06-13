@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="comunicazione" -->
+<!-- changelog 2018-01-24 inseriti contenuti -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>xml</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>xml</h1>
+	<p>eXtensible Markup Language</p>
+</header>
+<article>
+	<p>XML ha due possibili 
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">tipi mime</a>: 
+    <code>application/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>) e
+    <code>text/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>).</p>
+	
+	<p>XML è definito come metalinguaggio: un linguaggio per definire altri linguaggi.
+	In pratica ci permette di definire dei tag che possono contenere qualsiasi 
+	tipo di informazioni, come prima approssimazione potremmo dire che XHTML è una
+	versione particolare di XML che consentre di descrivere pagine web.</p>
+	<p>La sintassi di un documento è molto semplice: inizia con 
+	<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> (facendo la ragionevole supposzione 
+	che il file sia codificato in UTF-8)
+	e poi prosegue con una serie di tag nidificati in maniera corretta (i parser
+	XML non sono tolleranti come i browser nel leggere un documento), vediamo un esempio:</p>
+	<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rubrica&gt;
+	&lt;persona eta="18"&gt;
+		&lt;nome&gt;Pluto&lt;/nome&gt;
+		&lt;numero&gt;555-87562345&lt;/numero&gt;
+	&lt;/persona&gt;
+	&lt;persona eta="14"&gt;
+		&lt;nome&gt;Pippo&lt;/nome&gt;
+		&lt;numero&gt;555-874534555&lt;/numero&gt;
+	&lt;/persona&gt;
+&lt;/rubrica&gt;
+	</pre>
+	<p>L'XML è molto usato per l'interscambio (e la memorizzazione) dei dati in ambito aziendale, 
+	offre alcuni strumenti/tecnologie molto utili come ad esempio:</p>
+	<dl>
+		<dt>DTD</dt><dd>un insieme di regole grammaticali che definiscono uno specifico linguaggio 
+		(es: nella rubrica posso mettere quante persone voglio...)</dd>
+		<dt>XML Schema</dt><dd>di uso analogo ad DTD ma più recente</dd>
+    		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i foglli di stile</dd> 
+    	</dl>
+	
+	<h2>Alcuni riferimenti utili</h2>
+	<p><a href="https://www.w3schools.com/xml/">XML tutorial su w3schools.com</a></p>
+	<p><a href="http://www.html.it/pag/16214/introduzione26/">introduzione su html.it</a></p>
+	<p><a href="https://www.xmlvalidation.com/">servizio di validazione</a></p>
+</article>
+</body>
+</html>
