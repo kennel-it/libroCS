@@ -8,3 +8,7 @@ La licenza per tutti i documenti è
 - si supone si stia usando eclipse
 - creare cartella "compilati"
 - click con il destro su "build.xml" e run as Ant build
+
+### per impostare una cartella target della compilazione
+- in eclipse "external tools configurations" (il menu da cui si lanciano gli script di ant)
+- importare la variabile di ambiente BOOK_TARGET_FOLDER alla cartella desiderata
