@@ -5,6 +5,7 @@
 <!-- changelog 2017-09-21 inserito link per XAMPP -->
 <!-- changelog 2018-01-12 inserita spiegazione per parametri di configurazione -->
 <!-- changelog 2018-01-13 inserite spiegazioni per file di log -->
+<!-- changelog 2018-10-13 aggiunta direttiva listen -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -41,12 +42,15 @@
 	sul server, ci occupiamo soltanto di alcune configurazioni di base!</p>
 	<p>Il file di configurazione di Apache è in verità piuttosto comeplesso, alcuni parametri valgono per 
 	l'intero server, altri per determinati server virtuali (una singola macchina fisica può
-	fornire più siti) e altri per singole cartelle, cercheremo di non complicare troppo la vita elencandone alcune.
+	fornire più siti) e altri per singole cartelle, cercheremo di non complicare troppo la vita elencandone alcuni.
 	In pratica nel filie di configurazione vanno semplicemente modificati i valori delle proprietà...
 	senza spostarle se non sappiamo bene cosa stiamo facendo! La configurazione che prendiamo
 	in considerazione è quella di un singiolo server (senza server virtuali).</p>
 	<p>Il file di configurazione di apache è un file di testo usualmente chiamato
-	<code>apache.conf</code> o <code>httpd.conf</code> situati usualmente nella cartella <code>/etc</code>.</p>
+	<code>apache.conf</code> o <code>httpd.conf</code> situati nella cartella <code>/etc/apache</code>
+	o simile nel caso di un sistema Unix o nella sottocartella <code>\apache\conf\</code> di XAMPP ad esempio.
+	Questo file contiene delle informazioni raggruppate all'interno di marcatori
+	che assomigliano a tag dell'html.</p>
 	<dl>
 		<dt>DocumentRoot</dt>
 		<dd>Dice in quale cartella sono contenuti i file che dobbiamo fornire ai client.
@@ -56,11 +60,16 @@
 		inviato al client è <code>c:\cane\pluto\immagini\peperone.jpg</code>.</dd>
 		<dt>DirectoryIndex</dt>
 		<dd>Specifica un elenco di risorse da cercare (fornisce la prima che trova)
-		quando il client richiede una cartella.</dd>
+		quando il client richiede una cartella. Questa direttiva si troverà
+		probabilmentre all'interno di un blocco &lt;IfModule&gt; per indicare che va eseguita
+		soltanto se il modulo specificato (dir_module in questo caso) è stato caricato.</dd>
 		<dt>ErrorDocument</dt>
 		<dd>Specifica il contenuto da fornire in caso di errore. Bisogna specificare due valori:
 		il primo è il codice dell'errore (ad esempio 500) e il secondo può essere o un messaggio
 		tra virgolette o il nome di un file. I valori vanno come sempre separati da spazi.</dd>
+		<dt>Listen</dt>
+		<dd>Indica la porta su cui il server deve mettersi in ascolto (con la stessa
+		direttiva è possibile indicare anche l'indirizzo IP in caso la macchina ne abbia più di uno)</dd>
 	</dl>
 	
 	<h3>File di log</h3>
