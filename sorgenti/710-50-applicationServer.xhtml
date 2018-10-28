@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="comunicazione" group="java" -->
+<!-- 2018-10-28 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>applicationServer</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>applicationServer</h1>
+	<p>un supporto per scrivere applicazioni web</p>
+</header>
+<article>
+	<h2>Cosa sono</h2>
+	<p>Sono applicazioni che forniscono contenuti via HTTP... detto così sembrano molto simili ad
+	<em>Apache httpd</em> e in effetti per alcuni parametri lo sono ma se <em>httpd</em> è pensato
+	per fornire ai client dei file presenti su disco (è poi vero che esistono tantissime
+	estensioni che ad esempio gli permettono di eseguire script PHP) un application server è pensato per
+	eseguire applicazioni che genereranno un qualche tipo di output che viene fornito al client.</p>
+	<p>Questi server offrono un elevato numero di comode funzioni per poter scrivere e mantenere
+	facilmente applicazioni lato server anche di grandi dimensioni, in questa breve introduzione daremo uno sguardo
+	a quei server che ci permettono di scrivere i programmi in Java. Ne esistono diversi tipi che offrono 
+	diverse categorie di servizi, noi prendiamo in considerazione il profilo web.</p>
+	<p>Il costo che dovremo pagare per tutte queste comodità è un maggior lavoro in fase 
+	di configurazione della nostra applicazione.</p>
+	
+	<h2><a href="http://tomee.apache.org/">Tomee</a></h2>
+	<p>Scegliamo Tomee come application server ma ne esistono altri sia free che a pagamento, quanto
+	descritto qui per la struttura della nostra applicazione vale in generale, 
+	quello che cambia è la configurazione del server che noi non tratteremo perché
+	Tomee si avvia senza la necessità di particolari configurazioni.</p>
+	
+	<p>La versione che dobbiamo scaricare è <em>TomEE webprofile</em>. Una volta scaricato il pacchetto
+	va scompattato e per avviarlo basta lanciare il programma
+	<code>startup.bat</code> in Windows o <code>startup.sh</code> su Unix 
+	che si trova nella sottocartella <code>bin</code>.</p>
+	<p>Per potersi avviare Tomee ha bisogno di sapere dove si trova Java: questo lo possiamo indicare
+	utilizzando una variabile di ambiente chiamata <code>JAVA_HOME</code>, su Windows questa 
+	variabile si può impostare nel seguente modo:</p>
+	<ul>
+	   <li>reperire la cartella di installazione del JDK (poniamo ad esempio
+	   <code>c:\Program Files\Java\jdk-11</code>)</li>
+	   <li>aprire dal pannello di controllo le impostazioni di sistema e sicurezza</li>
+	   <li>click su sistema e poi su cambia impostazioni</li>
+	   <li>sul pannello avanzate click su "variabili d'ambiente..."</li>
+	   <li>aggiungerne una nuova al livello di sistema (o di utente) con nome 
+	   <code>JAVA_HOME</code> e come valore la cartella del JDK individuata prima</li>
+	   <li>aprire un nuovo terminale e scrivere il comando <code>set</code>, se il procedimento
+	   è stato eseguito correttamente compare l'impostazione appena fatta.</li>
+	</ul>
+
+	<h2>Hello World!</h2>
+	<p>Come esempio creiamo un oggetto che si chiama 
+	"<a href="https://it.wikipedia.org/wiki/Servlet"></a>Servlet" che è in grado di rispondere
+	sia a richieste di tipo GET che POST, seguiamo un procedimento che richieda meno strumenti possibile, 
+	esistono però software che semplificano di molto la vita di uno sviluppatore
+	(ma bisogna imparare ad utilizzarli).</p>
+	<p>Se stiamo usando Eclipse fa comodo avere la versione <em>EE</em> (quella indicata 
+	come Java Enterprise nella pagina di Download). Creiamo un nuovo progetto "Dynamic Web Project"
+	lasciando le impostazioni di default.</p>
+	<p>A questo punto creiamo una nuova classe <code>HelloWorld</code> (in qualsiasi pacchetto), 
+	l'applicazione in se non è complessa (altrimenti perché usare un Application server?):</p>
+	
+<pre>
+package servlet;
+
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/saluto")
+public class HelloWorld extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        Writer uscita = response.getWriter();
+        uscita.append("richiesta GET");
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+        response.getWriter().append("richiesta POST");
+    }
+}
+</pre>
+
+<p>Se abbiamo fatto tutto in ordine dovremmo avere tantissimi errori nella classe... questo perché
+stiamo utilizzando degli oggetti che non sono presenti nella libreria base di Java. In eclipse correggere il 
+problema non  è difficile: basta aprire le proprietà del progetto, andare nella sezione
+"Java build path" nella pagina delle
+librerie e aggiungere uno specifico jar che si chiama <code>servlet-api.jar</code> e si trova nella
+cartella lib di Tomee.</p>
+
+    <h2>Pubblicazione</h2>
+    <p>Caricare l'applicazione sul server consiste in pratica nel copiare dei file in posizioni 
+    ben precise: nella cartella di Tomee c'è una cartella chiamata <code>webapps</code>, qui dentro
+    dobbiamo creare la cartella con il nome della nostra applicazione, come esempio scegliamo
+    <code>ciao</code>, al suo interno va copiato il contenuto della cartella <code>WebContent</code>
+    del progetto di Eclipse e la cartella delle classi compilate nella 
+    sottocartella <code>WEB-INF</code> della nostra applicazione... in pratica:</p>
+    
+    <ul>
+        <li><div>cartella di <em>webapps</em></div>
+            <ul>
+                <li>...</li>
+                <li><div>ciao</div>
+                    <ul>
+                        <li>pagine html e immagini</li>
+                        <li>META-INF</li>
+                        <li><div>WEB-INF</div>
+                            <ul>
+	                            <li>lib</li>
+	                            <li>classes</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>...</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <p>La cartella <code>classes</code> non c'è dentro <code>WebContent</code>... ma la possiamo 
+    reperire nella cartella <code>build</code> del progetto.</p>
+    
+    <h2>Test</h2>
+    <p>Dopo aver copiato le cartelle opportune riavviare Tomee.</p>
+    <p>Per provare se tutto funziona bisogna usare un browser web e scrivere l'indirizzo della
+    pagina appena pubblicata, se è stato seguito l'esempio qui sopra:
+    <code>http://localhost:8080/ciao/saluto</code></p>
+    <p>Nell'ordine</p>
+    <dl>
+        <dt>http</dt>
+        <dd>è il protocollo in uso</dd>
+        <dt>localhost</dt>
+        <dd>oppure il nome del server su cui Tomee è in esecuzione</dd>
+        <dt>8080</dt>
+        <dd>per default Tomee sta in ascolto sulla porta 8080 ma può essere configurato</dd>
+        <dt>ciao</dt>
+        <dd>è il nome dell'applicazione cioè della cartella dentro webapps</dd>
+        <dt>saluto</dt>
+        <dd>è il nome della servlet che vogliamo usare come specificato in 
+            <code>@WebServlet("/saluto")</code></dd>
+    </dl>
+
+</article>
+</body>
+</html>
