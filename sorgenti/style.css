@@ -3,41 +3,70 @@
     --colore-sfondo-noGroup: #f5f5f5; /* grey 100 */
     --colore-sfondo-http: #90caf9; /* blue 200 */
     --colore-sfondo-java: #7cb342 ; /* Light Green 600 */
+    --colore-sfondo-javascript: #ffee58 ; /* yellow 400 */
+    --colore-sfondo-1: #f8bbd0 ; /* pink 200 */
+    --colore-sfondo-2: #a1887f ; /* brown 300 */
+    --colore-sfondo-3: #e53935 ; /* red 600 */
     /* i relativi light */
     --colore-sfondo-noGroup-chiaro: #ffffff; /* grey 100 */
     --colore-sfondo-http-chiaro: #c3fdff; /* blue 200 */
     --colore-sfondo-java-chiaro: #aee571 ; /* Light Green 600 */
+    --colore-sfondo-javascript-chiaro: #ffff8b ; /* yellow 400 */
+    --colore-sfondo-1-chiaro: #ffc1e3 ; /* pink 200 */
+    --colore-sfondo-2-chiaro: #d3b8ae ; /* brown 300 */
+    --colore-sfondo-3-chiaro: #ff6f60 ; /* red 600 */
     /* i relativi dark */
     --colore-sfondo-noGroup-scuro: #c2c2c2; /* grey 100 */
     --colore-sfondo-http-scuro: #5d99c6; /* blue 200 */
     --colore-sfondo-java-scuro: #4b830d ; /* Light Green 600 */
-}
-* {
-  box-sizing:border-box;
+    --colore-sfondo-javascript-scuro: #c9bc1f ; /* yellow 400 */
+    --colore-sfondo-1-scuro: #bf5f82 ; /* pink 200 */
+    --colore-sfondo-2-scuro: #725b53 ; /* brown 300 */
+    --colore-sfondo-3-scuro: #ab000d ; /* red 600 */
+    
+
+    box-sizing:border-box;
+    --colore-primario: #ffab40; /* orange A700 */
+    --colore-primario-chiaro: #ffdd71; /* light di orange A700 */
+    --colore-primario-scuro: #c77c02; /* dark di orange A700 */
+    --colore-primario-testo: #000000;
+    --colore-primario-chiaro-testo: #000000;
+    --colore-primario-scuro-testo: #000000;
+    
+    --colore-secondario: #00bfa5; /* teal A700 */
+    --colore-secondario-scuro: #008e76; /* dark di teal A700 */
+    --colore-secondario-testo: #000000; 
 }
 	
-body {
-	font-family: Verdana, sans-serif;
-	margin:0em;
+body    { font-family: Verdana, sans-serif; margin:0em }
+/* ------------------------------------------- header ------------------------------------------ */
+body.noGroup                 header { background-color: var(--colore-sfondo-noGroup) }
+body.http                    header { background-color: var(--colore-sfondo-http) }
+body.java                    header { background-color: var(--colore-sfondo-java) }
+body.javascript              header { background-color: var(--colore-sfondo-javascript) }
+header    { margin:0 ; padding:0 }
+header h1 { margin:0 ; padding:2rem 3em 0.5rem 3em ; text-align: center }
+header p  { margin:0 ; padding: 0.5rem 1rem 2rem 1rem ; text-align: center }
+/* -------------------------- precedente - indice - successiva --------------------------------- */
+body.noGroup                 nav { background-color: var(--colore-sfondo-noGroup-chiaro) }
+body.http                    nav { background-color: var(--colore-sfondo-http-chiaro) }
+body.java                    nav { background-color: var(--colore-sfondo-java-chiaro) }
+body.javascript              nav { background-color: var(--colore-sfondo-javascript-chiaro) }
+nav {
+    margin:0; padding: 1rem;
+    display: flex; flex-direction: row 
+}
+nav a { color: white} 
+body.noGroup                 nav > * { background-color: var(--colore-sfondo-noGroup-scuro) }
+body.http                    nav > * { background-color: var(--colore-sfondo-http-scuro) }
+body.java                    nav > * { background-color: var(--colore-sfondo-java-scuro) }
+body.javascript              nav > * { background-color: var(--colore-sfondo-javascript-scuro) }
+nav > * {
+    flex-grow: 1;
+    text-align:center; text-decoration: none;
+    margin:0em 1em; padding:0.5em; 
 }
 
-header {
-	margin:0 ; padding:0;
-}
-
-header h1 {
-	text-align: center; 
-	padding:1em ; margin:0px; 
-	text-shadow: -1px -1px white ,1px -1px white , 1px 1px white, -1px 1px white;
-	background-color: rgba(240,240,240,0.8)
-}
-
-header p {
-	margin-top:0;
-	padding:0.25em 0em ;
-	text-align: center;
-	background-color: rgba(240,240,240,0.9)
-}
 
 #toc { margin:0em 2em }
 #toc img { height: 16px }

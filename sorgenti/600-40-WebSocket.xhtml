@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="" group="javascript" -->
+<!-- changelog 2018-01-29 aggiunto capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>XMLHttpRequest</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>WebSocket</h1>
+	<p>connessioni bidirezionali con il server</p>
+</header>
+<article>
+	
+	<p><code>WebSocket</code> è un oggetto utilizzabile nei programmi
+	Javascript per creare un canale di comunicazione bidirezionale con 
+	un server remoto.</p>
+	<p>Usando questo oggetto è possibile sia inviare che ricevere i dati
+	in maniera asincrona senza il bisogno di dover restare innattesa della risposta.</p>
+
+    <h2>Esempio</h2>
+<div class="prog">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Richiesta via http&lt;/title&gt;
+&lt;script type="text/javascript"&gt;
+
+       <span class="evidenza">var ws = new WebSocket("ws://esempio.org/wschat/chat");</span>
+       ws.onopen = function(){
+               console.log("websocket aperto!");
+       };
+       <span class="evidenza">ws.onmessage = function(message){</span>
+           document.getElementById("ricezione").textContent += message.data + "\n";
+       };
+       function inviaAlServer(){
+           <span class="evidenza">ws.send(document.getElementById("msg").value);</span>
+           document.getElementById("msg").value = "";
+       }
+       function chiudiLaConnessione(){
+           <span class="evidenza">ws.close();</span>
+       }
+
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+        &lt;textarea id="ricezione" readonly&gt;&lt;/textarea&gt;&lt;br/&gt;
+        &lt;input id="msg" type="text" /&gt;
+        &lt;button onClick="inviaAlServer()"&gt;invia!&lt;/button&gt;
+        &lt;button onClick="chiudiLaConnessione()"&gt;chiudi&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div>
+	
+	
+	<h2>Breve riferimento</h2>
+	<p>On line sono disponibili diverse guide come ad esempio su 
+	<a href="https://developer.mozilla.org/it/docs/WebSockets">MDN</a>
+	o su <a href="https://www.html.it/pag/19300/websocket-api/">HTML.it</a>.</p>
+	<p>Costruire questo oggetto richiede un solo parametro: l'indirizzo del WebSocket sul sever, 
+	di seguito riportiamo soltanto le tre funzioni essenziali:</p>
+	<dl>
+		<dt>onopen</dt>
+		<dd>è una funzione che viene chiamata quando si apre la connessione,
+		non ha parametri</dd>
+
+		<dt>onmessage</dt>
+		<dd>è una funzione che viene chiamata quando arriva il messaggio, 
+		quando viene chiamata gli viene passato come parametro un oggetto,
+		il testo del messaggio è nel campo "data"</dd>
+		
+		<dt>close</dt>
+		<dd>da chiamare per terminare la connessione con il server</dd>
+    </dl>
+
+</article>
+</body>
+</html>

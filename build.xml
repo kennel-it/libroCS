@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <project name="libroClientServer" default="generaLibro" basedir=".">
-   <property environment="env"/>
+    <property environment="env"/>
     <!-- il gioco qui sotto funziona perhé le propietà di ant sono immutabili
     http://ant.apache.org/manual/Tasks/property.html -->
     <property name="env.BOOK_TARGET_FOLDER" value="${basedir}/compilati/"/>
