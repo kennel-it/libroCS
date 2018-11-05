@@ -101,12 +101,27 @@ librerie e aggiungere uno specifico jar che si chiama <code>servlet-api.jar</cod
 cartella lib di Tomee.</p>
 
     <h2>Pubblicazione</h2>
-    <p>Caricare l'applicazione sul server consiste in pratica nel copiare dei file in posizioni 
-    ben precise: nella cartella di Tomee c'è una cartella chiamata <code>webapps</code>, qui dentro
-    dobbiamo creare la cartella con il nome della nostra applicazione, come esempio scegliamo
-    <code>ciao</code>, al suo interno va copiato il contenuto della cartella <code>WebContent</code>
-    del progetto di Eclipse e la cartella delle classi compilate nella 
-    sottocartella <code>WEB-INF</code> della nostra applicazione... in pratica:</p>
+    <p>Pubblicare una applicazione vuol dire renderla disponibile per i client e in pratica 
+    tutto sta nel copiare dei file in posizioni ben precise all'interno della
+    cartella di TomEE.</p>
+    <p>La prima cosa da fare è scegliere il nome dell'applicaizone (poniamo come esempio 
+    <code>ciao</code>) e nel creare la relativa cartella all'interno della cartella
+    <code>webapps</code> di TomEE, da qui in avanti il lavoro andrà fatto all'interno di questa cartella.</p>
+    <p>Se il progetto è stato fatto con Eclipse e contiene la cartella <em>WebContent</em> 
+    il suo contenuto (e non la cartella stessa) va copiato nella cartella appena creata, 
+    in questo modo avremo copiato tuti i file della nostra applicazione (pagine html, immaini... )
+    esclusi i programmi veri e propri. Alcune cartelle hanno nomi precisi e non possono
+    essere rinominate: <code>META-INF</code> contiene informazioni sull'applicazine mentre
+    <code>WEB-INF</code> contiene il codice (compilato).</p>
+    <p>A questo punto dobbiamo copiare i nostri programmi all'interno della cartella 
+    dell'applicazione, in particolare le librerie (sono dei file .jar che non tutte le 
+    applicazioni usano) vanno copiati nella cartella <code>WEB-INF/lib</code> 
+    mentre i programmi compilati (i file <code>.class</code> ottenuti dalla compilazione
+    dei nostri file sorgente <code>.java</code>) vanno copiati nella cartella 
+    <code>WEB-INF/classes</code> (che se non c'è va creata) 
+    facendo attenzione a non cambiare l'organizzazione
+    dei paccetti: in pratica usando Eclipse come IDE basta copiare il contenuto della cartella
+    <code>bin</code> del nostro progetto all'interno di <code>WEB-INF/classes</code> di TomEE.</p> 
     
     <ul>
         <li><div>cartella di <em>webapps</em></div>
@@ -128,9 +143,6 @@ cartella lib di Tomee.</p>
             </ul>
         </li>
     </ul>
-    
-    <p>La cartella <code>classes</code> non c'è dentro <code>WebContent</code>... ma la possiamo 
-    reperire nella cartella <code>build</code> del progetto.</p>
     
     <h2>Test</h2>
     <p>Dopo aver copiato le cartelle opportune riavviare Tomee.</p>
