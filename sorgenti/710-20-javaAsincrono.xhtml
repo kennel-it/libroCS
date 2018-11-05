@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="javaSocket" group="java" -->
 <!-- 2017-11-11 inserito capitolo -->
 <!-- 2017-11-15 primo blocco di contenuti -->
+<!-- 2018-11-4 specificata funzione di Thread.start() -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -42,8 +43,14 @@ public class Esecutore extends Thread{
 	può essere creato utilizzando:</p>
 <pre>
 Esecutore x = new Esecutore();
+</pre>
+
+<p>A questo punto il thread è stato creato ma non avvito, questo va fatto esplicitamente usando
+il metodo start:</p>
+<pre>
 x.start();
 </pre>
+
 
 	<div class="test">
 	   	<p>la riga <code>x.start()</code>...</p>
