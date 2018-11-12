@@ -5,6 +5,7 @@
 <!-- changelog 2017-11-15 primo blocco di contenuti -->
 <!-- changelog 2018-11-04 specificata funzione di Thread.start() -->
 <!-- changelog 2018-11-06 riorganizzato tutto il capitolo -->
+<!-- changelog 2018-11-11 aggiunto blocco importante -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -15,9 +16,170 @@
 <body>
 <header>
 	<h1>javaAsincrono</h1>
-	<p>come gestire comunicazioni asincrone</p>
+	<p>fare più cose contemporaneamente</p>
 </header>
 <article>
+
+    <h2>Il problema</h2>
+    <p>Dovremmo piuttosto parlare al plurale, poter svolgere più operazioni contemporaneamente
+    (a questo serve il multithreading) risulta utile in più spesso di quanto si possa pensare... 
+    ad esempio:</p>
+    <ul>
+        <li>voglio portare a termine un lavoro più velocemente</li>
+        <li>devo tener d'occhio una situazione mentre faccio altro</li>
+    </ul>
+
+    <p>In entrambe i casi il problema non è tanto avviare un esecutore per il secondo compito
+    quanto capire come poter dividere il compito in dueo o non creare collisioni quando 
+    si va a modificare un dato condiviso. Proviamo ad analizzare un caso alla volta partendo 
+    da quello che ci aiuta as essere più veloci.</p>
+    
+    <h2>Calcolo parallelo</h2>
+    <p>Prendiamo come esempio un problema: voglio calcolare il minimo valore presente in un vettore.</p>
+    <p>Questo problema (come molti altri) si presta molto bene ad essere elaborato in parallelo:</p>
+<pre>
+v vettore di n elementi
+m1 = calcolo il minimo di v dalla posizione 0 alla posizione n/2
+m2 = calcolo il minimo di v dalla posizione n/2+1 alla posizione n-1
+minimo = minimo tra m1 e m2
+</pre>
+
+    <p>In questo caso il calcolo di m1 e m2 si presta molto bene ad essere eseguito in parallelo,
+    alla fine possiamo molto velocemente calcolare il minimo.</p>
+    
+    <h3>Minimo</h3>
+    <p>Ci ricordiamo tutti come si calcola il minimo valore presente in un vettore vero?
+    però a scanso di equivoci...</p>
+
+<pre>
+public int minimo(int v[]){
+    int min = minimo[0];
+    for(int i=1; i&lt;v.length; i++){
+        if(v[i]&lt;min){
+            min = v[i];
+        }
+    }
+    return min;
+}
+</pre>    
+    
+    <p>In effetti a noi fa comodo una sua (poco significativa dal punto di vista algoritmico) 
+    variazione:</p>
+<pre>
+public int minimo(int v[], int primo, int ultimo){
+    int min = minimo[primo];
+    for(int i=primo+1; i&lt;=ultimo; i++){
+        if(v[i]&lt;min){
+            min = v[i];
+        }
+    }
+    return min;
+}
+</pre>    
+    <p>In pratica abbiamo solo reso esplicito quale parte del vettore va considerata, 
+    questo ci farà comodo per <i>dividere</i> il problema in due parti.</p> 
+    
+    <h3>Minimo parallelo</h3>
+    <p>Da qui in avanti sono tutti dettagli implementativi per trattare con le clasi che Java ci mette
+    a disposizione, potremmo usare diversi approcci ma per semplicità adesso usiamo la classe
+    <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html"><code>java.lang.Thread</code></a>
+    e senza troppe ottimizzazioni la classe che avvia i due thread una volta avviati aspetterà che
+    questi completino il lavoro prima di andare avanti.</p>
+ 
+    <p>Iniziamo dalla classe che calcola il minimo: questa classe estende <code>Thread</code>
+    e definisce tre metodi:</p>
+    <dl>
+        <dt>Cercatore</dt>
+        <dd>è il costruttore e semplicemente richiede che per creare un Cercatore serve di sapere
+        su quale vettore lavorare e anche su quale intervallo di posizioni.</dd>
+        <dt><em>run</em></dt>
+        <dd>questo metodo è quello che fa tutto il lavoro, quando termina il thread stesso
+        viene chiuso</dd>
+        <dt>getMinimo</dt>
+        <dd>è il metodo che ci fornisce il risultato... ovviamente va chiamato quando il 
+        thread a finito il suo lavoro, chiamarlo prima non avrebbe senso.</dd>
+    </dl>    
+<pre>
+public class Cercatore <em>extends Thread</em> {
+    private int inizio, fine;
+    private int[] sequenza;
+    private int minimo;
+
+    public Cercatore(int inizio, int fine, int[] sequenza) {
+        this.inizio = inizio;
+        this.fine = fine;
+        this.sequenza = sequenza;
+    }
+
+    <em>@Override
+    public void run()</em>{
+        minimo=sequenza[inizio];
+        for(int i = inizio ; i &lt; fine ; i++){
+            if(sequenza[i] &lt; minimo){
+                minimo=sequenza[i];
+            }
+        }
+    }
+       
+    public int getMinimo(){
+        return minimo;
+    }
+}
+</pre>
+    
+    <h3>Gestore dei thread</h3>
+    <p>Bene, adesso abbiamo un lavoratore che cerca il minimo... e magari abbiamo un processore
+    con più di un nucleo di elaborazione: come sfruttiamo la situazione?
+    Costruendo un programma che usa il Cercatore!</p>
+    
+<pre>
+public class MinimoNumero {
+
+    public static void main(String[] args) throws InterruptedException{
+
+        int sequenza[] = new int[10_0000_000];
+        // carico una sequenza casuale, per provare
+        for(int i=0; i &lt; sequenza.length; i++) {
+            sequenza[i] = (int)(Math.random() * 10000000);
+        }
+        
+        //Creo i Threads
+        Cercatore cercatore1 = new Cercatore(0, 49999999, sequenza);
+        Cercatore cercatore2 = new Cercatore(50000000, 99999999, sequenza);
+        
+        // li avvio
+        cercatore1.start();
+        cercatore2.start();
+        System.out.println("Threads avviati!");
+        
+        // attendo la fine del primo thread
+        cercatore1.join();
+        // attendo la fine del secondo thread
+        cercatore2.join();
+        System.out.println("Lavoro finito");
+        
+        // recupero i risultati
+        int minimoThread1 = cercatore1.getMinimo();
+        int minimoThread2 = cercatore2.getMinimo();
+        
+        if(minimoThread1 &lt; minimoThread2) {
+            System.out.println(minimoThread1);
+        }else {
+            System.out.println(minimoThread2);
+        }
+    }
+}
+</pre>
+
+    <p>Per chiarezza dobbiamo precisare che: questo programma potrebbe essere scritto in maniera più 
+    furba! (magari senza bloccarsi) e che un processore attuale lo esegue in tempi brevissimi.
+    Lo stesso identico schema può però ad esempio essere usato per ruotare una scana 3D, in questo
+    caso avere 4 nuclei (o più) di elaborazione e sfruttarli bene fa la differenza.</p>
+        
+    
+    
+    
+    <div class="errore">TODO: piazza la roba qui sotto da qualche parte<br/>o comunque sistemala</div>
 	<h2>Il problema</h2>
 	<p>Nella comunicazione client/server non tutto avviene in maniera sincrona!</p>
 	<p>Gestire la comunicazione nel caso in cui io invio un messaggio e subito
