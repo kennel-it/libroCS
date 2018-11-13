@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="javaAsincrono" group="java" -->
+<!-- changelog 2018-11-12 inserito capitolo, tutto da sistemare -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>ascoltatoriNonBloccanti</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>ascoltatoriNonBloccanti</h1>
+	<p>aspettare il verificarsi di eventi senza bloccare il programma</p>
+</header>
+<article>
+
+    <div class="errore">Questo capitolo è tutto da riscrivere</div>
+
+	<h2>Il problema</h2>
+	<p>Nella comunicazione client/server non tutto avviene in maniera sincrona!</p>
+	<p>Gestire la comunicazione nel caso in cui io invio un messaggio e subito
+	dopo leggo la risposta non è molto di complicato... il problema nasce
+	quando l'invio di un messagio da parte del server avviene in un momento non predicibile
+	(e questa avviene in moltissimi casi).
+	Questo è un problema perché se il nostro programma attende l'input dell'utente non può
+	allo stesso tempo attendere i messaggi dal server, nel caso contrario se si fermasse in
+	attesa dei messaggi l'interfaccia grafica non risponderebbe all'input dell'utente.</p>
+	
+	<h2>Thread</h2>
+	<p>Possiamo però fare in modo che il nostro programma si divida in due flussi di elaborazione: 
+	uno per gestire l'input dell'utente e l'altro per attendere i messaggi dal server.
+	Per fare questo abbiamo bisogno di utilizzare la classe 
+	<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html"><code>java.lang.Thread</code></a>.</p>
+	<p>L'oggetto <code>Thread</code> va esteso e in particolare va implementato il suo metodo <code>run()</code>
+	dentro il quale scriverremo la parte di programma che deve essere useguita nel thread separato... in pratica:</p>	
+	
+<pre>
+public class Esecutore extends Thread {
+
+	@Override
+	public void run(){
+		// codice da eseguire nel thread		
+	}
+}
+</pre>
+
+	<p>Ora per creare un nuovo oggetto <code>Esecutore</code> si procede come con tutti gli altri oggetti:
+	<code>Esecutore x = new Esecutore();</code>
+	</p>
+
+	<p>A questo punto il thread è stato creato ma non avviato, questo va fatto esplicitamente usando
+	il metodo start:<code>x.start();</code></p>
+	
+	<p>Il programma che ha creato il thread continuerà nel normale flusso delle istruzioni e parallelamente
+	verrà avviato il nuovo thread che terminerà quando uscirà dal metodo <code>run()</code>.</p>
+
+	<div class="test">
+	   	<p>l'istruzione <code>x.start()</code>...</p>
+	    <a onclick="sbagliata(this)">è errata (Esecutore non definisce start)<span class="spiegazione">no, potrebbe averla definita qualcun'altro</span></a> 
+	    <a onclick="giusta(this)">è giusta<span class="spiegazione">si, viene definita da Thread</span></a> 
+	</div>
+	
+<p>Creazione e avvio del nuovo thread vanno fatta ovviamente in una classe diversa, ad esempio:</p>
+<pre>
+public class ClassePrincipale {
+
+	// possibili impostazioni dell'interfaccia e quant'altro...
+
+	public void avvireNuovoThread(){
+		Esecutore nuovoThread = new Esecutore();
+		// eventuali impostazioni dell'oggetto appena creato
+		// come ad esempio il passaggio di un oggetto dove
+		// visualizzare l'output
+		nuovoThread.start();
+	}
+}
+</pre>
+
+<h2>JavaFX</h2>
+<p>Ci crea qualche complessità in più perché ci impone un vincolo: 
+non è possibile modificare l'interfaccia grafica di JavaFX 
+da un thread diverso rispetto a quello di JavaFX.</p>
+<p>Il problema è che il nostro codice viene in generale eseguito in un thread che
+non è quello di JavaFX, gli sviluppatori della piattaforma ci hanno però messo ad disposizione un 
+oggetto che ci permette di inviare dei lavori da eseguire al thread di JavaFX: l'oggetto
+in questione si chiama 
+<a href="https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html">
+<code>javafx.application.Platform</code></a> e in particolare per fare il lavoro che ci serve
+ci interessa il suo metodo statico <code>runLater​()</code>.</p>
+<p><code>runLater</code> si comporta un po' come il <code>setOnAction</code> che si usa per impostare
+l'azione da legare ad un pulsante, l'unica differenza è che questo metodo non ha parametri
+(mentre l'azione sul pulsante aveva l'evento associato al click del mouse), ridotto in una riga:</p>
+
+<pre>
+Platform.runLater( () -> metodoDaEseguire() ); 
+</pre>
+
+<p>In caso che il metodo da eseguire sia particolarmente breve possiamo anche direttamente scrivere:</p>
+<pre>
+Platform.runLater( () -> {
+	// codice da eseguire
+}); 
+</pre>
+
+</article>
+</body>
+</html>
