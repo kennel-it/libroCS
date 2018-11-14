@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="javaAsincrono" group="java" -->
+<!-- changelog 2018-11-12 inserito capitolo -->
+<!-- changelog 2018-11-14 prima versione utilizzabile del capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>ascoltatoriNonBloccanti</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>ascoltatoriNonBloccanti</h1>
+	<p>aspettare il verificarsi di eventi senza bloccare il programma</p>
+</header>
+<article>
+
+	<p>Affrontiamo un ulteriore problema legato alla comunicazione: 
+	un programma client invia i messaggi ad un server e nel frattempo deve
+	ricevere i messaggi inviati dal server.</p> 
+	
+	<p>Gestire la comunicazione nel caso in cui io invio un messaggio e subito
+	dopo leggo la risposta non è molto di complicato... il problema nasce
+	quando l'invio di un messaggio da parte del server avviene in un momento non predicibile
+	(e questa avviene in moltissimi casi).
+	Questo è un problema perché se il nostro programma attende l'input dell'utente non può
+	allo stesso tempo attendere i messaggi dal server, nel caso contrario se si fermasse in
+	attesa dei messaggi l'interfaccia grafica non risponderebbe all'input dell'utente
+	che magari nel frattempo vuole inviare delle informazioni al server.</p>
+	<p>Possiamo però fare in modo che il nostro programma si divida in due flussi di elaborazione: 
+	uno per gestire l'input dell'utente e inviare le informazioni al server
+	e l'altro per attendere i messaggi dal server e visualizzarli.</p>
+
+
+	<h2>classe principale</h2>
+	<p>Il programma che scriviamo è ridotto ai minimi termini: una sola lista per contenere ciò 
+	che ci invia il server e una casella per inviare le informazioni al server.</p> 
+<pre>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.Socket;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+public class Finestra extends Application {
+		
+  ListView&lt;String&gt; messaggi = new ListView&lt;&gt;();
+  TextField casellaMessaggio = new TextField();
+  Writer uscita;	// lo userò per inviare le informazioni
+  BufferedReader ingresso;	// lo userò per ricevere le informazioni
+	
+  public static void main(String args[]) {
+    launch(args);
+  }
+
+  @Override
+  public void start(Stage ps) throws Exception {
+    GridPane g = new GridPane();
+    g.add(messaggi, 0, 0);
+    g.add(casellaMessaggio, 0, 1);
+    
+    Scene s = new Scene(g);
+    ps.setScene(s);
+    ps.setTitle("messaggi");
+    ps.show();
+    
+    // action su una casella è la pressione del tasto invio
+    casellaMessaggio.setOnAction( e-> aggiungiMessaggio());
+    
+    // creo tutti gli oggetti necessari per collegarmi ad un server remoto
+    Socket connessione = new Socket("localhost",7777);
+    uscita = new OutputStreamWriter(connessione.getOutputStream());
+    InputStreamReader isr = new InputStreamReader(connessione.getInputStream());
+    ingresso = new BufferedReader(isr);
+    // creo un thread che riceverà i messaggi e poi non mi curo più
+    // del canale di ingresso in questa classe
+    <em>ThreadRicevitore lavoratore = new ThreadRicevitore(ingresso, messaggi);
+    lavoratore.start();</em>
+  }
+
+  private void aggiungiMessaggio() {
+    String testo = casellaMessaggio.getText();
+    try {
+    uscita.write(testo+"\n");
+      uscita.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}
+</pre>
+
+<p>Il programma è davvero molto breve... troppo... per esercizio va sistemato chiudendo tutte le
+risorse magari aggiungendo un pulsante chiudi che si occupa di ciò.</p>
+
+	<h2>thread che ascolta</h2>
+	
+<pre>
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import javafx.application.Platform;
+import javafx.scene.control.ListView;
+
+public class ThreadRicevitore extends Thread {
+  BufferedReader br;
+  ListView&lt;String&gt; elenco;
+  String letto=null;
+	
+  public ThreadRicevitore(BufferedReader br, ListView&lt;String&gt; elenco) {
+    this.br = br;
+    this.elenco = elenco;
+  }
+  public void run() {
+    do{
+      try {
+        letto = br.readLine();
+        Platform.runLater( ()-&gt;{
+          elenco.getItems().add(letto);
+        });
+      }catch (IOException e) {
+        e.printStackTrace();
+      }
+    }while(letto!=null); // quando non leggo niente termino
+  }
+}
+</pre>
+	<p>Il thread non fa altro che attendere un messaggio dal server e aggiungerlo alla lista, usa 
+	<a href="https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html">
+	<code>Platform.runLater</code></a> per eseguire modifiche sull'interfaccia
+	grafica JavaFX siccome questa libreria non garantisce che modifiche fatte alll'interfaccia
+	da un thread diverso dal suo vadano a buon fine.</p>
+	<p><code>runLater</code> si comporta un po' come il <code>setOnAction</code> che si usa per impostare
+	l'azione da legare ad un pulsante, l'unica differenza è che in questo caso non abbiamo
+	parametri (mentre l'azione sul pulsante aveva l'evento associato al click del mouse)
+	quindi quello che era <code>e -&gt;</code> diventa <code>() -&gt;</code>.</p>
+
+	<div class="test">
+	   	<p>l'istruzione <code>x.start()</code>...</p>
+	    <a onclick="sbagliata(this)">è errata (Esecutore non definisce start)<span class="spiegazione">no, potrebbe averla definita qualcun'altro</span></a> 
+	    <a onclick="giusta(this)">è giusta<span class="spiegazione">si, viene definita da Thread</span></a> 
+	</div>
+	
+</article>
+</body>
+</html>

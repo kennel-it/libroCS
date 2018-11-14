@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="javaAsincrono" group="java" -->
+<!-- changelog 2018-11-13 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>elaborazioneBackground</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>elaborazioneBackground</h1>
+	<p>fare elaborazioni senza bloccare l'interfaccia grafica</p>
+</header>
+<article>
+
+    <p>Consideriamo un possibile scenario: voglio fare un calcolo complesso
+    ma al contempo non volgio che l'interfaccia grafica non si blocchi...
+    perché magari il programma nel frattempo può essere usata per fare altro.</p>
+    
+    <p>Come esempio prendiamo il calcolo dei divisori di un numero... non è che sia particolarmente
+    entusiasmante ma è semplice e ci consente di vedere ciò che ci serve.
+    L'algoritmo utilizzato è quello per tentativi: provo tutti i numeri da 2 al numero stesso 
+    escluso e vedo quanti divisori trovo. Per quanto riguarda l'interfaccia grafica 
+    utilizziamo JavaFX... che ci obbligherà ad usare un ulteriore accorgimento
+    lavorando in un ambiente multithread.</p>
+    
+    <p>Prima di tutto creo la classe che fa i conti:</p>
+    
+<pre>
+import javafx.application.Platform;
+import javafx.scene.control.TextField;
+
+public class ContatoreDivisori <em>extends Thread</em> {
+    long numero;
+    TextField output;
+    long numeroDivisori=0;
+    
+    public ContatoreDivisori(long numero, TextField output) {
+        this.numero = numero;
+        this.output = output;
+    }
+
+    @Override
+    public void run(){
+        for(long i=2 ; i&lt;numero ; i++){
+            if(numero%i==0) {
+                numeroDivisori++;
+            }
+        }
+        Platform.runLater( ()-&gt; {
+            output.setText(""+numeroDivisori);
+        });
+    }
+}</pre> 
+
+    <p>Da notare in questo programma ci sono alcune cose: il costruttore vuole sapere 
+    su quale numero lavorare e la casella di testo su cui comunicare la risposta.
+    Il metodo run fa un semplice conteggio dei divisori (lasciamo per esercizio
+    migliorare l'algoritmo).</p>
+    <p>Un discorso a parte merita <code>Platform.runlater()</code>. JavaFX non è thread-safe
+    e modificare l'interfaccia da un thread diverso non è opportuno, il metodo
+    <code>runLater()</code> di <code>Platform</code> ci consente però di chiedere a JavaFX
+    di modificare l'interfaccia quando possibile. Per via di come funziona l'invocazione
+    dell'argomento di <code>runLater()</code> la variabile <code>numeroDivisori</code>
+    va dichiarata al livello di classe (per quelli interessati al funzionamento
+    di questi costrutti sintattici una ricerca on line per "Java Lambda Expressions"
+    fornirà moltissimi risultati).</p>
+    
+    <p>Il programma che realizza l'interfaccia grafica è il seguente:</p>
+    
+<pre>
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+public class InterfacciaParallelaPrimi extends Application {
+    
+    TextField input = new TextField();
+    TextField output = new TextField();
+
+    @Override
+    public void start(Stage ps) throws Exception {
+        GridPane g = new GridPane();
+        Button b = new Button("cacola");
+        
+        g.add(input, 0, 0);
+        g.add(b, 0, 1);
+        g.add(output, 0, 2);
+        
+        Scene s = new Scene(g);
+        ps.setScene(s);ps.setTitle("parallelistmo");
+        ps.show();
+        
+        b.setOnAction( e-> avviaCalcolo());
+    }
+    
+    public static void main(String args[]) {
+        launch(args);
+    }
+    
+    public void avviaCalcolo() {
+        long numero = Long.parseLong(input.getText());
+        <em>ContatoreDivisori cd = new ContatoreDivisori(numero, output);</em>
+        // il thread va avviato esplicitamente
+        <em>cd.start();</em>
+    }
+}
+</pre>
+    
+    <p>In questo caso non 'è molto da notare oltre la creazione del thread e il suo avvio 
+    tramite il metodo <code>start()</code>.</p>
+    
+
+</article>
+</body>
+</html>
