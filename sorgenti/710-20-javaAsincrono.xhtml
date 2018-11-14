@@ -23,8 +23,8 @@
 
     <h2>Il problema</h2>
     <p>Dovremmo piuttosto parlare al plurale, poter svolgere più operazioni contemporaneamente
-    (a questo serve il multithreading) risulta utile in più spesso di quanto si possa pensare... 
-    ad esempio:</p>
+    (a questo serve il multithreading) risulta utile in più spesso di quanto si possa pensare. 
+    Ad esempio:</p>
     <ul>
         <li>voglio portare a termine un lavoro più velocemente</li>
         <li>devo fare una elaborazione impegnativa ma non voglio bloccare l'interfaccia grafica</li>
@@ -34,7 +34,7 @@
     <p>Questi casi sono molto diversi tra loro e fanno sorgere problemi diversi: ad esempio se
     voglio elaborare un calcolo più velocemente potrei voler divedere il problema da risolvere in
     più parti (cosa non affatto ovvia da fare in tutti i casi) oppure due thread diversi 
-    potrebbero andarea modificare contemporaneamente la stessa struttura dati portandola in uno
+    potrebbero andare a modificare contemporaneamente la stessa struttura dati portandola in uno
     stato inconsistente (diciamo insensato per capirci).</p>
     
     <p>Fortunatamente Java prevede l'uso dei thread fin dalla sua versione iniziale e per questo 
@@ -48,6 +48,15 @@
     implementarne il metodo <code>run()</code>, questo metodo è quello che verrà chiamato
     quando si avvia il thread e che una volta terminato fa passare il thread stesso
     nello stato di "died" (sarebbe a dire "terminato").</p>
+    
+ <pre>
+public class Esecutore extends Thread {
+ 
+  @Override
+  public void run(){
+    // codice da eseguire nel thread                
+  }
+}</pre>
      
     <p>Per quanto riguarda il problema dell'accesso concorrente alle strutture dati mensionato sopra
     la libreria di Java esplicita chiaramente se un oggetto è utilizzabile senza problemi e senza

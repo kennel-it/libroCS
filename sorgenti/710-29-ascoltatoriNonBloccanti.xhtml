@@ -84,8 +84,8 @@ public class Finestra extends Application {
     ingresso = new BufferedReader(isr);
     // creo un thread che riceverà i messaggi e poi non mi curo più
     // del canale di ingresso in questa classe
-    ThreadRicevitore lavoratore = new ThreadRicevitore(ingresso, messaggi);
-    lavoratore.start();
+    <em>ThreadRicevitore lavoratore = new ThreadRicevitore(ingresso, messaggi);
+    lavoratore.start();</em>
   }
 
   private void aggiungiMessaggio() {
@@ -100,7 +100,7 @@ public class Finestra extends Application {
 }
 </pre>
 
-<p>Il programma è davvero molto breve.. troppo... per esercizio va sistemato chiudendo tutte le
+<p>Il programma è davvero molto breve... troppo... per esercizio va sistemato chiudendo tutte le
 risorse magari aggiungendo un pulsante chiudi che si occupa di ciò.</p>
 
 	<h2>thread che ascolta</h2>
@@ -131,7 +131,7 @@ public class ThreadRicevitore extends Thread {
       }catch (IOException e) {
         e.printStackTrace();
       }
-    }while(letto!=null);
+    }while(letto!=null); // quando non leggo niente termino
   }
 }
 </pre>
@@ -143,7 +143,7 @@ public class ThreadRicevitore extends Thread {
 	<p><code>runLater</code> si comporta un po' come il <code>setOnAction</code> che si usa per impostare
 	l'azione da legare ad un pulsante, l'unica differenza è che in questo caso non abbiamo
 	parametri (mentre l'azione sul pulsante aveva l'evento associato al click del mouse)
-	quindi quello che era <code>e -&gt;</code> diventa <code>e -&gt;</code>.</p>
+	quindi quello che era <code>e -&gt;</code> diventa <code>() -&gt;</code>.</p>
 
 	<div class="test">
 	   	<p>l'istruzione <code>x.start()</code>...</p>

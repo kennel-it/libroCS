@@ -33,7 +33,7 @@
 import javafx.application.Platform;
 import javafx.scene.control.TextField;
 
-public class ContatoreDivisori extends Thread {
+public class ContatoreDivisori <em>extends Thread</em> {
     long numero;
     TextField output;
     long numeroDivisori=0;
@@ -65,7 +65,9 @@ public class ContatoreDivisori extends Thread {
     <code>runLater()</code> di <code>Platform</code> ci consente però di chiedere a JavaFX
     di modificare l'interfaccia quando possibile. Per via di come funziona l'invocazione
     dell'argomento di <code>runLater()</code> la variabile <code>numeroDivisori</code>
-    va dichiarata al livello di classe.</p>
+    va dichiarata al livello di classe (per quelli interessati al funzionamento
+    di questi costrutti sintattici una ricerca on line per "Java Lambda Expressions"
+    fornirà moltissimi risultati).</p>
     
     <p>Il programma che realizza l'interfaccia grafica è il seguente:</p>
     
