@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="javaAsincrono" group="java" -->
 <!-- changelog 2018-11-12 inserito capitolo -->
 <!-- changelog 2018-11-14 prima versione utilizzabile del capitolo -->
+<!-- changelog 2018-11-15 spiegato quando readline torna null -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -125,13 +126,19 @@ public class ThreadRicevitore extends Thread {
     do{
       try {
         letto = br.readLine();
-        Platform.runLater( ()-&gt;{
-          elenco.getItems().add(letto);
-        });
+        // letto sarà null se è stato raggiunta la fine dello stream
+        // questo nel caso della comunicazione client/server succede non quando 
+        // non ci sono ulteriori righe da leggere (nel qual caso aspetta), 
+        // ma quando lo stream viene chiuso
+        if(letto!=null){
+	        Platform.runLater( ()-&gt;{
+	          elenco.getItems().add(letto);
+	        });
+        }
       }catch (IOException e) {
         e.printStackTrace();
       }
-    }while(letto!=null); // quando non leggo niente termino
+    }while( letto!=null ); 
   }
 }
 </pre>
