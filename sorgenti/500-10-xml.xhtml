@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="comunicazione" -->
 <!-- changelog 2018-01-24 inseriti contenuti -->
+<!-- changelog 2019-03-16 inserito esempio più complesso anche con attributi -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -50,6 +51,66 @@
 		<dt>XML Schema</dt><dd>di uso analogo ad DTD ma più recente</dd>
     		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i foglli di stile</dd> 
     	</dl>
+	
+	<p>Proviamo a vedere un oggetto on pochino più complicato: il menu di una pizzeria</p>
+	
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;pizzeria&gt;
+    &lt;nome&gt;Il pappagallo rosso&lt;/nome&gt;
+    &lt;elencoPiatti&gt;
+        &lt;piatto&gt;
+            &lt;nome&gt;piza margherita&lt;/nome&gt;
+            &lt;prezzo&gt;5.5&lt;/prezzo&gt;
+            &lt;elencoIngredienti&gt;
+                &lt;ingrediente&gt;pasta&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;mozzarella&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;pomodoro&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;basilico&lt;/ingrediente&gt;
+            &lt;/elencoIngredienti&gt;
+        &lt;/piatto&gt;
+        &lt;piatto&gt;
+            &lt;nome&gt;piza marinara&lt;/nome&gt;
+            &lt;prezzo&gt;6.5&lt;/prezzo&gt;
+            &lt;elencoIngredienti&gt;
+                &lt;ingrediente&gt;pasta&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;mozzarella&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;pomodoro&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;alici&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;capperi&lt;/ingrediente&gt;
+            &lt;/elencoIngredienti&gt;
+        &lt;/piatto&gt;
+    &lt;/elencoPiatti&gt;
+&lt;/pizzeria&gt;
+</pre>
+
+<p>Lo stesso oggetto può essere espresso usando anche gli attributi.</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;pizzeria nome="Il pappagallo rosso"&gt;
+    &lt;elencoPiatti&gt;
+        &lt;piatto nome="pizza margherita" prezzo="5.5"&gt;
+            &lt;elencoIngredienti&gt;
+                &lt;ingrediente&gt;pasta&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;mozzarella&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;pomodoro&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;basilico&lt;/ingrediente&gt;
+            &lt;/elencoIngredienti&gt;
+        &lt;/piatto&gt;
+        &lt;piatto nome="pizza marinara" prezzo="6.5"&gt;
+            &lt;elencoIngredienti&gt;
+                &lt;ingrediente&gt;pasta&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;mozzarella&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;pomodoro&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;alici&lt;/ingrediente&gt;
+                &lt;ingrediente&gt;capperi&lt;/ingrediente&gt;
+            &lt;/elencoIngredienti&gt;
+        &lt;/piatto&gt;
+    &lt;/elencoPiatti&gt;
+&lt;/pizzeria&gt;
+</pre>
+	
 	
 	<h2>Alcuni riferimenti utili</h2>
 	<p><a href="https://www.w3schools.com/xml/">XML tutorial su w3schools.com</a></p>

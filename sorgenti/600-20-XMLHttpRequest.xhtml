@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="richiestaHttp rispostaHttp" group="javascript" -->
 <!-- changelog 2018-01-24 inserita prima parte dei contenuti -->
 <!-- changelog 2018-02-21 inserito esempio commentato di uso -->
+<!-- changelog 2019-03-05 aggiunto controllo per stato della risposta -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -74,10 +75,13 @@ function statoCambiato(){
   <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</span>
   <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</span>
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
-
-    <span class="evidenza">scrivo la risposta nel paragrafo identificato da "risposta"</span>	
-    document.getElementById("risposta").innerHTML = httpRequest.responseText;
-
+    if(httpRequest.status == 200){
+      <span class="evidenza">scrivo la risposta nel paragrafo identificato da "risposta"</span>	
+      document.getElementById("risposta").innerHTML = httpRequest.responseText;
+    }else{
+      <span class="evidenza">scrivo il codice dell'errore nel paragrafo identificato da "risposta"</span>
+      document.getElementById("risposta").innerHTML = "errore "+httpRequest.status;
+    }
   }
 }
 
