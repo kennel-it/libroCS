@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="" -->
+<!-- changelog 2019-03-24 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>git</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1><img src="immagini/wip.png" alt="lavori in corso"/>git</h1>
+	<p>collaborare nella scrittura di programmi</p>
+</header>
+<article>
+	<p>Quello che vediamo è uno dei tanti modi possibili di collaborare 
+	nella scrittura di software: useremo un archivio (repository) 
+	condiviso già esistente su GitHub.</p>
+	
+	<h2>software</h2>
+	<p>Attualmente gli ambienti di sviluppo più diffusi supportano git, 
+	qui eseguiamo una installazione del software di base che ci permette
+	di utilizzare git con GitHub senza bisogno di altro.
+	È soltanto una delle tante possibilità!</p>
+	<p>I programmi da installare sono due: la 
+	<a href="https://git-scm.com/">versione a linea di comando di git</a>
+	(niente paura non la dovremo usare per forza ma fa comodo averla in caso di problemi)
+	e il <a href="https://desktop.github.com/">client desktop di GitHub</a>.</p>
+	
+	<h2>Scaricare il progetto</h2>
+	<p>Al primo avvio GitHub Desktop richiede l'account per proseguire,
+	poi apre la pagina iniziale in cui si possono creare nuovi repository
+	o scaricarne di esistenti.</p>
+	
+	<p>Nel nostro caso vogliamo scaricare il progetto visibile ad esempio
+	all'indirizzo <code>https://github.com/organizzazione/progetto</code>.</p>
+	<ol>
+		<li>click su "clone a repository from the Internet..."</li>
+		<li>click su URL</li>
+		<li>nel campo "repository URL" scriviamo "organizzazione/progetto"</li>
+		<li>prendiamo nota di cosa c'è scritto nel campo sotto "Local path"
+		perché è il punto in cui il progetto verrà scaricato.</li>
+		<li>click su "clone"</li>
+	</ol>
+	<p>A questo punto avremo una cartella locale collegata al server remoto.</p>
+	
+	<h2>Modifiche al codice</h2>
+	<p>Siccome vogliamo essere prudenti nel modificare il codice ed evitare di creare
+	problemi a tutti gli altri che ci stanno lavorando creiamo un nuovo ramo di sviluppo.</p>
+	<ol>
+		<li>aprire GitHub Desktop</li>
+		<li>selezionare il progetto (in alto a sinistra)</li>
+		<li>click su "current branch"</li>
+		<li>Scrivere un nome utile (es: luigi_1)</li>
+		<li>Click su "new branch"</li>
+		<li>leggere il popup che si apre e se non ci sono problemi click su "create branch"</li>
+	</ol>
+	<p>Nonstante il pulsantone blu "publish branch" adesso non ci serve farlo, lo faremo
+	al momento che avremo delle modifiche utili da caricare.</p>
+	
+	
+	<h2>Eventuali problemi</h2>
+	<h3>Proxy</h3>
+	<p>se durante il download del progetto compare un errore tipo
+	<code>unable to access '...'</code> oppure <code>Couldn't resolve host '...'.</code>
+	è possibile che il problema dipenda dalla rete locale che fa uso di un proxy.</p>
+	<p>Per risolvere il problema dovrebbe bastare aprire la linea di comando
+	e scrivere qualcosa come (ovviamenter con i parametri della vostra rete):</p>
+<pre>
+git config --global http.proxy http://192.168.1.254:3128
+git config --global https.proxy http://192.168.1.254:3128
+</pre>
+	
+	<h3>Disinstallazione</h3>
+	<p>Se disinstalli GitHub Desktop e vuoi far pulizia ricordari di cancellare
+	la cartella <code>C:\Users\test\AppData\Roaming\GitHub Desktop</code>.</p>
+	
+</article>
+</body>
+</html>

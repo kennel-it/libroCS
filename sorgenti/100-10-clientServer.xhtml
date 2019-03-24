@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- e-pub instrastructure: opf:properties="scripted" TOC:type="toc" -->
 <!-- grafoIndice requires="architettura" -->
+<!-- changelog 2019-03-24 inserite definizioni minime -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -11,12 +12,26 @@
    </head>
 <body>
 <header>
-	<h1><img src="immagini/wip.png" alt="lavori in corso"/>clientServer</h1>
-	<p>chi è il client</p>
+	<h1>clientServer</h1>
+	<p>chi è il client e chi il server</p>
 </header>
 <article>
-    <p>Questa architettura prevede una entitò che fornisce servizi e una 
-    o più che li consumano.</p>
+    <p>Questo tipo di architettura prevede due ruoli:</p>
+    <dl>
+    	<dt>server</dt>
+    	<dd>Offre un qualche servizio, potrebbe trattarsi di una macchina o
+    	più in genrale di un programma come ad esempio un server web.
+    	Questa entità sta in attesa delle lichieste da parte del client.</dd>
+    	<dt>client</dt>
+    	<dd>Consuma (usa) i servizi offerti dal server. 
+    	Anche in questo caso con questo termine ci si riferisce
+    	sia ad una macchina che ad un software specifico come ad esempio 
+    	un browser. Questa entità si collega al server per ottenere i servizi.</dd>
+    </dl>
+    
+    <p>In generale quando si parla di software è possibile che un programma
+    sia contemporaneamente server e client, e che una singola macchina ospiti
+    una serie di server.</p>
 </article>
 </body>
 </html>
