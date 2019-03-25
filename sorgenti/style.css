@@ -67,6 +67,7 @@ nav > * {
     margin:0em 1em; padding:0.5em; 
 }
 
+.FIXME { background-color: yellow; color:red; padding:1em ; margin:1em}
 
 #toc { margin:0em 2em }
 #toc img { height: 16px }

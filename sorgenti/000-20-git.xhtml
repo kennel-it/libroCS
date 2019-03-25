@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="" -->
 <!-- changelog 2019-03-24 inserito capitolo -->
+<!-- changelog 2019-03-25 inserite parti su commit e pull request -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -29,6 +30,8 @@
 	(niente paura non la dovremo usare per forza ma fa comodo averla in caso di problemi)
 	e il <a href="https://desktop.github.com/">client desktop di GitHub</a>.</p>
 	
+	<p class="FIXME">serve un glossario</p>
+	
 	<h2>Scaricare il progetto</h2>
 	<p>Al primo avvio GitHub Desktop richiede l'account per proseguire,
 	poi apre la pagina iniziale in cui si possono creare nuovi repository
@@ -53,13 +56,75 @@
 		<li>aprire GitHub Desktop</li>
 		<li>selezionare il progetto (in alto a sinistra)</li>
 		<li>click su "current branch"</li>
-		<li>Scrivere un nome utile (es: luigi_1)</li>
-		<li>Click su "new branch"</li>
+		<li>scrivere un nome utile (es: luigi_login se si sta lavorando sul login)</li>
+		<li>click su "new branch"</li>
 		<li>leggere il popup che si apre e se non ci sono problemi click su "create branch"</li>
 	</ol>
-	<p>Nonstante il pulsantone blu "publish branch" adesso non ci serve farlo, lo faremo
-	al momento che avremo delle modifiche utili da caricare.</p>
+	<p>Nonostante il pulsantone blu "publish branch" adesso non ci serve farlo, lo faremo
+	quando che avremo delle modifiche utili da caricare.</p>
 	
+	<p>Le modifiche possono essere fatte con qualsiasi editor ci possa piacere: 
+	<a href="https://www.eclipse.org/">Eclipse</a>,
+	<a href="https://code.visualstudio.com/">VS Code</a>, Blocco Note, Gedit... 
+	e almeno i primi due posso essere usati per gestire
+	anche git ma qui useremo comunque ad usare il client di GitHub.</p>
+	
+	<p>Una volta fatte delle modifiche avremo una situazione analoga a questa:</p>
+	<img src="immagini/ghd_1.png" alt="GitHub Desktop" style="border:1px solid black"/> 
+	<p>Nella colonna a sinistra selezionando "changes" compaiono tutti i cambiamenti 
+	(modifiche o inserimenti o rimozioni) non ancora gestiti da git e nella parte centrale
+	selezionando il file è possibile vedere cosa è stato modificato (in rosso le cose 
+	cancellate e in verde quelle inserite).</p>
+	<p>Una volta fatti una serie di cambiamenti consistenti (magari per aggiungere 
+	una funzionalità è stato necessario cambiare alcuni file) possiamo fare un commit:
+	questa cosa è facile:</p>
+	<ol>
+		<li>selezionare tutti i file che vogliamo includere nel commit</li>
+		<li>nella casella in basso (nell'esempio c'è "Update index.html") va scritta
+		una sintesi di quello che si è fatto <em>è obbligatoria</em>, non metterla
+		creerà problemi alle altre persone che collaborano con noi.</li>
+		<li>nello spazio più in basso possiamo mettere una descrizione più articolata</li>
+		<li>click su "commit to ____"</li>
+	</ol>
+	<p>Una volta fatto questo non avremo più cambiamenti visualizzati e potremmo farne altri
+	se vogliamo e procedere allo stesso modo.
+	<strong>Tieni presente che questi cambiamenti sono stati registrati sul nostro
+	computer ma non sul server remoto di GitHub e i nostri colleghi non potranno vederli</strong></p>
+	
+	<h2>Pubblicare i cambiamenti</h2>
+	<p>Dopo aver fatto alcuni cambiamenti vorremo caricare il tutto nel repository on-line,
+	basta far click su "Publish branch"... a patto di essere autorizzati a farlo, 
+	in caso contrario riceveremo un messaggio di errore e per risolvere la cosa sarà
+	necessario farci aggiungere tra i collaboratori dal proprietario del repository
+	fornendogli il proprio username (ad oggi inserendo l'email non trova gli utenti).</p>
+	
+	<p>Da qui in avanti ogni altro commit (o gruppo di commit) potrà essere
+	caricato sul server facendo click su "push origin".</p>
+	
+	<h2>Pull request</h2>
+	<p>Una volta finito il lavoro vorremmo che tutto quello che abbiamo fatto entri a far parte 
+	del progetto principale... ma non è detto che anche il proprietario lo voglia!
+	In questo caso possiamo fare un "pull request".</p>
+	<ol>
+		<li>aprire un browser e andare sul nostro progetto su GitHub</li>
+		<li>al centro della pagina fare click sul simbolo dei merge: <img src="immagini/gh_merge.png" alt="merge" /></li>
+		<li>nell'elenco dei rami far click su "Nel pull request" alla destra del ramo che vogliamo fondere 
+		nella linea di sviluppo principale</li>
+		<li><strong>la pagina che appare va osservata con tanta attenzione!</strong></li>
+		<li>guardare in basso l'alengo delle modifiche</li>
+		<li>riempire titolo e oggetto della modifica: <strong>
+		se quello che viene scritto qui sembra inutile/incomprensibile
+		è probabile che il pull venga rifiutato.</strong></li>
+		<li>click su "create pull request"</li>
+	</ol>
+	<p>A questo punto quando la richiesta verrà approvata le modifiche entreranno a 
+	far parte del ramo principale di sviluppo.</p>
+	
+	<h2>Aggiornamenti</h2>
+	<p>A questo punto non ci resta che tenere d'occhio l'email per vedere se la nostra
+	richiesta è stata accettata, una volta andata a buon fine (speriamo)
+	basta riaprire GitHub Desktop e spostarsi sul ramo "master", aggiornare lo stato 
+	(facendo click su "fetch origin" sulla destra) e poi fare "pull origin".</p>
 	
 	<h2>Eventuali problemi</h2>
 	<h3>Proxy</h3>
