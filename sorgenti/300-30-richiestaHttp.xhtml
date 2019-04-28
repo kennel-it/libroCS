@@ -4,6 +4,7 @@
 <!-- changelog 2017-09-16 inserito contenuto del capitolo -->
 <!-- changelog 2017-09-20 corretti errori di battitura e di organizzazione delle frasi -->
 <!-- changelog 2017-09-27 Inserito riferimento al corpo del messaggio -->
+<!-- changelog 2019-04-28 aggiunti metodi PUT, PATCH e HEAD -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -44,18 +45,26 @@ Accept-Encoding: gzip, deflate
 	<p>Potremmo dire che in qualche modo è l'azione da eseguire sull'oggetto riferito 
 	dalla URI,  
 	<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">i metotodi</a>
-	possibili sono molti ma trattiamo qui quelli più comuni.</p>
+	più comuni sono:</p>
 	<dl>
-		<dt>GET</dt>
+		<dt>HEAD</dt>
+		<dd>ritorna soltanto la parte header della risposta HTTP</dd>
+		<dt><em>GET</em></dt>
 		<dd>voglio recuperare il contenuto di una risorsa (ad esempio di un file),
 		se eseguo tante volte la stessa richiesta con questo metodo ottengo
 		sempre lo stesso risultato (si suppone che questa richiesta non implichi la
 		modifica dell'oggetto che viene richiesto)</dd>
-		<dt>POST</dt>
-		<dd>voglio inviare delle informazioni ad una risorsa sul server (ad esempio 
-		ad uno script) che plausibilmente modificheranno lo stato del server, 
+		<dt><em>POST</em></dt>
+		<dd>voglio creare una risorsa
+		oppure voglio inviare delle informazioni ad uno script
+		che plausibilmente modificheranno lo stato del server, 
 		se invio più volte la stessa richiesta potrei ottenere risultati diversi
 		come risposta</dd>
+		<dt>PUT</dt>
+		<dd>voglio rimpiazzare una risorsa già presente sul server</dd>
+		<dt>PATCH</dt>
+		<dd>voglio rimpiazzare soltanto delle parti di una risorsa, 
+		è il metodo più nuovo e non sempre è supportato</dd>
 		<dt>DELETE</dt>
 		<dd>è la richiesta di cancellazione di una risorsa</dd>
 	</dl> 

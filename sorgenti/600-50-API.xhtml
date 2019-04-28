@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="elaborazioneJsonClient XMLHttpRequest" group="javascript" -->
+<!-- changelog 2019-04-28 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>REST</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>API</h1>
+	<p>Application programming interface</p>
+</header>
+<article>
+	<p>Sostanzialmente quando si parla di API si sta parlando di un modo 
+	che può usare una applicazione per parlare con un'altra, 
+	qui ci concentreremo su un particolare tipo di API molto diffuso
+	attualmente sul WEB: 
+	<a href="https://it.wikipedia.org/wiki/Representational_State_Transfer">
+	REpresentational State Transfer</a>
+	(solitamente scritto usando l'acronimo REST).</p>
+
+	<h2>REST</h2>
+	<p>Questo tipo di architettura si presta molto bene all'uso in sistemi
+	client/server come quelle WEB e ha le seguenti caratteristiche:</p>
+	<ul>
+		<li>usa HTTP come protocollo per trasferire i dati</li>
+		<li>non usa le sessioni: ogni richiesta viene elaborata senza
+		tener conto delle richieste precedenti</li>
+		<li>gli oggetti vengono indicati tramite URL
+		(es: https://api.magazzino.com/fornitore/138)</li>
+		<li>le azioni da compiere sull'oggetto sono quelle di HTTP</li>
+	</ul>
+	
+	<p>Altri aspetti comodi di questo tipo di API sono anche:</p>
+	<ul>
+		<li>i parametri (in particolare per le ricerche) sono forniti 
+		utilizzando il solito sistema del GET di HTTP</li>
+		<li>normalmente la risposta può essere fornita in più formati 
+		ma JSON è quello più usato</li>
+		<li>per provare e sufficiente avere un browser e alcuni plugin
+		possono ulteriormente semplificarci la vita (come 
+		<a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">
+		RESTClient</a> per Firefox).</li>
+	</ul>
+	
+	<p>Moltissimi servizi on-line permetteno di interfacciarsi usando
+	delle API pubbliche che molto spesso sono REST, l'unico inconveniente
+	è che per poterle usare è necessario usare delle chiavi di accesso
+	che vengono concesse ad ogni utente (oppure alle singole applicazioni che
+	si vogliono creare) previa registrazione; questo vale per Facebook, Instagram, 
+	Google e tantissimi altri.</p>
+	
+	<h3>GitHub</h3>
+	<p>GitHub permette l'accesso (limitanto il numero di richieste al minuto)
+	anche senza registrazione utilizzando una 
+	<a href="https://developer.github.com/v3/">API REST</a>, 
+	questo ci permette di fare alcuni esperimenti.</p>
+	
+	<p>Come primo esperimento possiamo provare a fare una ricerca per 
+	trovare un progetto su GitHub, per farlo seguiamo le idicazioni
+	<a href="https://developer.github.com/v3/search/#search-repositories">
+	Search repositories</a> e visto che vogliamo cercare un progetto sui quesitonari
+	scritto in php usiamo la URL
+	<code><a href="https://api.github.com/search/repositories?q=questionario+language:php">https://api.github.com/search/repositories?q=questionario+language:php</a>
+	</code>
+	e inviamo una richiesta <code>GET</code> al server che come risposta ci fornisce 
+	un oggetto JSON che elenca tanti progetti (la risposta non viene riportata qui per 
+	intero perché è lunga 170kB, quella qui sotto è stata pesantemente scorciata senza 
+	però semplificarne la struttura).</p>
+<div class="prog">
+{
+  "total_count": 1,
+  "items": [
+    {
+      "id": 172317277,
+      "node_id": "MDEwOlJlcG9zaXRvcnkxNzIzMTcyNzc=",
+      "name": "questionario",
+      "full_name": "SoftwareIISGubbio/questionario",
+      "owner": {
+        "login": "SoftwareIISGubbio",
+        "id": 44832441,
+        "url": "https://api.github.com/users/SoftwareIISGubbio",
+        "html_url": "https://github.com/SoftwareIISGubbio",
+        "repos_url": "https://api.github.com/users/SoftwareIISGubbio/repos",
+        "events_url": "https://api.github.com/users/SoftwareIISGubbio/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/SoftwareIISGubbio/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/SoftwareIISGubbio/questionario",
+      "description": "Un sistema per creare e svolgere questionari on line",
+      "fork": false,
+      "url": "https://api.github.com/repos/SoftwareIISGubbio/questionario",
+      "collaborators_url": "https://api.github.com/repos/SoftwareIISGubbio/questionario/collaborators{/collaborator}",
+      "branches_url": "https://api.github.com/repos/SoftwareIISGubbio/questionario/branches{/branch}",
+      "created_at": "2019-02-24T09:10:04Z",
+      "updated_at": "2019-04-17T14:48:56Z",
+      "git_url": "git://github.com/SoftwareIISGubbio/questionario.git",
+      "language": "PHP",
+      "has_issues": true,
+      "open_issues": 20,
+      "default_branch": "master",
+      "score": 17.340122
+    }
+  ]
+}
+</div>
+
+	<p>Dall'attributo <code>branches_url</code> della risposta qui sopra
+	possiamo trovare altre indicazioni... </p>
+
+	<div class="test">
+	   	<p>Richiedendo con il metodo GET la URL
+	   	<a href="https://api.github.com/repos/SoftwareIISGubbio/questionario/branches">
+	   	https://api.github.com/repos/SoftwareIISGubbio/questionario/branches</a> otteniamo
+	   	</p>
+	    <a onclick="sbagliata(this)">un elenco di rami<span class="spiegazione">non è del tutto esatto</span></a>
+	    <a onclick="giusta(this)">rami e relative descrizioni</a> 
+	    <a onclick="sbagliata(this)">lo stato di svilupo<span class="spiegazione">no, dovresti provare a caricare la URL</span></a> 
+	</div>
+	
+	<div class="test">
+	   	<p>Richiedendo con il metodo GET la URL
+	   	<a href="https://api.github.com/repos/SoftwareIISGubbio/questionario/branches/pulizia">
+	   	https://api.github.com/repos/SoftwareIISGubbio/questionario/branches/pulizia</a> otteniamo
+	   	</p>
+	    <a onclick="sbagliata(this)">numero di commit<span class="spiegazione">no, dovresti provare a caricare la URL</span></a>
+	    <a onclick="giusta(this)">stato del ramo "pulizia"</a> 
+	    <a onclick="sbagliata(this)">numero di commit nel ramo "pulizia"<span class="spiegazione">no, dovresti provare a caricare la URL</span></a> 
+	</div>
+
+</article>
+</body>
+</html>
