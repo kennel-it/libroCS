@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="javaAsincrono" group="java" -->
 <!-- changelog 2018-11-13 inserito capitolo -->
+<!-- changelog 2019-06-19 corretti due errori nei programmi (nomi dei vettori errati) -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -32,7 +33,7 @@ minimo = minimo tra m1 e m2
 
 <pre>
 public int minimo(int v[]){
-    int min = minimo[0];
+    int min = v[0];
     for(int i=1; i&lt;v.length; i++){
         if(v[i]&lt;min){
             min = v[i];
@@ -46,7 +47,7 @@ public int minimo(int v[]){
     variazione:</p>
 <pre>
 public int minimo(int v[], int primo, int ultimo){
-    int min = minimo[primo];
+    int min = v[primo];
     for(int i=primo+1; i&lt;=ultimo; i++){
         if(v[i]&lt;min){
             min = v[i];
