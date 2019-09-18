@@ -3,10 +3,11 @@
 <!-- e-pub instrastructure: opf:properties="scripted" TOC:type="toc" -->
 <!-- grafoIndice requires="architettura" -->
 <!-- changelog 2019-03-24 inserite definizioni minime -->
+<!-- changelog 2019-09-18 aggiornate definizioni -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
-       <title>sintassi</title>
+       <title>clientServer</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
        <script type="text/javascript" src="script/test.js"></script>         
    </head>
@@ -16,12 +17,14 @@
 	<p>chi è il client e chi il server</p>
 </header>
 <article>
-    <p>Questo tipo di architettura prevede due ruoli:</p>
+    <p style="text-align: center"><img src="immagini/client-server.svg" width="40%"/></p>
+    <p>Questo tipo di architettura prevede due ruoli distinti:</p>
     <dl>
     	<dt>server</dt>
     	<dd>Offre un qualche servizio, potrebbe trattarsi di una macchina o
-    	più in genrale di un programma come ad esempio un server web.
-    	Questa entità sta in attesa delle lichieste da parte del client.</dd>
+    	più in generale di un programma come ad esempio un server web.
+    	Questa entità resta in attesa delle lichieste da parte del client e 
+    	se possibile le soddisfa.</dd>
     	<dt>client</dt>
     	<dd>Consuma (usa) i servizi offerti dal server. 
     	Anche in questo caso con questo termine ci si riferisce

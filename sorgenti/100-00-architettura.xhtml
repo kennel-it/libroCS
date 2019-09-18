@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
 <!-- grafoIndice requires="" -->
+<!-- changelog 2019-09-18 inserito quadro generale sulle architetture -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -10,12 +11,23 @@
    </head>
 <body>
 <header>
-	<h1><img src="immagini/wip.png" alt="lavori in corso"/>architettura</h1>
-	<p>cosa si intende per sistema client/server</p>
+	<h1>architettura</h1>
+	<p>cosa si intende per architettura di un sistema</p>
 </header>
 <article>
-	<p>TODO</p>
-	<p>Attualmente sul libro di testo</p>
+	
+<p>Il contesto in cui ci troviamo ad operare è quello del livello 7 dello stack ISO/OSI
+in cui cui diverse entità (processi) scambiano tra loro informazioni.
+Quello che non ci interessa la struttura fisica della rete sottostante 
+che può essere di qualsiasi tipo. Noi abbiamo la garanzia di poter raggiungere 
+qualsiasi altro processo che risiede su una macchina connessa: che sia la nostra 
+stessa o una a 10.000km di distanza non importa.</p>
+
+<p>Con Architettura in generale si intende la struttura che hanno delle componenti 
+software e le relazioni che si possono instaurare tra di loro, 
+qui ci concentriamo sulla parte di comunicazione tra un gruppo di entità. 
+Sostanzialmente le possibilità sono due: peer to peer (abbreviata solitamente in p2p) o client/server.</p>
+
 </article>
 </body>
 </html>
