@@ -6,6 +6,7 @@
 <!-- changelog 2018-01-12 inserita spiegazione per parametri di configurazione -->
 <!-- changelog 2018-01-13 inserite spiegazioni per file di log -->
 <!-- changelog 2018-10-13 aggiunta direttiva listen -->
+<!-- changelog 2018-10-13 sistemate direttive di configurazione, aggiunti Directory e LoadModule -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -32,46 +33,84 @@
 	del gruppo che lo sviluppa (e che sviluppa molto altro software).</p>
 	<p>A seconda del tipo di installazione che vogliamo fare (su un server in produzione o per sviluppare)
 	e del sistema operativo in uso cambia cambia il percorso da seguire. Su Linux (qualsiasi distribuzione)
-	normalmente il pacchetto per l'installazione di apache è disponibile, 
+	normalmente il pacchetto per l'installazione di apache httpd è disponibile nei repository della distribuzione, 
 	su Windows è possibile 
 	<a href="http://httpd.apache.org/docs/current/platform/windows.html#down">scaricare diversi programmi</a> 
 	che installano httpd a volte insieme ad altri server.</p>
 	
 	<h3>Configurazione</h3>
 	<p>È possibile configurare moltissimi parametri di Apache e installare molti moduli aggiuntivi 
-	sul server, ci occupiamo soltanto di alcune configurazioni di base!</p>
-	<p>Il file di configurazione di Apache è in verità piuttosto comeplesso, alcuni parametri valgono per 
+	sul server, qui ci occupiamo soltanto di alcune opzioni.</p>
+	<p>Il file di configurazione di Apache è in verità piuttosto articolato, alcuni parametri valgono per 
 	l'intero server, altri per determinati server virtuali (una singola macchina fisica può
-	fornire più siti) e altri per singole cartelle, cercheremo di non complicare troppo la vita elencandone alcuni.
-	In pratica nel filie di configurazione vanno semplicemente modificati i valori delle proprietà...
-	senza spostarle se non sappiamo bene cosa stiamo facendo! La configurazione che prendiamo
-	in considerazione è quella di un singiolo server (senza server virtuali).</p>
+	fornire più siti) e altri ancora per singole cartelle, dipende dove vengono scritti.
+	In alcune installazioni il file stesso di configurazione è diviso in più file.</p>
+	<p>In buona sostanza quello che però dovremo fare è impostare alcune proprietà come ad esempio
+	la porta su cui il server si mette in ascolto o l'email dell'amministratore!</>
+	<p>Attenzione ad una cosa: cambiando alcune impostazioni potrebbe succedere che il server non sia più 
+	in grado di avviarsi e in questo caso sarà necessario intervenire sul file di configurazione e
+	sistemare le cose, per facilitare questa operazione è bene inserire commenti (righe che iniziano con "#")
+	quando si fanno modifiche in modo da poter eventualmente rimettere tutto a posto.</p>
+
+	<p>La configurazione che prendiamo in considerazione è quella di un singiolo server (senza server virtuali)
+	con un solo file di configurazione.</p>
+
 	<p>Il file di configurazione di apache è un file di testo usualmente chiamato
-	<code>apache.conf</code> o <code>httpd.conf</code> situati nella cartella <code>/etc/apache</code>
-	o simile nel caso di un sistema Unix o nella sottocartella <code>\apache\conf\</code> di XAMPP ad esempio.
-	Questo file contiene delle informazioni raggruppate all'interno di marcatori
-	che assomigliano a tag dell'html.</p>
+	<code>apache.conf</code> o <code>httpd.conf</code> situato nella cartella <code>/etc/apache</code>
+	o simile nel caso di un sistema Unix o nella sottocartella <code>\apache\conf\</code> di XAMPP ad esempio,
+	utilizzando il pannello di controllo di XAMPP è possibile aprirlo anche utilizzando il pulsante "config".</p>
+
+	<p>Questo file contiene singole direttive (un nome seguito da un valore) e alcune informazioni 
+	raggruppate all'interno di marcatori che assomigliano a tag dell'html.</p>
+	<h2>Configurazioni globali</h2>
 	<dl>
-		<dt>DocumentRoot</dt>
+		<dt><a href="https://httpd.apache.org/docs/2.4/en/urlmapping.html">DocumentRoot</a></dt>
 		<dd>Dice in quale cartella sono contenuti i file che dobbiamo fornire ai client.
 		Poniamo caso che il nostro server sia <code>www.esempio.org</code> e che l'URL richiesta
 		sia <code>http://eee.esempio.org/immagini/peperone.jpg</code> e che il valore di
 		<code>DocumentRoot</code> sia <code>c:\cane\pluto\</code> il file che verrà
 		inviato al client è <code>c:\cane\pluto\immagini\peperone.jpg</code>.</dd>
-		<dt>DirectoryIndex</dt>
+
+		<dt><a href="https://httpd.apache.org/docs/2.4/mod/mod_dir.html">DirectoryIndex</a></dt>
 		<dd>Specifica un elenco di risorse da cercare (fornisce la prima che trova)
 		quando il client richiede una cartella. Questa direttiva si troverà
 		probabilmentre all'interno di un blocco &lt;IfModule&gt; per indicare che va eseguita
 		soltanto se il modulo specificato (dir_module in questo caso) è stato caricato.</dd>
-		<dt>ErrorDocument</dt>
+
+		<dt><a href="https://httpd.apache.org/docs/2.4/mod/mod_so.html#loadmodule">LoadModule</a></dt>
+		<dd>Apache httpd ha la possibilità di attivare funzionalità aggiuntive utilizzando dei moduli
+		(possiamo pensarle comeestensioni) che vanno esplicitamente caricati.<br>
+		Nella configurazione base di XAMPP ad esempio c'è un lungo elenco di moduli che possono essere
+		caricati o meno, in pratica tutte le linee che iniziano con "#" sono dei commenti quindi il 
+		modulo lì descritto non verrà caricato.</dd>
+
+		<dt><a href="https://httpd.apache.org/docs/2.4/bind.html">Listen</a></dt>
+		<dd>Indica la porta su cui il server deve mettersi in ascolto (con la stessa
+		direttiva è possibile indicare anche l'indirizzo IP in caso la macchina ne abbia più di uno)</dd>
+
+		<dt><a href="https://httpd.apache.org/docs/2.4/custom-error.html">ErrorDocument</a></dt>
 		<dd>Specifica il contenuto da fornire in caso di errore. Bisogna specificare due valori:
 		il primo è il codice dell'errore (ad esempio 500) e il secondo può essere o un messaggio
 		tra virgolette o il nome di un file. I valori vanno come sempre separati da spazi.</dd>
-		<dt>Listen</dt>
-		<dd>Indica la porta su cui il server deve mettersi in ascolto (con la stessa
-		direttiva è possibile indicare anche l'indirizzo IP in caso la macchina ne abbia più di uno)</dd>
 	</dl>
+
+	<h2>Configurazioni per cartelle</h2>
+	<p>&Egrave; possibile configurare anche opzioni per singole cartelle, in questo caso la configurazione va racchiusa 
+	in un blocco </p>
+<pre>
+&lt;Directory _nome_cartella&gt;
+    # configurazione
+&lt;/Directory&gt;
+</pre>
+	<p>che imposterà ciò che viene richiesto par la cartella specificata e tutte le sottocartelle.</p>
+
+	<dl>
+		<dt><a href="https://httpd.apache.org/docs/2.4/mod/core.html">Options</a></dt>
 	
+	</dl>
+		
+
+
 	<h3>File di log</h3>
 	<p>Come tutti i server anche Apache registra delle informazioni riguardo al suo funzionamento nei
 	file di log, in particolare ne vengono usati due diversi: uno per gli accessi legittimi e uno per gli errori.
