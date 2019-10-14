@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="http richiestaHttp" group="http" -->
 <!-- changelog 2017-09-27 inserito contenuto del capitolo -->
+<!-- changelog 2019-10-14 mancava il titolo 3 "connection" -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -90,11 +91,12 @@ Il valore <code>no-store</code> indica che il contenuto non va memorizzato in ca
 delle marche temporali (timestamp) di HTTP, ad esempio: 
 <code>Expires: Wed, 21 Oct 2015 07:28:00 GMT</code></p>
 
-<h3>Content-Type	</h3>
+<h3>Content-Type</h3>
 <p>È in pratica la risposta all'header <code>Accept</code> della richiesta,
 in questo modo il server dichiara il tipo mime della risposta e 
 la codifica dei caratteri, ad esempio: <code>text/html; charset=UTF-8</code>.</p>
  
+<h3>Connection</h3> 
 <p>Due possibili valori: close o keep-alive.</p>
 <p><code>close</code> indica che la connessione va chiusta dopo questa risposta 
 (default per HTTP 1.0).</p>
