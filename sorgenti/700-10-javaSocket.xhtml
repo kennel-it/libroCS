@@ -4,6 +4,7 @@
 <!-- changelog 2017-10-18 inserita prima parte del contenuto -->
 <!-- changelog 2017-11-17 aggiunti chiarimenti in più per l'uso di flush e dei writer -->
 <!-- changelog 2019-10-27 aggiunta parte su ServerSocket -->
+<!-- changelog 2019-10-27 modificata struttura del capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -17,17 +18,20 @@
 	<p>oggetti per gestire le connessioni</p>
 </header>
 <article>
-	<h2>Oggetti</h2>
-	<p>Per gestire le connessioni TCP/IP in Java abbiamo a disposizione
-	alcuni oggetti nel pacchetto <code>java.net</code>: ne useremo
-	in particolare due: Socket e ServerSocket.
-	Il primo ci permette di connetterci e di ottenere due canali di ingresso/uscita,
-	il secondo di metterci in ascolto in attesa di connessioni.</p>
-	<p>Al solito la documentazione di java è 
-	<a href="https://docs.oracle.com/en/java/javase/11/docs/api/index.html">
-	reperibile online</a>.</p>
+
+    <p>Java consente di gestire le connessioni via TCP/IP utilizzando due oggetti: 
+    <code>Socket</code> e <code>ServerSocket</code> che si trovano nel pacchetto
+    <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/package-summary.html">java.net</a></p>
+    
+    <p>Una volta avvenuta la connessione sarà possibile ottenere degli flussi di byte in 
+    ingresso e in uscita che possono essere utilizzati esattamente come si fa con i file, da questi sarà
+    possibile ottenere degli Writer o Read per scrivere o leggere carattere ecc...</p>
+
 	
 	<h2><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/Socket.html">Socket</a></h2>
+	<p>Questa è la classe che rappresenta uno dei due "capi" della connessione via TCP/IP.
+	È possibile creare oggetti di questa classe direttamente oppure ottenerli in risposta ad una 
+    richiesta di connessione.</p>
 	<div class="test">
 	   	<p>Quali parametri servono per avere una connessione TCP/IP verso un server?</p>
 		<a onclick="sbagliata(this)">porta<span class="spiegazione">non basta</span></a> 
@@ -35,20 +39,26 @@
 		<a onclick="giusta(this)">nome del server e porta</a> 
 		<a onclick="sbagliata(this)">IP e porta<span class="spiegazione">può andare ma non è necessario avere l'ip...</span></a>
 	</div>
-	<p>la classe Socket ha un costruttore che ci permette di collegarci ad un server
+	<p>La classe Socket ha un costruttore che ci permette di collegarci ad un server
 	scrivendo semplicemente una istruzione del tipo 
 	<code>Socket s = new Socket("snoopy.quercia.org",876)</code> in cui il primo parametro è 
 	il nome del server e il secondo è la porta.</p>
 	<p>Una volta creato l'oggetto è possibile ottenere il canale di uscita
-	usando il metodo <code>getOutputStream()</code> (ritorna un OutputStream) e 
-	quello di ingresso utilizzando <code>getInputStream()</code> (ritorna un InputStream).</p>
-	<p>Se la comunicazione avviene scambiandosi messaggi di testo dopo aver preso gli stream
-	dovremo creare dei Reader/Writer che ci permettreranno di inviare testi. 
-	Attenzione ad una cosa: gli oggetti che stiamo usando inviano i dati quando ritengono che ce ne siano 
-	a sufficienza: il mesaggio "ciao" solitamente non è ritenuto abbastanza! Per ovviare
-	a questo problema diversi oggetti java che lavorano sui flussi di dati (es: Writer)
-	hanno un metodo <code>flush()</code> che serve a forzare a svuotare i buffer locali e
-	quindi ad inviare dei dati.</p> 
+	usando il metodo <code>getOutputStream()</code> (ritorna un OutputStream, cioè
+	un oggetto ingrado di inviare byte) e poi usando questo si può costruire un OutputStreamWriter 
+	per inviare caratteri.
+	In maniera analoga si può avere il canale di ingresso
+    utilizzando <code>getInputStream()</code> che ritorna un InputStream da cui di nuovo
+    si può costruire un InputStreamReader.</p>
+    
+	<p>Gli OutputStream utilizzano dei buffer per la gestione dei dati. 
+	Inviare un byte alla volta (o scriverlo su disco) è una operazione in generale poco sensata:
+	per questo motivo gli stream accumulano una certa (non dichiarano la dimensione) quantità di dati
+	e poi la inviano sulla rete o al disco poco cambia.</p>
+	
+	<p>Potrebbere però succedere che ci serva di inviare una piccola quantità di dati e possiamo 
+	forzare il meccanismo: sia l'oggetto OutputStream che l'OutputStreamWriter hanno un metodo
+	<code>flush()</code> che forza l'invio dei dati (o detto in altri termini chiede di svuotare i buffer).</p>
 	
 	<p>Un frammento di programma come quello qui sotto serve ad inviare una semplice
 	stringa di testo al server:</p>
