@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="comunicazione" group="java" -->
 <!-- changelog 2017-10-18 inserita prima parte del contenuto -->
 <!-- changelog 2017-11-17 aggiunti chiarimenti in più per l'uso di flush e dei writer -->
+<!-- changelog 2019-10-27 aggiunta parte su ServerSocket -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -23,10 +24,10 @@
 	Il primo ci permette di connetterci e di ottenere due canali di ingresso/uscita,
 	il secondo di metterci in ascolto in attesa di connessioni.</p>
 	<p>Al solito la documentazione di java è 
-	<a href="http://docs.oracle.com/javase/9/docs/api/index.html?overview-summary.html">
+	<a href="https://docs.oracle.com/en/java/javase/11/docs/api/index.html">
 	reperibile online</a>.</p>
 	
-	<h2>Socket</h2>
+	<h2><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/Socket.html">Socket</a></h2>
 	<div class="test">
 	   	<p>Quali parametri servono per avere una connessione TCP/IP verso un server?</p>
 		<a onclick="sbagliata(this)">porta<span class="spiegazione">non basta</span></a> 
@@ -62,6 +63,26 @@ flussoByte.close();
 connessione.close();
 </pre>
 	 
+	 <h2><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/ServerSocket.html">ServerSocket</a></h2>
+
+    <p>Questa classe è in grado di bloccare l'esecuzione del programma attendendo che qualcuno 
+    si connetta via TCP/IP, una volta avvenuta la connessione quesllo che si ottiene 
+    è di nuovo un oggetto Socket da cui è possibile ottenere dei flussi in ingresso/uscita.</p>
+	 
+<pre>
+ServerSocket ss = new ServerSocket(7777)
+// il metodo accept serve per mettersi in ascolto
+Socket s = ss.accept();
+// da questo punto posso usare il socket come in un client
+</pre>
+
+    <div class="test">
+        <p>considerando il frammento di programma precedente cosa succede se dopo il primo client se ne connette
+        un secondo?</p>
+        <a onclick="giusta(this)">avrà un errore<span class="spiegazione">giusto, non c'è più nessuno in ascolto</span></a>
+        <a onclick="sbagliata(this)">crea un altro Socket<span class="spiegazione">purtroppo no, non c'è più nessuno in ascolto</span></a> 
+    </div>
+
 </article>
 </body>
 </html>

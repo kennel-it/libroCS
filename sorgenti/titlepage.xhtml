@@ -14,6 +14,12 @@
         		background-color: #d9f1c6 ; padding:1em ;  border:0.25em solid white
         	}
         	footer { margin:1em; margin-top:4em }
+            #strumenti {
+                display: flex;
+                flex-flow: row;
+                justify-content: center;
+                align-items: center;
+            }
         </style>
         <script type="text/javascript">
         //<![CDATA[
@@ -29,6 +35,27 @@
         		document.getElementById("grafo").style.display='none';
         		document.getElementById("toc").style.display='block';
         	}
+            var httpRequest;
+        function elaboraRisultato(){
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                console.log("elaboro risultati");
+                var risposta = JSON.parse(httpRequest.responseText);
+                var lista = new Array();
+                for(var i=0; i<risposta.length; i++){
+                        lista.push(risposta[i].title);
+                }
+                evidenziaNodi(lista);
+                document.getElementById("risultatoRicerca").innerHTML = 
+                        "trovati "+risposta.length+" elementi";
+            }
+        }
+        function eseguiRicerca(){
+            console.log("cerco");
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = elaboraRisultato;
+            httpRequest.open('GET', 'cerca.php?q='+document.getElementById("q").value);
+            httpRequest.send();
+        }
         //]]>
         </script>
         <script type="application/javascript"><!-- animazione C/S -->
@@ -125,6 +152,13 @@
         		<span onclick="grafo()" id="pg" style="font-weight: bold">grafo</span><span onclick="elenco()" id="pe">elenco</span>
         	</div> 
         	<div id="grafo" style="text-align: center">
+                <div id="strumenti">
+                    <div id="cerca">
+                        <input type="text" id="q"/>
+                        <label id="eseguiCerca" onclick="eseguiRicerca()" for="q">cerca</label>
+                        <p id="risultatoRicerca"></p>
+                    </div>
+                </div>      
         		<!-- placeholder: indice grafo -->
         	</div> 
 	        <nav id="toc" style="display:none;">
