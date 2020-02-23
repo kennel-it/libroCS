@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="comunicazione" -->
 <!-- changelog 2018-01-24 inseriti contenuti -->
 <!-- changelog 2019-03-16 inserito esempio più complesso anche con attributi -->
+<!-- changelog 2020-02-21 descritte meglio le regole e inseriti ulteriori esempi per attributi -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -16,20 +17,18 @@
 	<p>eXtensible Markup Language</p>
 </header>
 <article>
-	<p>XML ha due possibili 
-	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">tipi mime</a>: 
-    <code>application/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>) e
-    <code>text/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>).</p>
 	
-	<p>XML è definito come metalinguaggio: un linguaggio per definire altri linguaggi.
-	In pratica ci permette di definire dei tag che possono contenere qualsiasi 
-	tipo di informazioni, come prima approssimazione potremmo dire che XHTML è una
+	<p>XML è formalmente definito come metalinguaggio: un linguaggio per definire altri linguaggi.
+	La definizione è molto altisonante ma nella
+	pratica ci permette di definire dei marcatori (tag) che possono contenere qualsiasi 
+	tipo di informazioni, per capire meglio la situazione possiamo dire che XHTML è una
 	versione particolare di XML che consentre di descrivere pagine web.</p>
 	<p>La sintassi di un documento è molto semplice: inizia con 
 	<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> (facendo la ragionevole supposzione 
 	che il file sia codificato in UTF-8)
 	e poi prosegue con una serie di tag nidificati in maniera corretta (i parser
-	XML non sono tolleranti come i browser nel leggere un documento), vediamo un esempio:</p>
+	XML non sono tolleranti come i browser nel leggere un documento), 
+	vediamo come esempio una rubrica:</p>
 	<pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;rubrica&gt;
@@ -43,13 +42,31 @@
 	&lt;/persona&gt;
 &lt;/rubrica&gt;
 	</pre>
+	
+	<p>In pratica scrivere un documento XML è abbastanza semplice tenedo conto di alcune regole:</p>
+	<ul>
+		<li>un qualsiasi contenuto va racchiuso in un tag</li>
+		<li>il nome di un tag non deve contenere spazi</li>
+		<li>per aprire un tag si racchiude tra <code>&lt;</code> e <code>&gt;</code></li>
+		<li>nell'apertura di un tag possono essere opzionalmente presenti uno o più attributi</li>
+		<li>ogni attributo è scritto come <code>nome="valore"</code></li>
+		<li>per chiudere un tag si racchgiude tra <code>&lt;/</code> e <code>&gt;</code></li>
+		<li>i tag vanno chiusi nidificandoli correttamente (si chiude per primo l'ultimo aperto)</li>
+	</ul>
+	
+	<p>XML ha due possibili 
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">tipi mime</a>: 
+    <code>application/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>) e
+    <code>text/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>).</p>
+    
 	<p>L'XML è molto usato per l'interscambio (e la memorizzazione) dei dati in ambito aziendale, 
 	offre alcuni strumenti/tecnologie molto utili come ad esempio:</p>
 	<dl>
 		<dt>DTD</dt><dd>un insieme di regole grammaticali che definiscono uno specifico linguaggio 
 		(es: nella rubrica posso mettere quante persone voglio...)</dd>
 		<dt>XML Schema</dt><dd>di uso analogo ad DTD ma più recente</dd>
-    		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i foglli di stile</dd> 
+    		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i foglli di stile,
+    		sarebbe a dire un modo per descrivere come va visualizzato il documento</dd> 
     	</dl>
 	
 	<p>Proviamo a vedere un oggetto on pochino più complicato: il menu di una pizzeria</p>
@@ -110,6 +127,16 @@
     &lt;/elencoPiatti&gt;
 &lt;/pizzeria&gt;
 </pre>
+
+	<p>Normalmente non ci sono obblighi per utilizzare un attibuto o un tag per contenere una
+	informazione, si evita però solitamente di usare gli attributi quando il contenuto è troppo esteso
+	come ad esempio la via di una citta ma i due esempi qui sotto son entrambe validi, ovviamente
+	va specificato quando si definisce l'XML usato se si usa un attributo o un tag per contenere
+	una determinata informazione.</p>
+
+<pre>&lt;persona&gt;&lt;eta&gt;17&lt;/eta&gt;&lt;nome&gt;piero&lt;/nome&gt;&lt;/persona&gt;</pre>
+
+<pre>&lt;persona eta="17"&gt;piero&lt;/persona&gt;</pre>
 	
 	
 	<h2>Alcuni riferimenti utili</h2>
