@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="json" group="javascript" -->
 <!-- changelog 2018-02-21 inserita prima parte dei contenuti -->
+<!-- changelog 2020-03-01 inseriti link, alcune precisazioni e rimosso "work in progress" -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -11,22 +12,33 @@
    </head>
 <body>
 <header>
-	<h1><img src="immagini/wip.png" alt="lavori in corso"/>elaborazioneJsonClient</h1>
-	<p>gestire una risposta in formato application/json via javascript</p>
+	<h1>elaborazioneJsonClient</h1>
+	<p>gestire una risposta in formato application/json via JavaScript</p>
 </header>
 <article>
-	<p>Il formato json viene utilizzato anche perché ricostruire un oggetto 
-	a partire dalla sua rappresentazione in Javascript è piuttosto facile:
-	basta uilizzare il metodo <code>parse()</code> dell'oggetto <code>JSON</code>.</p>
+	<p>Come linguaggio lato client prendiamo in considerazione soltanto JavaScript 
+	(ma per esestono delle librerie per gli altri linguaggi) e la gestione dei
+	messaggi JSON è davvero semplice.</p>
+	
+	<p>Il nome stesso del formato (JavaScript Object Notation) 
+	ci da indicazioni sulla sua semplicità di uso con JavaScript che
+	ci mette a disposizione un oggetto predefinito 
+	<a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a>
+	per trasformare un testo JSON in un oggetto e viceversa.</p>
+	
+	<p>Per convertire una stringa in un oggetto basta usare il metodo
+	<code>parse()</code> dell'oggetto <code>JSON</code>.</p>
 	<p><code>JSON.parse(testo)</code> restituisce un oggetto costruito come specificato
 	nella stringa <code>testo</code>.</p>
 
 	<h2>Esempio</h2>
-	<p>Quelli qui sotto è un esempio <em>molto</em> minimale, normalmente il testo viene recuperato
-	da una richiesta http e scritto nella pagina non nella console...</p>
+	<p>Normalmente il messaggio JSON viene da un server o da un sistema di archiviazione
+	ma nella sostanza il modo di lavorarci è quello qui sotto:</p>
 
 <div class="prog">
-var messaggioDalServer='{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
+// invento un messaggio
+var messaggioDalServer = '{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
+// trasformo il testo in un oggetto
 var oggetto = JSON.parse(messaggioDalServer);
 console.log(oggetto.telefoni[1]);
 </div>

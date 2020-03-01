@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="richiestaHttp rispostaHttp API" -->
+<!-- changelog 2020-03-01 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>webservices</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>webservices</h1>
+	<p>il sistema più piccolo possibile per avere un servizio attivo</p>
+</header>
+<article>
+	
+<h2>Precisazione importante</h2>
+<p>In un sistema in produzione (serebbe a dire in uno che funziona on-line per utenti reali)
+la scelta migliore è usare una libreria che aiuta a gestire webservices e ne esistono
+per diversi linguaggi! Qui creiamo come esempio un file unico senza dipendenze
+(sarebbe a dire librerie di scaricate da qualche parte su internet) per capire come funziona il gioco.</p>
+
+<p>Il servizio che andiamo a scrivere usa HTTP (cosa che succede usualmente) 
+e quindi tutte le strutture che ci mette a disposizione, 
+non serve inventarsi un meccanismo per specificare come rappresentiamo i dati: ci sono gli header. 
+Non serve di pensare a come comunicare se le cose sono andate bene o male: ci sono già
+i codici di riposta di HTTP, per sapere cosa fare basta leggere l'azione (es: GET o DELETE)
+che ci è stata richiesta via HTTP. Quello che ci accingiamo a fare è semplicemente "mettere insieme i pezzi".</p>
+
+<h2>PHP</h2>
+<p>Scegliamo di utilizzare questo linguaggio che ci permette di scrivere programmi (o script che dir si voglia)
+lato server che girano su server HTTP (come quello di Apache), 
+ovviamente è possibile fare un lavoro analogo con molti altri diversi.</p>
+
+<h3>come ci parliamo</h3> 
+<p>HTTP nella sua intestazione ci consente di specificare il tipo di messaggio che stiamo
+inviando al client e PHP mette a disposizione una funzione per impostare un header qualsiasi:
+<a href="https://www.php.net/manual/en/function.header.php">header()</a>. 
+Nello specifico visto che rappresenteremo i dati utilizzando
+JSON sarà <code>header('Content-type: application/json')</code>.</p>
+
+<h3>come è andata</h3>
+<p>L'esigenza successiva è quella di comunicare come è andata l'operazione richiesta
+(se ci viene richiesto di cancellare qualcosa non è detto che vogliamo farlo!): 
+<a href="https://www.php.net/manual/en/function.http-response-code.php">http_response_code()</a>
+serve a questo scopo, <code>http_response_code(200)</code> comunicherà ad esempio
+che la richiesta si è conclusa con successo.</p>
+
+<h3>cosa vuoi?</h3>
+<p>Per sapere cosa bisogna fare non c'è una funzione specifica ma un valore della superglobal 
+<a href="https://www.php.net/manual/en/reserved.variables.server.php"><code>$_SERVER</code></a>:
+<code>$_SERVER['REQUEST_METHOD']</code> che potrebbe ad esempio valere "GET".</p>
+
+<p>Per sapere invece quali sono i dati di input possiamo usare le due superglobal
+<a href="https://www.php.net/manual/en/reserved.variables.get.php">$_GET</a>
+o
+<a href="https://www.php.net/manual/en/reserved.variables.post.php">$_POST</a>
+a seconda del metodo usato per la richiesta.</p>
+
+<h3>Esempio</h3>
+<pre>&lt;?php
+header('Content-type: application/json');
+http_response_code(401);
+echo "metodo: ${_SERVER['REQUEST_METHOD']}\n";
+echo "URI: ${_SERVER['REQUEST_URI']}\n";
+echo "p1: ${_GET['p1']}\n";
+</pre>
+
+<div class="test">
+   	<p>L'esempio sopra ha un errore... quale?</p>
+    <a onclick="sbagliata(this)">"${" non ha senso<span class="spiegazione">ha senso, serve a scrivere variabili più complicate nelle stringhe</span></a>
+    <a onclick="giusta(this)">application/json<span class="spiegazione">si, è sbagliato o si mette text/plain o si cambia il testo della risposta (quello negli echo)</span></a> 
+    <a onclick="sbagliata(this)">"REQUEST_URI" non è una chiave di $_SERVER<span class="spiegazione">lo è, l'indirizzo della risorsa richiesta</span></a> 
+</div>
+	
+<h2>Inutili dettagli</h2>
+<p>In caso si voglia usare (e si, si vuole!) le normali URL (es: servizio/identificativo)per specificare il servizio
+non bisogna cambiare lo script PHP... basta istruire il web server.</p>
+<p>Nel caso di <em>Apache httpd</em> possiamo configurarlo per trasformare una URL
+<code>servizio/identificativo</code> in <code>servizio.php?p1=identificativo</code> inserendo
+la configurazione sotto nel file <code>.htaccess</code> o nel file di
+configurazione al livello di sistema.</p>
+
+<pre>
+RewriteEngine  on
+# RewriteRule cosa_vai_cercando come_devo_riscriverlo flag
+# flag: https://httpd.apache.org/docs/2.4/rewrite/flags.html
+# [L] sta per "ultima regola" (ovviamente se combacia)
+# tutte le robe che sono un elemento di servizio e finiscono per qualche_numero
+RewriteRule "^servizio/([0-9]+)$" "servizio.php?p1=$1" [L]
+</pre>
+
+<p>il parametro p1 se presente nell'URL originale (prima di fare rewrite) viene comunque passato allo script</p>
+
+</article>
+</body>
+</html>
