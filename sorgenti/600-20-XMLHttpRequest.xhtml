@@ -4,6 +4,7 @@
 <!-- changelog 2018-01-24 inserita prima parte dei contenuti -->
 <!-- changelog 2018-02-21 inserito esempio commentato di uso -->
 <!-- changelog 2019-03-05 aggiunto controllo per stato della risposta -->
+<!-- changelog 2020-03-01 aggiunta breve introduzione su altre tecnologie -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -17,9 +18,15 @@
 	<p>richieste asincrone via javascript</p>
 </header>
 <article>
+	<p>ci sono diversi modi per comunicare con un server da parte di una applicazione
+	che gira in un browser e che ha bisogno di aver risposta per una singola richiesta: uno è
+	<a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">e l'altro sono le classiche</a> 
+	richieste asincrone XML che ci accingiamo a vedere (e che non si usano soltanto per XML!).</p>
 	
 	<p><code>XMLHttpRequest</code> è un oggetto utilizzabile nei programmi
-	Javascript per interagire con un server remoto.</p>
+	Javascript per interagire con un server remoto comunicando tramite singole interazioni
+	richiesta/risposta.</p>
 
 	<p>Microsoft ha sviluppato inizialmengte questo oggetto (perché di un oggetto si tratta) 
 	prima del 2000, successivamente nel 2006 ne è stata publicata una bozza di 
