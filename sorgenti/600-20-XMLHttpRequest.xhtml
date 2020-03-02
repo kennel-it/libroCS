@@ -5,6 +5,7 @@
 <!-- changelog 2018-02-21 inserito esempio commentato di uso -->
 <!-- changelog 2019-03-05 aggiunto controllo per stato della risposta -->
 <!-- changelog 2020-03-01 aggiunta breve introduzione su altre tecnologie -->
+<!-- changelog 2020-03-02 corretti errori minori -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -71,10 +72,11 @@
 &lt;meta charset="UTF-8"&gt;
 &lt;title&gt;Richiesta via http&lt;/title&gt;
 &lt;script type="text/javascript"&gt;
+"use strict";
 
 <span class="evidenza">// conterrà la richiesta, deve essere globale perché</span>
 <span class="evidenza">// viene usata in due diverse funzioni</span>
-var httpRequest;
+let httpRequest;
 
 function statoCambiato(){
 
