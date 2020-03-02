@@ -85,10 +85,10 @@ function statoCambiato(){
   <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</span>
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
     if(httpRequest.status == 200){
-      <span class="evidenza">scrivo la risposta nel paragrafo identificato da "risposta"</span>	
+      <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</span>	
       document.getElementById("risposta").innerHTML = httpRequest.responseText;
     }else{
-      <span class="evidenza">scrivo il codice dell'errore nel paragrafo identificato da "risposta"</span>
+      <span class="evidenza">// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</span>
       document.getElementById("risposta").innerHTML = "errore "+httpRequest.status;
     }
   }
