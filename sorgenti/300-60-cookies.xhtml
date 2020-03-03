@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="rispostaHttp richiestaHttp" group="http" -->
 <!-- changelog 2018-10-01 inserito capitolo vuoto -->
+<!-- changelog 2020-03-03 inseriti contenuti -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -32,9 +33,11 @@ Set-Cookie: altra_info=lunedì</pre>
 	
 	<h2>Restituzione dei cookie</h2>
 	
-	<p>Una volta ricevuto l'header il browser reinvierà con ogni successiva verso lo stesso server
-	ogni cookie ricevuto utilizzando l'header <code>Cookie</code>. Continuando con
-	l'esempio precedente il browser imposterebbe questo header:</p>
+	<p>Poniamo che il server www.forno.it invii un cookie al nostro browser, ogni volta che 
+	il browser farà una successiva richiesta (ad esempio un GET per chiedere una pagina HTML)
+	al server www.forno.it re-invierà lo stesso cookie utilizzando 
+	l'header <code>Cookie</code> nella richiesta. 
+	Continuando con l'esempio precedente il browser imposterebbe questo header:</p>
 
 <pre>Cookie: informazione_utile=cioccolato; altra_info=lunedì</pre>
 	 
