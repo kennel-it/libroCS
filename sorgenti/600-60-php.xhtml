@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- grafoIndice requires="richiestaHttp rispostaHttp" -->
+<!-- grafoIndice requires="richiestaHttp rispostaHttp cookies" -->
 <!-- changelog 2018-02-21 inseriti contenuti -->
+<!-- changelog 2020-03-03 maggior dettaglio nelle informazioni -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -15,7 +16,13 @@
 	<p>variabili e funzioni php per la comunicazione via http</p>
 </header>
 <article>
+
+	<p>Negli script PHP abbiamo a disposizione diverse variabili predefinite e istruzioni che ci
+	permettono di comunicare su HTTP, qui sotto elenchiamo brevemente i più comuni.</p>
 	
+	<h2>GET &amp; POST</h2>
+	<p>Iniziamo dai meccanismi più facili: recuperare le informazioni fornite tramite
+	un form html.</p>
 	<dl>
 		<dt>$_GET</dt>
 		<dd>è un vettore che contiene le variabili passate tramite una richiesta get di http
@@ -23,12 +30,33 @@
 		<dt>$_POST</dt>
 		<dd>è un vettore che contiene le variabili passate tramite una richiesta post di http
 		es: <code>$_POST['password']</code></dd>
-		<dt>$_SESSION</dt>
-		<dd>è un vettore che contiene dei dati che vengono mantenuti (per lo stesso utente)
-		da una richiesta all'altra, va usata dopo <code>session_start()</code></dd>
+	</dl>
+
+	<h2>cookies</h2>
+	<p>In PHP è possibile impostare i cookie utilizzando l'istruzione 
+	<a href="https://www.php.net/manual/en/function.setcookie.php"><code>setcookie(nome, valore)</code></a>
+	e leggerli utilizzando la superglobal 
+	<a href="https://www.php.net/manual/en/reserved.variables.cookies.php"><code>$_COOKIE</code></a>,
+	il seguente frammento di programma imposta un cookie chiamato <var>test</var>
+	e ne legge uno chiamato <var>restituito</var>.</p>
+
+<pre>
+setcookie("test", "3.14");
+
+echo $_COOKIE['restituito']."\n";
+</pre>
+
+	<h2>Sessioni</h2>
+	<p>Questo è un meccanismo che ci consente di mantenre uno stato tra una esecuzione e l'altra di uno script
+	o tra diversi script dello stesso sito... il meccanismo usato è quello dei cookie ma li gestisce PHP
+	e noi abbiamo a disposizone una superglobal per mantenere i valori tra una chiamata e l'altra.</p>
+	<dl>
 		<dt>session_start()</dt>
 		<dd>avvia una sessione o ne apre una già avviata, va usata all'inizio dello script/pagina
 		prima di produrre output</dd>
+		<dt>$_SESSION</dt>
+		<dd>è un vettore che contiene dei dati che vengono mantenuti (per lo stesso utente)
+		da una richiesta all'altra, va usata dopo <code>session_start()</code></dd>
 	</dl>
 
 </article>

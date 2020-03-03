@@ -5,17 +5,52 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
-       <title>rispostaHttp</title>
+       <title>cookies</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
        <script type="text/javascript" src="script/test.js"></script>         
    </head>
 <body>
 <header>
-	<h1><img src="immagini/wip.png" alt="lavori in corso"/>cookies</h1>
-	<p>mantenere i dati da una richiesta all'altra</p>
+	<h1>cookies</h1>
+	<p>archiviare informazioni nel client</p>
 </header>
 <article>
-    <p>vedi <a href="https://developer.mozilla.org/it/docs/Web/HTTP/Cookies">HTTP cookies su MDN web docs</a></p>
+    <p>Un cookie HTTP è un piccolo pezzo di informazione che il server invia al client che può
+    memorizzarlo e che lo re-invia con le successive richieste fatte allo stesso server.
+    Tipicamente vengono usati per capire se due richieste vengono dallo stesso 
+    browser (per ovviare così all'assenza di stato nelle comunicazioni HTTP)
+    e quindi per implementare meccanismi tipo login o carrelli della spesa.</p>
+    
+    <h2>Creazione del cookie</h2>
+    <p>Questo è un compito che spetta all'applicazione lato server
+    (uno script PHP ad esempio) che deve impostare almeno un header: <code>Set-Cookie</code>.</p>
+    <p>Il valore dell'header è una coppia <code>nome=valore</code>, ad esempio potremmo avere
+    un header come quello qui sotto:</p>
+<pre>Set-Cookie: informazione_utile=cioccolato
+Set-Cookie: altra_info=lunedì</pre>
+	
+	
+	<h2>Restituzione dei cookie</h2>
+	
+	<p>Una volta ricevuto l'header il browser reinvierà con ogni successiva verso lo stesso server
+	ogni cookie ricevuto utilizzando l'header <code>Cookie</code>. Continuando con
+	l'esempio precedente il browser imposterebbe questo header:</p>
+
+<pre>Cookie: informazione_utile=cioccolato; altra_info=lunedì</pre>
+	 
+	<h2>Validità dei cookie</h2>
+	<p>Se non diversamente specificato il browser cancellerà il cookie quando verrà chiuso
+	(sarebbe a dire dopo la sessione di lavoro), è possibile però specificare
+	Una scadenza per il cookie in due modi diversi</p>
+	<dl>
+		<dt>Expires</dt>
+		<dd>imposta una data di scadenza</dd>
+		<dt>Max-age</dt>
+		<dd>imposta il numero di secondi di validità</dd>
+	</dl>
+	
+<pre>Set-Cookie: id=a3fWa; <em>Expires=Wed, 21 Oct 2021 07:28:00 GMT;</em></pre>	
+	
 </article>
 </body>
 </html>
