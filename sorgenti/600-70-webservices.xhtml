@@ -86,7 +86,7 @@ JSON sarà <code>header('Content-type: application/json')</code>.</p>
 <pre>&lt;?php
 http_response_code(200);
 header('Content-type: application/json');
-echo "azione richiesta:".$_SERVER['REQUEST_METHOD']."\n";
+echo "azione richiesta:${_SERVER['REQUEST_METHOD']}\n";
 echo "risorsa:".$_SERVER['REQUEST_URI']."\n";
 echo "senza parametri:".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)."\n";
 echo "valore del parametro nome:".$_GET['nome']."\n";
