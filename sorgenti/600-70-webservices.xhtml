@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="richiestaHttp rispostaHttp API php" -->
 <!-- changelog 2020-03-01 inserito capitolo -->
 <!-- changelog 2020-03-09 riorganizzato per intero il capitolo -->
+<!-- changelog 2020-03-21 corretto esempio (l'errore e voluto per via dell'esecizio sotto) -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -84,7 +85,7 @@ JSON sarà <code>header('Content-type: application/json')</code>.</p>
 <h3>Esempio</h3>
 <pre>&lt;?php
 http_response_code(200);
-header('Content-type: text/plain');
+header('Content-type: application/json');
 echo "azione richiesta:".$_SERVER['REQUEST_METHOD']."\n";
 echo "risorsa:".$_SERVER['REQUEST_URI']."\n";
 echo "senza parametri:".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)."\n";
