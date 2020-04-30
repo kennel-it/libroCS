@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="architettura" -->
 <!-- changelog 2017-09-16 inserita definizione di protocollo -->
+<!-- changelog 2020-03-29 errore battitura -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -21,7 +22,7 @@
 	
 	<p>Nel nostro contesto utilizziamo dei protocolli per scambiarci informazioni tra 
 	programmi, solitamente in un contesto di rete. Sono stati definiti tantissimi protocolli
-	per svolgere le operazioni più diverse (SMTP per consegnar ela posta e IMAP per leggerla),
+	per svolgere le operazioni più diverse (SMTP per consegnare la posta e IMAP per leggerla),
 	altri per trasferire dei file (FTP) altri ancora con cui è possibile trasferire
 	file e fare anche qualcosa in più (HTTP), altri per la sicurezza...</p>
 	
@@ -44,14 +45,14 @@ Luigi,Bianchi,374776749
 
 	<p>è possibile anche specificare dei formati binari. Ad esempio.</p>
 	<ul>
-		<li>ogni iformazione occupa 50 byte</li>
+		<li>ogni informazione occupa 50 byte</li>
 		<li>i byte dallo 0 al 19 sono il nome</li>
 		<li>i byte dal 20 al 40 sono il cognome</li>
 		<li>i byte dal 41 al 49 sono il numero di telefono</li>
 	</ul>
 	
 	<p>Guardando questi due esempi possiamo trovare due punti deboli (in realtà facilmente aggirabili):
-	nel primo caso se ho una virgola nol nome o nel cognome sono nei guai... 
+	nel primo caso se ho una virgola nel nome o nel cognome sono nei guai... 
 	nel secondo se ho un cognome molto lungo non posso scriverlo.</p>
 	
 	
