@@ -47,6 +47,11 @@ body.javascript              header { background-color: var(--colore-sfondo-java
 header    { margin:0 ; padding:0 }
 header h1 { margin:0 ; padding:2rem 3em 0.5rem 3em ; text-align: center }
 header p  { margin:0 ; padding: 0.5rem 1rem 2rem 1rem ; text-align: center }
+.legenda.noGroup             { background-color: var(--colore-sfondo-noGroup) }
+.legenda.http                { background-color: var(--colore-sfondo-http) }
+.legenda.java                { background-color: var(--colore-sfondo-java) }
+.legenda.javascript          { background-color: var(--colore-sfondo-javascript) }
+.legenda { border:1px solid gray; padding:0.5em ; margin-top:1em }
 /* -------------------------- precedente - indice - successiva --------------------------------- */
 body.noGroup                 nav { background-color: var(--colore-sfondo-noGroup-chiaro) }
 body.http                    nav { background-color: var(--colore-sfondo-http-chiaro) }
