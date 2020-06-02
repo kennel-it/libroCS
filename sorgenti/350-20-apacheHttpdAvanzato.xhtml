@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="apacheHttpd" -->
+<!-- changelog 2020-06-02 inserito contenuto del capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>apacheHttpdAvanzato</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>apacheHttpdAvanzato</h1>
+	<p>configurazioni particolari per Apache HTTP</p>
+</header>
+<article>
+	<p>Avanzato nel senso di... un pochino più di quelle base!</p>
+	
+	<h2>Autenticazione</h2>
+	<p>Apache htpd può proteggere alcune cartelle in modo che soltanto 
+	le persone autorizzate possano accedervi, il sistema è molto elementare
+	e non consente di fare molte cose ma è semplicissimo da usare e 
+	implementa lo standard <a href="https://tools.ietf.org/html/rfc7235">RFC 7235</a>.</p>
+	
+	<p>In pratica serve di fare queste cose:</p>
+	<ul>
+    <li>abilitare il modulo <a href="https://httpd.apache.org/docs/2.4/mod/mod_auth_basic.html">auth_basic</a></li>
+    <li>creare un file con le password</li>
+    <li>dire al server quale cartella proteggere</li>
+	</ul>
+	<p>Il risultato sarà che il server quando l'utente accede ad alcune cartelle 
+	chiede di fornire un nome utente ed una password.</p>
+	
+	<div class="test">
+    <p>Basic authentication invia i dati in chiaro quindi...</p>
+    <a onclick="sbagliata(this)">non va usato<span class="spiegazione">sei stao un pochino drastico!</span></a> 
+    <a onclick="sbagliata(this)">sarebbe meglio non usarlo<span class="spiegazione">perché?</span></a>
+    <a onclick="giusta(this)">va usato insieme a ssl</a> 
+  </div>
+  
+  <p>La creazione del file con le password è semplice:
+  <code>htpasswd -c nomeDelFile nomeUtente</code>
+  e poi il comando stesso chiede la password,
+  il flag <code>-c</code> serve a creare il file quindi va usato la prima volta soltanto.</p>
+  
+  <p>Non che la configurazione del server sia più complicata:
+  bisogna in pratica soltanto dire quale cartella va protetta...
+  ricordandosi che la cartella può essere indicata in due modi:
+  usando <code>Directory</code> va messo il path nel file system oppure
+  usando <code>Location</code> e in questo caso il path è relativo a
+  <code>DocumentRoot</code>.</p>
+  <p>Quello qui sotto è un esempio plausibile:</p>
+  
+  <pre>
+&lt;Location /protetta&gt;
+  AuthType Basic
+  AuthName "Fatti riconoscere"
+  AuthUserFile "/var/server/basic-passwords"
+  Require valid-user
+&lt;/Location&gt;  
+  </pre>
+  
+  <p>Una ultima considerazione: mettere il file in una cartella accessibile
+  dal web non è una grande idea... capire il perché è lasciato per esercizio.</p>
+  
+</article>
+</body>
+</html>
