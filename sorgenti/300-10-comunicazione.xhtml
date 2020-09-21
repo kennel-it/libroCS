@@ -22,17 +22,16 @@
 	che determinano come due o più entità si scambiano informazioni tra loro.</dfn> 
 	
 	<p>Nel nostro contesto utilizziamo dei protocolli per scambiarci informazioni tra 
-	programmi, solitamente in un contesto di rete. Sono stati definiti tantissimi protocolli
-	per svolgere le operazioni più diverse (SMTP per consegnare la posta e IMAP per leggerla),
-	altri per trasferire dei file (FTP) altri ancora con cui è possibile trasferire
-	file e fare anche qualcosa in più (HTTP), altri per la sicurezza...</p>
+	programmi in un ambiente di rete. Sono stati definiti tantissimi protocolli
+	per svolgere le operazioni più diverse, ad esempio:
+	per trasferire dei file possiamo usare FTP, SSH per usare terminali remoti sicuri,
+	HTTP per trasferire ipertesti, SMTP per inviare la posta e IMAP e POP3 per leggerla.</p>
 	
 	<p>Nel protocollo oltre alle regole per comunicare viene specificato anche quale (o quali) 
 	formati vanno usati per rappresentare le informazioni che vogliamo scambiare, ci occuperemo di 
-	quelli più diffusi che si usano in ambito informatico.</p>
-	
-	<p>Partiamo dicendo come si identifica il formato dei dati presenti in un file
-	(che sia un file o un pachhetto di dati inviati in rete non cambia nulla): utilizzando 
+	quelli più diffusi che si usano in ambito informatico	
+	partendo proprio da come si identifica un formato dei dati presenti in un file
+	(che sia un file o un pacchetto di dati inviati in rete non cambia nulla): utilizzando 
 	il suo tipo mime.</p>
 	
 	<dfn>Un <em><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">media type</a></em>
@@ -47,9 +46,9 @@
 	<p>Torniamo però allo scambio dei dati: uno dei primi formati usati per lo scambio dei dati 
 	è il formato CSV (text/csv): questo formato è molto comodo perché è un formato di testo e 
     è adatto a rappresentare i valori presenti in una tabela.<br/>
-	I ddati presenti in una singola cella vengono rappresentati in formato testo,
+	I dati presenti in una singola cella vengono rappresentati in formato testo,
 	ogni cella è separata dalla successiva da una virgola e ogni riga termina con 
-	un "a capo". Questo formato è tutt'oggi molto usato,
+	un "a capo". Questo formato è a tutt'oggi molto usato,
 	possiamo facilmente avere un esempio per una agenda:</p>
 	
 
@@ -58,8 +57,9 @@ Mario,Rossi,349771188
 Luigi,Bianchi,374776749
 </pre>
 
-	<p>Per completezza diciamo che è anche possibile specificare dei formati binari definiti
-	dalla singola applicazione (<code>application/octet-stream</code>), ad esempio:</p>
+	<p>È anche possibile che un protocollo utilizzi dei file binari
+	(<code>application/octet-stream</code>), formati in cui si definisce byte per
+	byte cosa deve contere un fie, erano abbastanza comuni formati come questo:</p>
 	<ul>
 		<li>ogni informazione occupa 50 byte</li>
 		<li>i byte dallo 0 al 19 sono il nome</li>
@@ -70,10 +70,9 @@ Luigi,Bianchi,374776749
 	<p>Guardando questi due esempi possiamo trovare due punti deboli:
 	nel text/csv se ho una virgola nel nome o nel cognome sono nei guai... 
 	nel application/octet-stream se ho un cognome molto lungo non posso scriverlo.<br/>
-	Il primo problema è falso in realtà: il formato csv è un pochino più complesso e non ha problemi con le virgole
+	Il primo problema è falso in realtà: 
+	il formato csv è un pochino più complesso e non ha problemi con le virgole
 	ma il secondo problema purtroppo è un problema reale.</p> 
-	
-	
 	
 	
 </article>
