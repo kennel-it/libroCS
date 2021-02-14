@@ -22,7 +22,7 @@
 	
 	<h2>GET &amp; POST</h2>
 	<p>Iniziamo dai meccanismi più facili: recuperare le informazioni fornite tramite
-	un form html.</p>
+	HTTP (ad esempio tramite un form HTLML ma non solo).</p>
 	<dl>
 		<dt>$_GET</dt>
 		<dd>è un vettore che contiene le variabili passate tramite una richiesta get di http
@@ -31,6 +31,21 @@
 		<dd>è un vettore che contiene le variabili passate tramite una richiesta post di http
 		es: <code>$_POST['password']</code></dd>
 	</dl>
+	
+	<p>Poniamo per esempio che l'URL richiesta <code>http://pluto.server.org/script.php?nome=Godzilla</code>:
+	lo scipt PHP potrà leggere il valore <code>Godzilla</code> nella variabile <code>$_GET['nome']</code>.</p>
+	
+	<h2>Headers</h2>
+	<p>Impostare un header HTTP è molto semplice ma bisogna tenere in mente che va fatto
+	prima di generare il body.</p>
+	<p>L'istruzione da usare è 
+	<a href="https://www.php.net/manual/en/function.header.php"><code>header("Nome-Header: valore")</code></a>
+	che può ad esempio essere usata per impostare il tipo mime della risposta
+	<code>header('Content-Type: application/json')</code> (il tipo mime di default è text/html)
+	o qualsiasi altro header. </p>
+	<p>Un caso particolare dell'uso di header è quello per impostare lo stato della risposta: 
+	se si vuol fare questo la stringa deve iniziare con <code>HTTP/</code> come ad esempio in
+	<code>header("HTTP/1.0 404 Not Found")</code>.</p>
 
 	<h2>cookies</h2>
 	<p>In PHP è possibile impostare i cookie utilizzando l'istruzione 

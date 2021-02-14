@@ -6,6 +6,7 @@
 <!-- changelog 2019-03-05 aggiunto controllo per stato della risposta -->
 <!-- changelog 2020-03-01 aggiunta breve introduzione su altre tecnologie -->
 <!-- changelog 2020-03-02 corretti errori minori -->
+<!-- changelog 2021-02-12 spostato link   -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -22,8 +23,9 @@
 	<p>ci sono diversi modi per comunicare con un server da parte di una applicazione
 	che gira in un browser e che ha bisogno di aver risposta per una singola richiesta: uno è
 	<a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
-	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">e l'altro sono le classiche</a> 
-	richieste asincrone XML che ci accingiamo a vedere (e che non si usano soltanto per XML!).</p>
+	e l'altro sono le classiche 
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">richieste asincrone XML</a> 
+	che ci accingiamo a vedere (e che non si usano soltanto per XML!).</p>
 	
 	<p><code>XMLHttpRequest</code> è un oggetto utilizzabile nei programmi
 	Javascript per interagire con un server remoto comunicando tramite singole interazioni
@@ -105,9 +107,6 @@ function premuto(){
   
   <span class="evidenza ">// inizializzo la richiesta </span>
   httpRequest.open('GET', 'info.txt');
-  
-  <span class="evidenza ">// non voglio avere dati presenti nella cache locale</span>
-  httpRequest.setRequestHeader( 'Cache-Control', 'no-cache');
   
   <span class="evidenza ">// invio la richiesta al server </span>
   httpRequest.send();
