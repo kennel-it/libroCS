@@ -7,6 +7,7 @@
 <!-- changelog 2020-03-01 aggiunta breve introduzione su altre tecnologie -->
 <!-- changelog 2020-03-02 corretti errori minori -->
 <!-- changelog 2021-02-12 spostato link   -->
+<!-- changelog 2021-02-22 invio dei dati nel body con XMLhttpRequest   -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -123,7 +124,29 @@ function premuto(){
 &lt;/html&gt;
 
 </div>
+
+	<h2>Invio dei dati al server</h2>
+	<h3>Nella URL</h3>
+	<p>Il metodo più semplice per inviare dei dati al server (ad esempio dei parametri di ricerca)
+	è quello di usare il metodo GET e scriverli direttamente nella URL: 
+	dopo il nome dello script va in serito un "?" e si possono concatenare usando una "&amp;"</p>
+	<p>Un esempio chiarirà tutto il da farsi: poniamo di voler inviare allo script "cercatore.php"
+	due parametri per fare la ricerca: il primo è il <code>nome</code> dell'utente "bruce" e il secondo
+	è il nome della <code>localita</code> in cui risiede.
+	La nostra URL sarà: <code>cercatore.php<em>?</em>nome=bruce<em>&amp;</em>localita=gotham</code></p>
+	<p>Da tener presente che alcuni caratteri nelle URL non possono essere inseriti perché riservati
+	quindi va usata la funzione
+	<a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/encodeURI"><code>encodeURI(uri)</code></a>
+	ad esempio scrivendo<code>URLDaInviare = encodeURI(miaStringa)</code>
+	</p>
 	
+	<h3>Nel body</h3>
+	<p>Spesso capita di dover però inviare molti dati ad un metodo POST e in questo caso dobbiamo inserirli nel body.
+	Questa cosa non è difficile da fare usando XMLHttpRequest: basta specificare POST come metodo e 
+	passarli come parametro a <code>send()</code>, in poche parole:</p>
+<pre><code>httpRequest.open('POST', 'script.php');</code>
+<code>httpRequest.send(corpoDelMessaggio);</code></pre>
+
 
 </article>
 </body>

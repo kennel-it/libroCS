@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="richiestaHttp rispostaHttp cookies" -->
 <!-- changelog 2018-02-21 inseriti contenuti -->
 <!-- changelog 2020-03-03 maggior dettaglio nelle informazioni -->
+<!-- changelog 2021-02-22 inseritojson_parse -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -34,6 +35,11 @@
 	
 	<p>Poniamo per esempio che l'URL richiesta <code>http://pluto.server.org/script.php?nome=Godzilla</code>:
 	lo scipt PHP potrà leggere il valore <code>Godzilla</code> nella variabile <code>$_GET['nome']</code>.</p>
+		
+	<h2>Body</h2>
+	<p>Recuperre informaizoni dal body è decisamente semplice:
+	<code>$testo=file_get_contents('php://input')</code>, nella variabile
+	<var>$testo</var> troveremo tutto il contenuto del corpo del messaggio</p>
 	
 	<h2>Headers</h2>
 	<p>Impostare un header HTTP è molto semplice ma bisogna tenere in mente che va fatto
@@ -46,15 +52,34 @@
 	<p>Un caso particolare dell'uso di header è quello per impostare lo stato della risposta: 
 	se si vuol fare questo la stringa deve iniziare con <code>HTTP/</code> come ad esempio in
 	<code>header("HTTP/1.0 404 Not Found")</code>.</p>
+	
+	<h2>JSON</h2>
+	<p>Anche PHP supporta JSON, possiamo ad esempio semplicemente trasformate un testo JSON
+	nel corrispondente hash PHP: la funzione 
+	<a href="https://www.php.net/manual/en/function.json-decode.php"><code>json_decode</code></a>
+	serve appunto a questo.
+	Vediamo un esempio che la variabile <var>$var</var> contenga il seguente testo JSON:</p>
+	
+	<pre>$var='{"chi":{"nome":"mario","cognome":"rossi"},"altezza":180}';</pre>
+	
+	<p>Possiamo costruire l'hash corrispondente scrivendo:</p>
+	
+	<pre>$x = json_decode($var,true);</pre>
+	
+	<p>In questo caso il <code>true</code> finale dice di costruire un hash, in caso contrario
+	json_decode costruirebbe un oggetto PHP.</p>
+	
+	<p>Per avere il nome basta scrivere <code>$x['chi']['nome']</code></p>
 
-	<h2>cookies</h2>
+
+	<h2>Cookies</h2>
 	<p>In PHP è possibile impostare i cookie utilizzando l'istruzione 
 	<a href="https://www.php.net/manual/en/function.setcookie.php"><code>setcookie(nome, valore)</code></a>
 	e leggerli utilizzando la superglobal 
 	<a href="https://www.php.net/manual/en/reserved.variables.cookies.php"><code>$_COOKIE</code></a>,
 	il seguente frammento di programma imposta un cookie chiamato <var>test</var>
 	e ne legge uno chiamato <var>restituito</var>.</p>
-
+	
 <pre>
 setcookie("test", "3.14");
 
