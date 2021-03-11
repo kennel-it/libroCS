@@ -3,7 +3,8 @@
 <!-- grafoIndice requires="richiestaHttp rispostaHttp cookies" -->
 <!-- changelog 2018-02-21 inseriti contenuti -->
 <!-- changelog 2020-03-03 maggior dettaglio nelle informazioni -->
-<!-- changelog 2021-02-22 inseritojson_parse -->
+<!-- changelog 2021-02-22 inserito json_parse -->
+<!-- changelog 2021-03-10 inserito Samesite nei cookies -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -77,14 +78,30 @@
 	<a href="https://www.php.net/manual/en/function.setcookie.php"><code>setcookie(nome, valore)</code></a>
 	e leggerli utilizzando la superglobal 
 	<a href="https://www.php.net/manual/en/reserved.variables.cookies.php"><code>$_COOKIE</code></a>,
-	il seguente frammento di programma imposta un cookie chiamato <var>test</var>
-	e ne legge uno chiamato <var>restituito</var>.</p>
+	il seguente frammento di programma imposta un cookie chiamato <var>pigreco</var>
+	e ne legge uno chiamato <var>nomeUtente</var>.</p>
 	
 <pre>
-setcookie("test", "3.14");
+setcookie("pigreco", "3.14");
 
-echo $_COOKIE['restituito']."\n";
+echo $_COOKIE['nomeUtente']."\n";
 </pre>
+
+	<p>Attualmente (2021) i browser hanno incrementato il livello di sicurezza e per questo motivo
+	impostando i cookie come sopra viene stampato un messaggio di attenzione nella console.
+	Questo è dovuto al fatto che i cookie vengono utilizzati per profilare gli utenti,
+	attualmente una impostazione più conforme alle specifiche è questa:</p>
+<pre>
+setcookie("t2", "116.28", [
+    'expires' => time() + 86400,
+    'samesite' => 'Lax',
+]);
+</pre>
+	<p>Come riportato su 
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie">MDN</a>,
+	"samesite:Lax" fa si che il cookie venga inviato esclusivamente al sito
+	che lo ha impostato ma che venga inviato anche quando da un sito esterno si segue un link
+	verso il sito stesso. La parte "expires" serve invece ad impostare la scadenza del cookie.</p>
 
 	<h2>Sessioni</h2>
 	<p>Questo è un meccanismo che ci consente di mantenre uno stato tra una esecuzione e l'altra di uno script
