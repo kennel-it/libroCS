@@ -4,6 +4,7 @@
 <!-- changelog 2020-03-01 inserito capitolo -->
 <!-- changelog 2020-03-09 riorganizzato per intero il capitolo -->
 <!-- changelog 2020-03-21 corretto esempio (l'errore e voluto per via dell'esecizio sotto) -->
+<!-- changelog 2021-04-14 corretto controllo per tipo mime -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -61,10 +62,10 @@ di HTTP, PHP ci mette a disposizone una funzione per questo:
 che ritorna un array di headers. In pratica:</p>
 <pre>
 $intestazioni = getallheaders();
-if( strpos($intestazioni['Accept'],"application/json") > 0 ){
-    echo "JSON ti va bene\n";
-}else{
+if( strpos($intestazioni['Accept'],"application/json") === false ){
     echo "JSON non ti va bene\n";
+}else{
+    echo "JSON ti va bene\n";
 }
 </pre>
 
