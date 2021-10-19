@@ -6,6 +6,7 @@
 <!-- changelog 2017-09-27 Inserito riferimento al corpo del messaggio -->
 <!-- changelog 2019-04-28 aggiunti metodi PUT, PATCH e HEAD -->
 <!-- changelog 2020-03-23 corretti due errori di battitura -->
+<!-- changelog 2021-10-19 eventuali parametri e corpo in GET e POST -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -53,14 +54,15 @@ Accept-Encoding: gzip, deflate
 		<dt><em>GET</em></dt>
 		<dd>voglio recuperare il contenuto di una risorsa (ad esempio di un file),
 		se eseguo tante volte la stessa richiesta con questo metodo ottengo
-		sempre lo stesso risultato (si suppone che questa richiesta non implichi la
-		modifica dell'oggetto che viene richiesto)</dd>
+		sempre lo stesso risultato (si da per assunto che questa richiesta non implichi la
+		modifica dell'oggetto che viene richiesto), la richiesta non ha corpo ed eventuali parametri
+		vengono inseriti nella URL</dd>
 		<dt><em>POST</em></dt>
 		<dd>voglio creare una risorsa
 		oppure voglio inviare delle informazioni ad uno script
 		che plausibilmente modificheranno lo stato del server, 
 		se invio più volte la stessa richiesta potrei ottenere risultati diversi
-		come risposta</dd>
+		come risposta, eventuali parametri vengono inseriti nel corpo della richiesta</dd>
 		<dt>PUT</dt>
 		<dd>voglio rimpiazzare una risorsa già presente sul server</dd>
 		<dt>PATCH</dt>
