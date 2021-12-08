@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- grafoIndice requires="comunicazione" group="java" -->
-<!-- changelog 2018-10-28 inserito capitolo -->
+<!-- grafoIndice requires="usareLibrerieConJava" group="java" -->
+<!-- changelog 2021-12-09 prima introduziolne del capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -28,30 +28,23 @@
 	<p>Il costo che dovremo pagare per tutte queste comodità è un maggior lavoro in fase 
 	di configurazione della nostra applicazione.</p>
 	
-	<h2><a href="http://tomee.apache.org/">Tomee</a></h2>
-	<p>Scegliamo Tomee come application server ma ne esistono altri sia free che a pagamento, quanto
+	<h2><a href="http://tomcat.apache.org/"><img src="immagini/Apache_Tomcat_logo.png alt="tomcat"/>Tomcat</a></h2>
+	<p>Scegliamo Tomcat come application server ma ne esistono altri sia free che a pagamento, quanto
 	descritto qui per la struttura della nostra applicazione vale in generale, 
 	quello che cambia è la configurazione del server che noi non tratteremo perché
-	Tomee si avvia senza la necessità di particolari configurazioni.</p>
+	Tomcat si avvia senza la necessità di particolari configurazioni, spostare la nostra applicazione
+	su un altro server di questa categoria come
+	<a hreF="https://javaee.github.io/glassfish/">GlassFish</a> o altri.</p>
 	
-	<p>La versione che dobbiamo scaricare è <em>TomEE webprofile</em>. Una volta scaricato il pacchetto
+	<p>Una volta scaricato il pacchetto
 	va scompattato e per avviarlo basta lanciare il programma
 	<code>startup.bat</code> in Windows o <code>startup.sh</code> su Unix 
 	che si trova nella sottocartella <code>bin</code>.</p>
-	<p>Per potersi avviare Tomee ha bisogno di sapere dove si trova Java: questo lo possiamo indicare
-	utilizzando una variabile di ambiente chiamata <code>JAVA_HOME</code>, su Windows questa 
-	variabile si può impostare nel seguente modo:</p>
-	<ul>
-	   <li>reperire la cartella di installazione del JDK (poniamo ad esempio
-	   <code>c:\Program Files\Java\jdk-11</code>)</li>
-	   <li>aprire dal pannello di controllo le impostazioni di sistema e sicurezza</li>
-	   <li>click su sistema e poi su cambia impostazioni</li>
-	   <li>sul pannello avanzate click su "variabili d'ambiente..."</li>
-	   <li>aggiungerne una nuova al livello di sistema (o di utente) con nome 
-	   <code>JAVA_HOME</code> e come valore la cartella del JDK individuata prima</li>
-	   <li>aprire un nuovo terminale e scrivere il comando <code>set</code>, se il procedimento
-	   è stato eseguito correttamente compare l'impostazione appena fatta.</li>
-	</ul>
+	<p>Per poter avviare Tomcat ha bisogno di sapere dove si trova Java: questo lo possiamo indicare
+	utilizzando una variabile di ambiente chiamata <code>JAVA_HOME</code> 
+	nel file <code>setenv.sh</code> che si trova sempre nella cartella bin,
+	il file conterrà semplicemente una riga:</p>
+	<pre>JAVA_HOME=/percorso/cartella/jdk-17</pre>
 
 	<h2>Hello World!</h2>
 	<p>Come esempio creiamo un oggetto che si chiama 

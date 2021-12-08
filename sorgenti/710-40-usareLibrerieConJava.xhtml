@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="comunicazione" group="java" -->
+<!-- changelog 2018-10-28 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>usareLibrerieConJava</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>         
+   </head>
+<body>
+<header>
+	<h1>usareLibrerieConJava</h1>
+	<p>scrivere applicazioni che usano librerie esterne</p>
+</header>
+<article>
+	<h2>Il problema</h2>
+	<p>Il mio programma legge degli input che sono delle espressioni
+	come ad esempio <code>3+2*8/(2+2)</code> e ha bisogno di calcolarne il risultato.</p>
+	
+	
+	<h2>Librerie</h2>
+	<p>Potrei anche lavorare un pochino di tempo e scrivere un bel pezzo di software che valuta
+	qualsiasi espressione ma... è possibile che questo software esista già 
+	e abbia una licenza che ci consenta di utilizzarlo!</p>
+	<p>Potrebbe poi succedere che il pezzo di software (libreria) che ci serve ha a sua volta
+	bisogno di un'altra (o più!) libreria e così via di seguito. In questo
+	caso potrebbe essere un bel rompicapo gestire il tutto.</p>
+	<p>Fortunatamente esistono strumenti che fanno questo e moltissimo di più
+	(sono degli strumenti per gestire i progetti a tutto tondo): noi useremo 
+	Apache <img src="immagini/Apache_Maven_logo.png" style="height:1em" alt="maven"/> che è lo strumento
+	largamente più utilizzato per questo scopo.
+	È talmente utilizzato che scaricando una versione "Eclipse IDE for Enterprise Java and Web Developers"
+	l'integrazione con Maven è già al suo interno. È talmente utilizzato che nel suo archivio principale
+	si possono trovare 445116 librerie diverse e contando le versioni il numero sale a 7887856.</p> 
+
+	<h3>Il primo progetto con Maven</h3>
+	<p>Voglio creare un progetto che farò gestire da Maven e il pacchetto è 
+	<code>it.edu.espressioni</code>.</p>
+	<p>Da Eclipse creo un nuovo progetto "Maven Project" e faccio attenzione ad alcune cose:</p>
+	<ul>
+		<li>spunto "Create simple project (skip archetype selection)</li>
+		<li>"Group id" è la prima parte del nome del pacchetto, nel nostro esempio
+		"it.edu"</li>
+		<li>"Artifact id" è l'ultima parte, "espressioni" nel nostro esempio.</li>
+	</ul>
+	
+	<h3>Cosa è stati creato</h3>
+	<p>Nel guardate tutto il materiale dobbiamo tenere presente una cosa:
+	Maven spinge gli sviluppatori a tenere i file sorgente organizzati, 
+	del resto tenere i file organizzati è meglio anche per me!
+	Rispetto ad un normale progetto di Eclipse qui ci sono tante cose in più,
+	questo è uno strumento per professionisti e ci si aspetta che 
+	queste cose nuove non impressionino nessuno, le descriviamo una per una:</p>
+	<p><img src="immagini/progetto_maven.png" alt="progetto maven in eclipse"/></p>
+	<dl>
+		<dt>src/main/java</dt>
+		<dd>Questa è la cartella in cui si trovano tutti i sorgenti del 
+		nostro progetto</dd>
+		<dt>src/main/resources</dt>
+		<dd>immagini, fogli di stile e tutto quanto non è una classe java
+		che compone il nostro progetto</dd>
+		<dt>src/test/java</dt>
+		<dd>in un progetto funzionante c'è bisogno di classi di test (di cui qui non ci occuperemo)
+		che dovranno essere inserite qui</dd>
+		<dt>src/test/resources</dt>
+		<dd>tutto ciò che serve per i test e non è una classe java</dd>
+		<dt>JRE System Library</dt>
+		<dd>questa non è una cartella ma la versione di java che stiamo utilizzando
+		nel progetto... purtroppo una vecchissima ma la modificheremo</dd>
+		<dt>src</dt>
+		<dd>questa è la cartella che contiene in realtà classi e altro del nostro progetto
+		cioè quello che troviamo nelle prime quattro voci descritte qui</dd> 
+		<dt>target</dt>
+		<dd>questa è la cartella in cui lavora Maven: ci mette i file compilati e 
+		tutto quello che produce come i pacchetti (niente di complicato! sono
+		dei file "war" o "jar" che in pratica contengono il software compilato)</dd>
+		<dt>pom.xml</dt>
+		<dd>questo è il file in cui <strong>diamo indicazioni a Maven su come è strutturato
+		il nostro progetto</strong> e di cosa ha bisogno.</dd> 
+	</dl>
+	
+	<h3>pom.xml</h3>
+	<p>Fondamentalmente interagire con Maven vuol dire scrivere cose in questo file,
+	quello che genera Eclipse è una cosa del genere:</p>
+	<pre>
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"glt;
+  &lt;modelVersionglt;4.0.0&lt;/modelVersionglt;
+  &lt;groupIdglt;it.edu&lt;/groupIdglt;
+  &lt;artifactIdglt;espressioni&lt;/artifactIdglt;
+  &lt;versionglt;0.0.1-SNAPSHOT&lt;/versionglt;
+&lt;/projectglt;</pre>
+	
+	<p>Tutti i campi dovrebbero essere auto-esplicativi, adesso però vogliamo dire
+	a Maven che il nostro progetto ha bisogno di una libreria in particolare che abbiamo trovato...
+	ovviamente leggendo <a href="https://www.baeldung.com/java-evaluate-math-expression-string">un articolo</a>
+	su internet quindi aggiungiamo prima del tag di chiusura 
+	del progetto:</p>
+	
+<pre>
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.fathzer&lt;/groupId&gt;
+    &lt;artifactId&gt;javaluator&lt;/artifactId&gt;
+    &lt;version&gt;3.0.3&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</pre>
+
+	<p>Quando si salva il file Eclipse aggiorna il progetto ma se questo per qualche motivo
+	(si, sviluppare software potrebbe essere complesso) non dovesse succedere basta
+	fare click con il destro sul nome del progetto e dal menù contestuale selezionare 
+	"Maven/Update project..."</p>
+	
+	<h2>Il programma</h2>
+	<p>Ma... io volevo soltanto calcolare il valore di una espressione!</p>
+	<p>A questo punto è facilissimo. Creo la nuova classe "it.edu.espressioni.calcolatore.Test" 
+	e al suo interno creo il metodo statico main che contiene semplicemente:</p>
+	<pre>
+String espressione = "3+2*8/(2+2)";
+DoubleEvaluator valutatore = new DoubleEvaluator();
+double risultato = valutatore.evaluate(espressione);
+System.out.println(risultato);</pre>
+
+	<p>Eseguendo il programma cosa succede?...??</p>  
+
+</article>
+</body>
+</html>
