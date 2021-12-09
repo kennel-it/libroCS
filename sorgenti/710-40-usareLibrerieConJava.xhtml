@@ -23,8 +23,8 @@
 	<h2>Librerie</h2>
 	<p>Potrei anche lavorare un pochino di tempo e scrivere un bel pezzo di software che valuta
 	qualsiasi espressione ma... è possibile che questo software esista già 
-	e abbia una licenza che ci consenta di utilizzarlo!</p>
-	<p>Potrebbe poi succedere che il pezzo di software (libreria) che ci serve ha a sua volta
+	e abbia una licenza che ci consenta di utilizzarlo!
+	Potrebbe poi anche succedere che il pezzo di software (libreria) che ci serve ha a sua volta
 	bisogno di un'altra (o più!) libreria e così via di seguito. In questo
 	caso potrebbe essere un bel rompicapo gestire il tutto.</p>
 	<p>Fortunatamente esistono strumenti che fanno questo e moltissimo di più
@@ -33,26 +33,27 @@
 	largamente più utilizzato per questo scopo.
 	È talmente utilizzato che scaricando una versione "Eclipse IDE for Enterprise Java and Web Developers"
 	l'integrazione con Maven è già al suo interno. È talmente utilizzato che nel suo archivio principale
-	si possono trovare 445116 librerie diverse e contando le versioni il numero sale a 7887856.</p> 
+	si possono trovare 445116 librerie diverse e contando le versioni il numero 
+	si avvicina ad 8 milioni.</p> 
 
 	<h3>Il primo progetto con Maven</h3>
 	<p>Voglio creare un progetto che farò gestire da Maven e il pacchetto è 
-	<code>it.edu.espressioni</code>.</p>
-	<p>Da Eclipse creo un nuovo progetto "Maven Project" e faccio attenzione ad alcune cose:</p>
+	<code>it.edu.espressioni</code>,
+	da Eclipse creo un nuovo progetto "Maven Project" e faccio attenzione ad alcune cose:</p>
 	<ul>
-		<li>spunto "Create simple project (skip archetype selection)</li>
+		<li>spunto "Create simple project (skip archetype selection)"</li>
 		<li>"Group id" è la prima parte del nome del pacchetto, nel nostro esempio
 		"it.edu"</li>
 		<li>"Artifact id" è l'ultima parte, "espressioni" nel nostro esempio.</li>
 	</ul>
 	
-	<h3>Cosa è stati creato</h3>
+	<h3>Cosa è stato creato</h3>
 	<p>Nel guardate tutto il materiale dobbiamo tenere presente una cosa:
-	Maven spinge gli sviluppatori a tenere i file sorgente organizzati, 
-	del resto tenere i file organizzati è meglio anche per me!
-	Rispetto ad un normale progetto di Eclipse qui ci sono tante cose in più,
-	questo è uno strumento per professionisti e ci si aspetta che 
-	queste cose nuove non impressionino nessuno, le descriviamo una per una:</p>
+	Maven si basa su una serie di convenzioni (una è di tenere i file sorgente organizzati), 
+	se le rispettiamo non bisogna indicare nulla, diversamente va modificato
+	il file di configurazione del nostro progetto.
+	Rispetto ad un normale progetto di Eclipse qui ci sono diverse cose in più,
+	ma non sono poi tanto particolari, le descriviamo una per una:</p>
 	<p><img src="immagini/progetto_maven.png" alt="progetto maven in eclipse"/></p>
 	<dl>
 		<dt>src/main/java</dt>
@@ -71,7 +72,7 @@
 		nel progetto... purtroppo una vecchissima ma la modificheremo</dd>
 		<dt>src</dt>
 		<dd>questa è la cartella che contiene in realtà classi e altro del nostro progetto
-		cioè quello che troviamo nelle prime quattro voci descritte qui</dd> 
+		cioè quello che troviamo nelle prime quattro voci descritte in questo elenco</dd> 
 		<dt>target</dt>
 		<dd>questa è la cartella in cui lavora Maven: ci mette i file compilati e 
 		tutto quello che produce come i pacchetti (niente di complicato! sono
@@ -86,12 +87,12 @@
 	quello che genera Eclipse è una cosa del genere:</p>
 	<pre>
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"glt;
-  &lt;modelVersionglt;4.0.0&lt;/modelVersionglt;
-  &lt;groupIdglt;it.edu&lt;/groupIdglt;
-  &lt;artifactIdglt;espressioni&lt;/artifactIdglt;
-  &lt;versionglt;0.0.1-SNAPSHOT&lt;/versionglt;
-&lt;/projectglt;</pre>
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;it.edu&lt;/groupId&gt;
+  &lt;artifactId&gt;espressioni&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+&lt;/project&gt;</pre>
 	
 	<p>Tutti i campi dovrebbero essere auto-esplicativi, adesso però vogliamo dire
 	a Maven che il nostro progetto ha bisogno di una libreria in particolare che abbiamo trovato...
@@ -110,13 +111,15 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
 </pre>
 
 	<p>Quando si salva il file Eclipse aggiorna il progetto ma se questo per qualche motivo
-	(si, sviluppare software potrebbe essere complesso) non dovesse succedere basta
+	non dovesse succedere basta
 	fare click con il destro sul nome del progetto e dal menù contestuale selezionare 
 	"Maven/Update project..."</p>
+	<p>A questo punto nel progetto compare anche una sezione "Maven Dependencies"
+	in cui vengono elencate le librerie gestite da Maven.</p>
 	
 	<h2>Il programma</h2>
-	<p>Ma... io volevo soltanto calcolare il valore di una espressione!</p>
-	<p>A questo punto è facilissimo. Creo la nuova classe "it.edu.espressioni.calcolatore.Test" 
+	<p>A questo punto è facilissimo scrivere il programma che ci serve. 
+	Creo la nuova classe "it.edu.espressioni.calcolatore.Test" 
 	e al suo interno creo il metodo statico main che contiene semplicemente:</p>
 	<pre>
 String espressione = "3+2*8/(2+2)";
@@ -124,7 +127,75 @@ DoubleEvaluator valutatore = new DoubleEvaluator();
 double risultato = valutatore.evaluate(espressione);
 System.out.println(risultato);</pre>
 
-	<p>Eseguendo il programma cosa succede?...??</p>  
+	<p>Eseguendo il programma cosa succede?</p>
+	
+	<h3>Versioni di java</h3>
+	<p>Abbiamo visto che la versione di Java scelta in automatico alla generazione
+	del progetto non è quella che vorremmo, visto che usiamo Maven 
+	la nostra preferenza va indicata nel file pom.xml e in particolare
+	nella sezione <em>build</em> che possiamo mettere prima di chiudere 
+	<em>project</em>:</p>
+	
+<pre>
+&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+      &lt;version&gt;3.8.1&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;release&gt;17&lt;/release&gt;
+      &lt;/configuration&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;</pre>
+
+	<p>Una volta fatta questa modifica e salvato il file va fatta 
+	ricaricare la configurazione ad eclipse facendo click con il tasto destro
+	sul file <em>pom.xml</em> e selezionando il menù contestuale
+	"Maven/Update Project...".</p>
+	<p>Se il file pom.xml viene modificato ma non viene ricaricata la sua configurazione
+	Eclipse segnala un errore nel progetto (un pallino rosso
+	sul nome del progetto).</p>
+	
+	<h3>In caso di proxy</h3>
+	<p>Maven fa accesso alla rete per scaricare il software,
+	se il nostro computer deve usare un proxy dobbiamo indicarlo in
+	uno specifico file di configurazione, questo file se usiamo eclipse
+	possiamo chiamarlo come vogliamo e salvarlo dove vogliamo.
+	Soltanto per esempio poniamo di chiamarlo "maven-setting.xml"
+	e di salvarlo sulla scrivania:</p>
+	 
+<pre>
+&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+  &lt;proxies&gt;
+    &lt;proxy&gt;
+      &lt;id&gt;proxy-http&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;http&lt;/protocol&gt;
+      &lt;host&gt;10.1.1.254&lt;/host&gt;
+      &lt;port&gt;3128&lt;/port&gt;
+    &lt;/proxy&gt;
+    &lt;proxy&gt;
+      &lt;id&gt;proxy-https&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;https&lt;/protocol&gt;
+      &lt;host&gt;10.1.1.254&lt;/host&gt;
+      &lt;port&gt;3128&lt;/port&gt;
+    &lt;/proxy&gt;
+  &lt;/proxies&gt;
+&lt;/settings&gt;</pre>
+
+	<p>Ovviamente come host e come porta vanno inseriti quelli della nostra rete.</p>
+	<p>Una volta salvato il file bisogna indicarlo ad Eclipse:</p>
+	<ol>
+		<li>aprire le preferenze di Eclipse</li>
+		<li>aprire il gruppo "Maven"</li>
+		<li>fare click su "User settings"</li>
+		<li>fare click sul pulsante "browse" alla destra della casella "User Settings"</li>
+	</ol>
 
 </article>
 </body>
