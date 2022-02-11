@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="comunicazione" group="java" -->
+<!-- changelog 2022-02-11 inserita prima parte del contenuto -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>javaSocket</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>   
+       <style>
+       	pre a { background-color: rgba(0,0,0,0.15); border-radius:0.5em ; padding: 0.25em 0.5em; display: inline-block}
+       	pre span { opacity: 0.35 }
+       </style>      
+   </head>
+<body>
+<header>
+	<h1>WebSocketJava</h1>
+	<p>connessioni via WebSocket con Java</p>
+</header>
+<article>
+	<p>Java consente utilizzare i WebSocket in maniera piuttosto semplice,
+	la cosa comoda rispetto alle solite (storiche) connessioni via socket è che il 
+	multithreading viene gestito dal sistema e non dal programmatore.</p> 
+	
+	<p>Quello che segue sotto è un programma minimale che invia un messaggio 
+	e riceve una risposta via WebSocket, i System.out.println sparsi nel 
+	programma sono ovviamente inutili, servono soltanto per stampare nella 
+	console dei messaggi informativi.</p>
+	
+	<p>All'interno del programma ci sono dei link alla documentazione standard
+	di Java, non è facilissima da leggere ma è chiara, solitamente dettagliata,
+	ben scritta, ben presentata e... 
+	dopo tutto l'ha scritta chi ha scritto i programmi che fanno 
+	parte della libreria.</p>
+
+<pre>
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.WebSocket;
+import java.net.http.WebSocket.Builder;
+import java.net.http.WebSocket.Listener;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
+
+public class MessaggiPesantiRicezione {
+    
+  public static void main(String[] args) throws InterruptedException, ExecutionException {
+
+    <em>// creao un nuovo oggetto che è in grado di comunicare via HTTP
+    // una cosa simile a Button x = new Button();</em>
+    HttpClient httpClient = HttpClient.newHttpClient();
+		
+    <em>// creo un nuovo oggetto che userò poi per aver un websocket</em> 
+    Builder webSocketBuilder = httpClient.newWebSocketBuilder();
+		
+    <em>// per quanto ci riguarda è una solita URL (le URI sono un superinsieme delle URL)</em>
+    URI uri = URI.create("ws://localhost:8080/serverchat/lungo");
+		
+    <em>// creo l'ascoltatore, viene chiamato quando ci sono informazioni da elaborare
+    // ha più metodi dei due scritti qui sotto</em>
+    <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.net.http/java/net/http/WebSocket.Listener.html">Listener</a> listener = new Listener() {
+		    
+      <em>// uno StringBuffer è una specie di "stringa dinamica" a cui posso aggiungere caratteri</em>
+      <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/StringBuffer.html">StringBuffer</a> buffer = new StringBuffer();
+		    
+      <em>// quando arriva del testo viene chiamato questo metodo
+      // CharSequence rappresenta una sequenza di caratteri, 
+      // ad esempio String è una sottoclasse di Charsequence</em> 
+      @Override
+      public CompletionStage&gt;Void&lt; onText(WebSocket webSocket, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a> data, boolean last) {
+        <em>// dichiaro che aspetto un ulteriore messaggio, se non lo faccio chiude il socket dopo il primo</em>
+        webSocket.request(1); 
+		        
+        <em>// accodo i caratteri ricevutio al mio buffer</em>
+        buffer.append(data);
+		        
+        if( last ) {
+          <em>// se è l'ultimo blocco di dati stampo sulla console il messaggio intero</em> 
+          System.out.println("messaggio completato");
+          String messaggioIntero = buffer.toString(); 
+          System.out.println( messaggioIntero );
+        } else {
+          <em>// è un pezzo di un messaggio più lungo...</em> 
+          System.out.println("arrivati "+(data.length())+"caratteri, ne attendo di altri");
+        }
+		        
+        <em>// dichiaro a chi mi ha chiamato di aver completato il mio lavoro su "Charsequence data"</em>
+        return null;
+      }
+			
+      <em>// in caso di problemi viene chiamato questo metodo</em> 
+      @Override
+      public void onError(WebSocket webSocket, Throwable errore) {
+        errore.printStackTrace();
+      }
+    };
+		
+    <em>// creazione del websocket</em>
+    <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.net.http/java/net/http/WebSocket.html">WebSocket</a> webSocket = webSocketBuilder.buildAsync(uri, listener).get();
+    <em>// invio il messaggio</em>
+    webSocket.sendText("ciao", true);
+
+    <span>// NB: se qui il programma termina non fa in tempo a ricevere nulla!
+    // nei 3 secondi che questo Thread (quello principale del programma) dorme 
+    // si spera che arrivino i dati dal server
+    System.out.println("dormo 3 secondi");
+    Thread.sleep(3000);
+    System.out.println("termino il programma fine.");</span>
+  }
+	
+}
+</pre>
+
+</article>
+</body>
+</html>
