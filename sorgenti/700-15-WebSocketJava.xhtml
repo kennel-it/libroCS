@@ -68,7 +68,7 @@ public class MessaggiPesantiRicezione {
       // CharSequence rappresenta una sequenza di caratteri, 
       // ad esempio String è una sottoclasse di Charsequence</em> 
       @Override
-      public CompletionStage&gt;Void&lt; onText(WebSocket webSocket, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a> data, boolean last) {
+      public CompletionStage&lt;Void&gt; onText(WebSocket webSocket, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a> data, boolean last) {
         <em>// dichiaro che aspetto un ulteriore messaggio, se non lo faccio chiude il socket dopo il primo</em>
         webSocket.request(1); 
 		        
