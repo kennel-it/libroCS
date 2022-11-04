@@ -14,6 +14,11 @@
        <title>XMLHttpRequest</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
        <script type="text/javascript" src="script/test.js"></script>         
+       <style>
+       		div.prog {
+       			line-height: inherit;
+       		}
+       </style>
    </head>
 <body>
 <header>
@@ -87,6 +92,7 @@ function statoCambiato(){
   <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</span>
   <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</span>
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
+    
     if(httpRequest.status == 200){
       <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</span>	
       document.getElementById("risposta").innerHTML = httpRequest.responseText;
@@ -94,7 +100,9 @@ function statoCambiato(){
       <span class="evidenza">// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</span>
       document.getElementById("risposta").innerHTML = "errore "+httpRequest.status;
     }
+
   }
+  
 }
 
 function premuto(){
@@ -129,7 +137,7 @@ function premuto(){
 	<h3>Nella URL</h3>
 	<p>Il metodo più semplice per inviare dei dati al server (ad esempio dei parametri di ricerca)
 	è quello di usare il metodo GET e scriverli direttamente nella URL: 
-	dopo il nome dello script va in serito un "?" e si possono concatenare usando una "&amp;"</p>
+	dopo il nome dello script va in inserito un "?" e si possono concatenare usando una "&amp;"</p>
 	<p>Un esempio chiarirà tutto il da farsi: poniamo di voler inviare allo script "cercatore.php"
 	due parametri per fare la ricerca: il primo è il <code>nome</code> dell'utente "bruce" e il secondo
 	è il nome della <code>localita</code> in cui risiede.
