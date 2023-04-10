@@ -48,7 +48,7 @@ per condividere file
 <p>Maven controlla tutte le impostazioni del progetto tramite un file presente nella
 cartella principale del progetto stesso chiamato <em>pom.xml</em>.</p>
 
-<h2>Il primo progetto</h2>
+<h2>Creare un progetto</h2>
 <p>In un sistema attuale esistono molte opzioni per utilizzare Maven, ne vediamo due come esempio:
 installarlo nel sistema o utilizzare un IDE che gestisce i progetti Maven.</p>
 
@@ -65,9 +65,11 @@ crearne uno, magari è possibile che il progetto venga fornito già fatto.</p>
 <h3>Eclipse</h3>
 <p>In Eclipse è possibile creare un nuovo progetto Maven direttamente dall'IDE. 
 Dal pannello che si apre dal menu /File/new/Other selezionare "Maven project" nel gruppo Maven, 
-al primo tentativo per semplicità conviene spuntare "Creta a simple project (skip archetype selection)",
+al primo tentativo per semplicità conviene spuntare "Crete a simple project (skip archetype selection)",
 altrimenti al passo successivoi Eclipse chiederà di selezionare un modello (Archetipo)
 in base al quale creare il progetto.</p>
+<p>Se si dovesse modificare in futuro il file pom.xml poi bisogna farci clik con il tasto destro e
+selezionare "Maven/Update project..."</p>
 
 <h2>Cartelle</h2>
 <p>Un progetto viene generato a partire da un modello chiamato da Maven 
@@ -82,6 +84,36 @@ troveremo però sempre una cartella <code>src</code> con dentro i sorgenti
 organizzati per tipologia (ad esempio i programmi di test, i file principali, le risorse...)
 e una cartella <code>target</code> creata all'occorrenza (ad esempio quando si compila) 
 in cui verra generato l'output (le classi compilate ed altro).</p>
+
+<h3>Un semplice progetto</h3>
+<p>Se si crea un semplice progetto spuntando "Create a simple project" in Eclipse
+si ottiene una cosa del genere:</p>
+<p><img src="immagini/progetto_maven.png" alt="progetto maven in eclipse"/></p>
+<dl>
+    <dt>src/main/java</dt>
+    <dd>Questa è la cartella in cui si trovano tutti i sorgenti del 
+    nostro progetto</dd>
+    <dt>src/main/resources</dt>
+    <dd>immagini, fogli di stile e tutto quanto fa parte del 
+    nostro progetto ma non è una classe java</dd>
+    <dt>src/test/java</dt>
+    <dd>in un progetto c'è bisogno di classi di test
+    che dovranno essere inserite qui, queste classi non vanno caricate
+    nel sistema in produzione</dd>
+    <dt>src/test/resources</dt>
+    <dd>tutto ciò che serve per i test e non è una classe java</dd>
+    <dt>JRE System Library</dt>
+    <dd>questa non è una cartella ma la versione di java che stiamo utilizzando
+    nel progetto... purtroppo una vecchissima ma la modificheremo</dd>
+    <dt>src</dt>
+    <dd>questa è la cartella che contiene in realtà le prime 4 cartelle elencate sopra</dd> 
+    <dt>target</dt>
+    <dd>questa è la cartella in cui lavora Maven: ci mette i file compilati e 
+    tutto quello che produce come i pacchetti (niente di complicato! sono
+    dei file "war" o "jar" che in pratica contengono il software compilato)</dd>
+    <dt>pom.xml</dt>
+    <dd>descritto nella prossima sezione</dd> 
+    </dl>
 
 <h2><a href="https://maven.apache.org/pom.html">pom.xml</a></h2>
 <p>Questo è il file che definisce tutte le impostazioni del progetto, scritto in XML,
@@ -195,6 +227,71 @@ in fase di compilazione/test, <code>mvn package</code> crea un pacchetto
 a chi deve usare il programma, <code>mvn dependency:tree</code> visualizza l'albero delle
 dipendenze del progetto...</p> 
 
+<h2>Un esempio: valutare espressioni</h2>
+<p>Il mio programma legge degli input che sono delle espressioni
+come ad esempio <code>3+2*8/(2+2)</code> e ha bisogno di calcolarne il risultato.</p>
+
+<h3>Trovare una libreria</h3>
+<p>Potrei anche lavorare un pochino di tempo e scrivere un bel pezzo di software che valuta
+qualsiasi espressione ma... non è facile e c'è giua fatto e pure con una licenza che ci
+consente di utilizzarlo! <em>javaluator</em> (è solo una delle possibili alternative).</p>
+
+<p>Visto che ho trovato la libreria creo il progetto con Eclipse e tra le dipendenze
+presenti nel file pom.xml inserisco questa:</p>
+<pre>
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.fathzer&lt;/groupId&gt;
+    &lt;artifactId&gt;javaluator&lt;/artifactId&gt;
+    &lt;version&gt;3.0.3&lt;/version&gt;
+  &lt;/dependency&gt;
+</pre>
+<p>Dopo aver salvato chiedo ad eclipse di aggiornare il progetto (click destro sul pom.xml...)
+e creo una classe nel cui metodo main scrivo:</p>
+<pre>
+String espressione = "3+2*8/(2+2)";
+DoubleEvaluator valutatore = new DoubleEvaluator();
+double risultato = valutatore.evaluate(espressione);
+System.out.println(risultato);</pre>
+<p>Ed il gioco è fatto!</p>
+
+<h2>In caso di proxy</h2>
+<p>Maven fa accesso alla rete per scaricare il software,
+se il nostro computer deve usare un proxy dobbiamo indicarlo in
+uno specifico file di configurazione, questo file se usiamo eclipse
+possiamo chiamarlo come vogliamo e salvarlo dove vogliamo.
+Soltanto per esempio poniamo di chiamarlo "maven-setting.xml"
+e di salvarlo sulla scrivania:</p>
+
+<pre>
+&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+  &lt;proxies&gt;
+    &lt;proxy&gt;
+      &lt;id&gt;proxy-http&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;http&lt;/protocol&gt;
+      &lt;host&gt;10.1.1.254&lt;/host&gt;
+      &lt;port&gt;3128&lt;/port&gt;
+    &lt;/proxy&gt;
+    &lt;proxy&gt;
+      &lt;id&gt;proxy-https&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;https&lt;/protocol&gt;
+      &lt;host&gt;10.1.1.254&lt;/host&gt;
+      &lt;port&gt;3128&lt;/port&gt;
+    &lt;/proxy&gt;
+  &lt;/proxies&gt;
+&lt;/settings&gt;</pre>
+
+<p>Ovviamente come host e come porta vanno inseriti quelli della nostra rete.</p>
+<p>Una volta salvato il file bisogna indicarlo ad Eclipse:</p>
+<ol>
+    <li>aprire le preferenze di Eclipse</li>
+    <li>aprire il gruppo "Maven"</li>
+    <li>fare click su "User settings"</li>
+    <li>fare click sul pulsante "browse" alla destra della casella "User Settings"</li>
+</ol>
 
 </article>
 </body>
