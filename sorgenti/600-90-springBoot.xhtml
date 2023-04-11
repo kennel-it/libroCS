@@ -27,7 +27,7 @@ di software, spesso utilizzando specifiche strategie di sviluppo.</p>
     <li>la modalità con cui si svolgono le operazioni è dettata dal framework
     e non da chi lo usa</li>
     <li>esistono una serie di comportamenti di default</li>
-    <li>chi usa il framwork può estendere le sue funzionalità ma non 
+    <li>chi usa il framework può estendere le sue funzionalità ma non 
     modificarlo</li>
 </ul>
 
@@ -35,7 +35,7 @@ di software, spesso utilizzando specifiche strategie di sviluppo.</p>
 <p>Non è certo l'unico framework per scrivere applicazioni web ma:</p>
 <ul>
     <li>riduce di molto il tempo di sviluppo aumentando la produttività</li>
-    <li>evita la scrittura parti di codice ripetitivo e file di configurazione</li>
+    <li>evita la scrittura parti di codice ripetitive e file di configurazione</li>
     <li>è molto facile accedere ai database e salvare oggetti Java</li> 
     <li>adotta una strategia "Opinionated Defaults Configuration", in pratica in base alle dipendenze decide
     delle configurazioni di default</li>
@@ -44,14 +44,14 @@ di software, spesso utilizzando specifiche strategie di sviluppo.</p>
 
 <p>Trattandosi di un framework faremo la sua conoscenza direttamente utilizzandolo!
 Quello che anddremo a realizzare è un sistema per la gestione di una lista di cose da fare.
-Per evitare di confonderli con quelli di HTTP i "metodi" delgi oggetti Java verranno
+Per evitare di confonderli con quelli di HTTP i "metodi" degli oggetti Java verranno
 chiamati "funzioni".</p>
 
 <h2>Creazione del progetto</h2>
 
 <h3>Il progetto</h3>
 <p>Creare un progetto Spring boot è davvero molto facile: si crea on-line
-con <a href="https://start.spring.io/">spring initializr</a> e poi si scarica.
+con <a href="https://start.spring.io/">Spring initializr</a> e poi si scarica.
 Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizione di ogni parte.</p>
 
 <img src="immagini/spring_initializr.png" alt="Spring initializr configurato per il progetto di todo list"/>
@@ -78,7 +78,8 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
     versioni con supporto al lungo termine (meglio prendere l'ultima di queste se possibile)
     mentre la 20 è l'ultima versione uscita</dd>
     <dt>Dependencies [7]</dt>
-    <dd>facendo click su questo pulsante si possono aggiungere le dipendenze al progetto
+    <dd>facendo click su questo pulsante si possono aggiungere le dipendenze al progetto,
+    a noi ne servono alcune che sono descritte qui sotto ma ne esistono tantissime:
         <ul>
             <li>Spring Web: quello che tra le altre cose ci permette di creare servizi 
             web di tipo REST e usare Tomcat</li>
@@ -101,7 +102,7 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
 per cui è disponibile una estensione per Spring Boot: click sul menu "/help/Eclipse Marketplace..."
 e nella casella "find" scrivere <em>Spring Tools</em> e installare "Spring Tools 4",
 a questo punto verrà installata l'estensione.</p>
-<p>Nella scrittura di applicazioni Spring Boot è spesso necessario fermare e poi riavviare
+<p>Nota: nella scrittura di applicazioni Spring Boot è spesso necessario fermare e poi riavviare
 le applicazioni: in Eclipse conviene usare
 <img src="immagini/eclipse_relaunch.png" alt="icona del pulsante relaunch in Eclipse" style="height:1em"/></p>
 
@@ -116,7 +117,7 @@ che si trova nella cartella <code>src/main/resources</code> (è un file per il f
 del programma e non per il test quindi sta in "main", non essendo un file java sta in resources).</p> 
 <p>Delle configurazioni qui sotto molte sono opzionali perché le suppone Spring di
 suo visto che usiamo H2, le vediamo in ogni caso perché possono servire cambiando DB,
-il formato del file è il solito "nome=valore", prima di ogni riga c'è la spiegazione.</p> 
+il formato del file è il solito "nome=valore", prima di ogni riga c'è una breve spiegazione.</p> 
 
 <pre>
 <em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
@@ -126,10 +127,11 @@ spring.datasource.url=jdbc:h2:mem:todolist
 spring.datasource.username=nome
 spring.datasource.password=chiave
 
-<em># serve soltanto per H2, se non si mette questa le tabelle vengono create al volo
+<em># serve soltanto per H2 o per gli altri database "in memory"
+# per cui se non si mette questa le tabelle vengono create al volo
 # all'avvio dell'applicazione in base agli oggetti che definiremo, siccome io
 # voglio creare le tabelle e inserire dei dati non voglio che queste
-# vengano create dal Spring quindi metto questa riga, normalmente non serve</em>
+# vengano create da Spring quindi metto questa riga, normalmente non serve</em>
 spring.jpa.hibernate.ddl-auto=none
 
 <em># questa è soltanto per comodità visto che usiamo H2, questo db permette di
@@ -143,12 +145,13 @@ spring.h2.console.enabled=true
 e quindi non va creato!
 Per semplicità noi utilizziamo un database con una singola tabella il cui significato dei 
 campi dovrebbe essere chiarito dalle insert qui sotto.</p>
-<p>I due file qui sotto vanno inseriti nella cartella <code>src/main/resources</code>
+<p>I due file che seguono vanno inseriti nella cartella <code>src/main/resources</code>
 e verranno eseguiti all'avvio dell'applicazine automaticamente.
 Siccome H2 è un database in memoria ogni volta che il server
 verrà ricaricato si ricomincerà da capo, comodo per fare delle prove!
-Poi quando si andrà in produzione (quindi quando il sistema sarà funzionante e
-accessibile al pubblico) useremo un db diverso come MySQL o PostgreSQL.</p>
+Quando si andrà in produzione (quindi quando il sistema sarà funzionante e
+accessibile al pubblico) useremo un db diverso come MySQL o PostgreSQL
+e non avremo certo questi file.</p>
 
 <h4>schema.sql</h4> 
 <p>La creazione delle tabelle</p>
@@ -198,21 +201,22 @@ public class ToDo {
     String cosa;
     Boolean fatto;
 
-    /* il metodi /set/get vanno inseriti per esercizio */
+    /* il metodi set/get vanno inseriti per esercizio, magari usando Eclipse */
 }
 </pre>
 <p>Un normalissimo oggetto Java con alcune accortezze. Concentriamoci adesso
 sulle annotazioni (quelle strane cose che iniziano con @) che permettono 
-a Spring di gestire l'intero progetto. Ogni annotazione è legata all'istruzione che la segue,
+a Spring di gestire l'intero progetto. Ogni annotazione è legata all'istruzione che la segue:
 <code>@Entity</code> è relativa alla definizione della classe e in questo caso sta
 a marcare che <code>ToDo</code> è un oggetto che JPA dovrà gestire in relazione 
 al database relazionale che stiamo usando (H2 nel nostro caso, ma se fosse un altro
 non cambierebbe nulla), l'atrributo <code>name</code> indica il nome della tabella nel database,
 in genere non è necessario ma in questo caso si. Per default un oggetto "ToDo"
 dovrebbe trovarsi nel db in una tabella chiamata "to_do" siccome così non è dobbiamo
-specificare il nome della tabella, altrimenti non sarebbe statio necessario.</p>
-<p><code>@Id</code> marca l'attributo che deve essere chiave primaria e il 
-successivo <code>@GeneratedValue</code> con il suo attributo <code>stretegy</code> indicano
+specificare il nome della tabella, altrimenti non sarebbe statio necessario
+(il camelCase viene tradotto con gli "_").</p>
+<p><code>@Id</code> marca l'attributo che è chiave primaria e il 
+successivo <code>@GeneratedValue</code> con il suo attributo <code>strategy</code> indicano
 che la colonna sul db è di tipo auto_increment.</p>
 <p>Una ultima cosa da notare: l'attributo <code>id</code> è di tipo <code>Integer</code>
 e non <code>int</code>, questo perché vogliamo che l'attributo possa essere null
@@ -245,10 +249,10 @@ parametri due cose: il tipo dell'oggetto che stiamo considerando e il tipo della
 
 <p>In questa interfaccia è presente però anche la funzione <code>cerca()</code>
 che ci serve per poter fare un tipo particolare di ricerca: una ricerca per approssimazione.
-L'annoptazione <code>@Query</code> serve per specificare la query da eseguire e il suo
+L'annotazione <code>@Query</code> serve per specificare la query da eseguire e il suo
 parametro <code>nativeQuery</code> impostato a true nel nostro caso è essenziale perché
 stiamo scrivendo la query in SQL, se non lo avessimo messo avremmo dovuto
-usare la sintassi JPA nella query che é leggermente diversa da quella di SQL.
+usare la sintassi JPA nella query che è leggermente diversa da quella di SQL.
 Due cose da notare sul come è scritta la query:</p>
 <ol>
     <li>il metodo ha un un parametro <code>parte</code> che viene passato alla funzione e inserito 
@@ -260,7 +264,7 @@ Due cose da notare sul come è scritta la query:</p>
 <h3>Il gestore delle azioni possibili</h3>
 <p>In questa classe definiamo cosa la nostra applicazione può fare,
 lo facciamo dicendo a quali metodi di HTTP e a quali URL risponde.
-Ogni funzioe della classe riponde ad un particolare metodo+percorso di HTTP,
+Ogni funzione della classe riponde ad un particolare metodo+percorso di HTTP,
 il tutto viene specificato tramite annotazioni prima delle funzioni Java.</p>
 <p>I dati vengono leggi in input e inviati al client in output
 in JSON sebbene non ci sia traccia di questo perché fa tutto
@@ -377,20 +381,20 @@ public List&lt;ToDo&gt; cerca(
     ToDo t = new ToDo();
     t.setLista(lista);
     t.setFatto(fatto);
-    Example&lt;ToDo&gt; example = Example.of(t);
-    return repoToDo.findAll( example );
+    Example&lt;ToDo&gt; esempioDaCercare = Example.of(t);
+    return repoToDo.findAll( esempioDaCercare );
 }</pre>
 <p>Il <code>@GetMapping</code> è analogo al precedente ma questa volta la funzione cerca()
 ha due parametri: <code>lista</code> e <code>fatto</code>. 
 <code>@RequestParam</code> serve per indicare
 che ciascuno dei due parametri è opzionalmente presente come parametro della URL,
-di nuovo alcuni esempi saranno chiarificatori:
+di nuovo alcuni esempi saranno chiarificatori: potremmo usare
 "http://localhost:8080/cerca1?lista=casa" oppure "http://localhost:8080/cerca1" o anche
 "http://localhost:8080/cerca1?lista=casa&amp;fatto=false".</p>
 <p>Quello che fa la funzione è di chiedere a <code>repoToDo</code> di fare
 una ricerca fornendo un esempio di quello che vogliamo cercare, le prime 4 linee del
 metodo servono appunto a creare l'esempio!
-Creo l'oggetto todo e imposto due dei suoi campi (eventualmente a null se non 
+Creo l'oggetto <code>t</code> e imposto due dei suoi campi (eventualmente a null se non 
 erano presenti nella richiesta), poi con <code>Example.of(t)</code> creo un "Esempio"
 da fornire alla funzione di ricerca.</p>
 
@@ -428,17 +432,18 @@ deve essere POST e l'altra annotazione <code>@RequestBody</code>
 indica che l'oggetto da inserire (uno di tipo ToDo) deve
 essere scritto nel corpo ovviamente in formato JSON!
 L'unica istruzione della funzione serve a salvare l'oggetto nel DB.</p>
-<p>Attenzione che questa richiesta non si puà unviare inserendo la URL
+<p>Attenzione che questa richiesta non si può inviare inserendo la URL
 nella barra del browser perché questa sarebbe una rchiesta GET,
-bisogna usare uno strumento tipo PostMan o fare una richiesta asincrona magari
-mettendo una rappresentazione JSON di un ToDo nel corpo della richiesta.</p>
+bisogna usare uno strumento tipo PostMan o fare una richiesta asincrona, 
+in ogni caso va inserita una rappresentazione JSON di un ToDo
+nel corpo della richiesta.</p>
 
 <h4>cancellaPerChiave()</h4>
 <pre>@DeleteMapping("todo/{id}")
 public void cancellaPerChiave( @PathVariable int id ) {
     repoToDo.deleteById(id);
 }</pre>
-<p>Questo metodo risponde ad una richiesta HTTP di tipo DELETE e
+<p>Questo metodo risponde ad una richiesta DELETE di HTTP e
 cancella l'elemento il cui id è stato inserito nel path della richiesta.</p>
 <p>"http://localhost:8080/todo/2" elimina l'elemento numero 2.
 Anche per provare questo tipo di richiesta non si può usare la barra
@@ -459,9 +464,7 @@ public void modifica( @PathVariable int id, @RequestBody ToDo td ) {
     }
 }</pre>
 <p>Sebbene la modalità di comunicazione dovrebbe ormai essere chiara
-(richiesta PUT, url con id in fondo e oggetto nel body) il lavoro è un pochino
-più articolato.</p>
-<p>La funzione prima di tutto recupera l'oggetto presente nel db con l'id specificato,
+(richiesta PUT: la funzione prima di tutto recupera l'oggetto presente nel db con l'id specificato,
 in caso che quell'oggetto esiste copia i dati forniti nell'oggetto
 recuperato dal db e poi lo salva. Se l'oggetto non esiste ritorna una risposta 404.</p>
 
