@@ -2,27 +2,27 @@
     /* colori di base delle sezioni */
     --colore-sfondo-noGroup: #f5f5f5; /* grey 100 */
     --colore-sfondo-http: #90caf9; /* blue 200 */
-    --colore-sfondo-java: #7cb342 ; /* Light Green 600 */
-    --colore-sfondo-javascript: #ffee58 ; /* yellow 400 */
-    --colore-sfondo-1: #f8bbd0 ; /* pink 200 */
-    --colore-sfondo-2: #a1887f ; /* brown 300 */
-    --colore-sfondo-servizi: #e53935 ; /* red 600 */
+    --colore-sfondo-java: #FB8C00; /* Orange 600 */
+    --colore-sfondo-javascript: #ffee58; /* yellow 400 */
+    --colore-sfondo-1: #f8bbd0; /* pink 200 */
+    --colore-sfondo-2: #a1887f; /* brown 300 */
+    --colore-sfondo-servizi: #66BB6A; /* Green 400 */
     /* i relativi light */
     --colore-sfondo-noGroup-chiaro: #ffffff; /* grey 100 */
     --colore-sfondo-http-chiaro: #c3fdff; /* blue 200 */
-    --colore-sfondo-java-chiaro: #aee571 ; /* Light Green 600 */
+    --colore-sfondo-java-chiaro: #FFA726 ; /* Orange 400 */
     --colore-sfondo-javascript-chiaro: #ffff8b ; /* yellow 400 */
     --colore-sfondo-1-chiaro: #ffc1e3 ; /* pink 200 */
     --colore-sfondo-2-chiaro: #d3b8ae ; /* brown 300 */
-    --colore-sfondo-servizi-chiaro: #ff6f60 ; /* red 600 */
+    --colore-sfondo-servizi-chiaro: #C8E6C9; /* Green 100 */
     /* i relativi dark */
     --colore-sfondo-noGroup-scuro: #c2c2c2; /* grey 100 */
     --colore-sfondo-http-scuro: #5d99c6; /* blue 200 */
-    --colore-sfondo-java-scuro: #4b830d ; /* Light Green 600 */
+    --colore-sfondo-java-scuro: #E65100 ; /* Orange 900 */
     --colore-sfondo-javascript-scuro: #c9bc1f ; /* yellow 400 */
     --colore-sfondo-1-scuro: #bf5f82 ; /* pink 200 */
     --colore-sfondo-2-scuro: #725b53 ; /* brown 300 */
-    --colore-sfondo-servizi-scuro: #ab000d ; /* red 600 */
+    --colore-sfondo-servizi-scuro: #388E3C ; /* green 700 */
 
     box-sizing:border-box;
     --colore-primario: #ffab40; /* orange A700 */
@@ -68,7 +68,7 @@ body.noGroup                 nav > * { background-color: var(--colore-sfondo-noG
 body.http                    nav > * { background-color: var(--colore-sfondo-http-scuro) }
 body.java                    nav > * { background-color: var(--colore-sfondo-java-scuro) }
 body.javascript              nav > * { background-color: var(--colore-sfondo-javascript-scuro) }
-body.servizi                 nav > * { background-color: var(--colore-sfondo-servizissssssssss-scuro) }
+body.servizi                 nav > * { background-color: var(--colore-sfondo-servizi-scuro) }
 nav > * {
     flex-grow: 1;
     text-align:center; text-decoration: none;
@@ -276,7 +276,6 @@ nav#top {
 nav#top > * {
 	flex-grow: 1;
 	text-align:center;
-	background-color: #d9f1c6;
 	padding:0.5em;
 	margin:0em 1em;
 	text-decoration: none;
