@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- grafoIndice requires="javaSocket" group="java" -->
+<!-- grafoIndice group="java" -->
 <!-- changelog 2017-11-11 inserito capitolo -->
 <!-- changelog 2017-11-15 primo blocco di contenuti -->
 <!-- changelog 2018-11-04 specificata funzione di Thread.start() -->
 <!-- changelog 2018-11-06 riorganizzato tutto il capitolo -->
 <!-- changelog 2018-11-11 aggiunto blocco importante -->
 <!-- changelog 2018-11-12 diviso capitolo in più parti -->
+<!-- changelog 2023-04-12 piccoli aggiustamenti -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -22,9 +23,9 @@
 <article>
 
     <h2>Il problema</h2>
-    <p>Dovremmo piuttosto parlare al plurale, poter svolgere più operazioni contemporaneamente
-    (a questo serve il multithreading) risulta utile in più spesso di quanto si possa pensare. 
-    Ad esempio:</p>
+    <p>Non si tratta di un problema singolo ma piuttosto di una categoria di problemi:
+    quelli in cui non è possibile eseguire una sola operazione alla volta. 
+    Le situazioni in cui si può presentare questa esigenza sopno molte, ad esempio:</p>
     <ul>
         <li>voglio portare a termine un lavoro più velocemente</li>
         <li>devo fare una elaborazione impegnativa ma non voglio bloccare l'interfaccia grafica</li>
@@ -34,35 +35,37 @@
     <p>Questi casi sono molto diversi tra loro e fanno sorgere problemi diversi: ad esempio se
     voglio elaborare un calcolo più velocemente potrei voler divedere il problema da risolvere in
     più parti (cosa non affatto ovvia da fare in tutti i casi) oppure due thread diversi 
-    potrebbero andare a modificare contemporaneamente la stessa struttura dati portandola in uno
-    stato inconsistente (diciamo insensato per capirci).</p>
-    
+    potrebbero andare a modificare contemporaneamente la stessa struttura dati (ad esempio
+    un vettore) portandola in uno stato inconsistente (diciamo insensato per capirci).</p>
+
     <p>Fortunatamente Java prevede l'uso dei thread fin dalla sua versione iniziale e per questo 
     ci mette a disposizione diversi oggetti che ci semplificano molto la vita. I due principali che
     possiamo usare per creare un nuovo thread sono appunto 
     <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.html"><code>java.lang.Thread</code></a>
     e <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html">java.lang.Runnable</a>,
     il secondo è più flessibile ma... il primo è più facile da usare!</p>
-    
+
     <p>Utilizzare la classe <code>Thread</code> non è complicato: basta estendere la classe e 
     implementarne il metodo <code>run()</code>, questo metodo è quello che verrà chiamato
     quando si avvia il thread e che una volta terminato fa passare il thread stesso
     nello stato di "died" (sarebbe a dire "terminato").</p>
-    
+
  <pre>
 public class Esecutore extends Thread {
- 
+
   @Override
   public void run(){
-    // codice da eseguire nel thread                
+    // codice da eseguire nel thread
   }
 }</pre>
-     
+
     <p>Per quanto riguarda il problema dell'accesso concorrente alle strutture dati mensionato sopra
     la libreria di Java esplicita chiaramente se un oggetto è utilizzabile senza problemi e senza
-    fare ulteriori controlli da due thread diversi: ad esempio l'oggetto
+    fare ulteriori controlli da due thread diversi: prendiamo per esempio il caso delle liste
+    ad espansione dinamica.
     <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Vector.html">java.util.Vector</a>
-    è definito "thread-safe" (e quindi utilizzabile tranquillamente)
+    è definito "thread-safe" (e quindi utilizzabile tranquillamente e in contemporanea da due thread diversi,
+    magari con qualche problema sulle prestazioni)
     mentre <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ArrayList.html">java.util.ArrayList</a>
     fa lo stesso lavoro ma non è thread-safe (ragionevolmente dovendo fare meno controlli è più veloce).</p>
 
