@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="xml" group="servizi" -->
 <!-- changelog 2023-04-11 inserito capitolo -->
+<!-- changelog 2023-04-13 aggiunto esempio per più librerie -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -130,20 +131,20 @@ guardando un file di esempio:</p>
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
   &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
-  <em>&lt;-- informazioni sul progetto --&gt;</em>
+  <em>&lt;!-- informazioni sul progetto --&gt;</em>
   &lt;groupId&gt;com.mycompany.app&lt;/groupId&gt;
   &lt;artifactId&gt;my-app&lt;/artifactId&gt;
   &lt;version&gt;1.2.1&lt;/version&gt;
   &lt;name&gt;my-app&lt;/name&gt;
   &lt;url&gt;http://www.example.com&lt;/url&gt;
 
-  <em>&lt;-- proprietà --&gt;</em>
+  <em>&lt;!-- proprietà --&gt;</em>
   &lt;properties&gt;
     &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
     &lt;maven.compiler.release&gt;17&lt;/maven.compiler.release&gt;
   &lt;/properties&gt;
 
-  <em>&lt;-- dipendenze --&gt;</em>
+  <em>&lt;!-- dipendenze --&gt;</em>
   &lt;dependencies&gt;
     &lt;dependency&gt;
       &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
@@ -258,7 +259,30 @@ String espressione = "3+2*8/(2+2)";
 DoubleEvaluator valutatore = new DoubleEvaluator();
 double risultato = valutatore.evaluate(espressione);
 System.out.println(risultato);</pre>
-<p>Funziona! posso andare avanti scrivendo il resto del programma.</p>
+<p>Funziona! Potrei andare avanti scrivendo il mio programma che tratta sequenze
+di numeri non solo espressioni... devo spesso calcolare massimi/minimi e fare
+diverse operazioni di questo genere con i numeri: anziché riscrivere
+tutto da capo utilizzo un'altra libreria chiamata "Commons Lang" semplicemente
+aggiungedo una ulteriore dipendenza nella sezione <code>&lt;dependencies&gt;</code>
+del mio pom.xml che a questoi punto diventerà</p>
+<pre>
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.fathzer&lt;/groupId&gt;
+    &lt;artifactId&gt;javaluator&lt;/artifactId&gt;
+    &lt;version&gt;3.0.3&lt;/version&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.netbeans.external&lt;/groupId&gt;
+    &lt;artifactId&gt;org-apache-commons-lang3&lt;/artifactId&gt;
+    &lt;version&gt;RELEASE130&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</pre>
+
+<p>Questa ultima ha un numero di versione un tantino strano ma pazienza.
+Posso inserire tutte le dipendenze che voglio, meno facile è trovare quale libreria
+fa al caso nostro: bisogna informarsi!</p>
 
 <h2>In caso di proxy</h2>
 <p>Maven fa accesso alla rete per scaricare il software,
