@@ -2,23 +2,68 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="maven API json http richiestaHttp rispostaHttp" group="servizi" -->
 <!-- changelog 2023-04-11 inserito capitolo -->
+<!-- changelog 2023-04-15 trattati parallelo MySQL e H2 -->
+<!-- changelog 2023-04-15 messa definizione di microservizio -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
         <title>springBoot</title>
         <link type="text/css" rel="stylesheet" href="style.css"/>
         <script type="text/javascript" src="script/test.js"></script>
+        <style>
+            .h2::before, .mysql::before {
+                background-size: contain;
+                background-repeat: no-repeat;
+                display: inline-block;
+                content:"";
+                height: 1em;
+                width: 2em;
+                margin: 0em 0.25em;
+            }
+            .h2 { background-color: #b9cafa}
+            .h2::before { background-image: url('immagini/H2_logo.png') }
+            .mysql {background-color: #ffc869}
+            .mysql::before { background-image: url('immagini/mysql_logo.png') }
+            section { padding:1em ; margin:1em 0}
+            section.h2::before, section.mysql::before { height: 3em; width: 6em;}
+        </style>
    </head>
 <body>
 <header>
     <h1>springBoot</h1>
-    <p>scrivere velocemente dei servizi REST</p>
+    <p>scrivere velocemente dei micro servizi REST</p>
 </header>
 <article>
+<h2>Architettura del sistema</h2>
+<p>Dovendo costruire un sistema articolato nel suo progetto possiamo prendere
+in considerazione due opposte soluzioni:
+una architettura monolitica o una basata su microservizi.</p>
+
+<p>Una <em>architettura monolitica</em> prevede che il sistema sia sviluppato come un unico
+programma: un sistema di questo tipo ha alcuni vantaggi come la facilità iniziale di sviluppo,
+la possibilità di ottimizzazione e la semplicità di fare test globali.
+Ci sono però anche degli svantaggi: quando crescono sono più difficili da mantenere,
+è difficile cambiare le tecnologie utilizzate e hanno bassa 
+<a href="https://it.wikipedia.org/wiki/Scalabilit%C3%A0">scalabilità</a>.</p>
+
+<p>In una <em>architettura a microservizi</em> non ho a che fare con una entità unica ma con più
+programmi che offrono singoli servizi, un po' seguendo l'idea "fai una sola cosa e falla bene".
+Fondamentalmente usando questa architettura gruppi più piccoli si sviluppatori
+possono lavorare su un singolo servizio che può essere rilasciato molto velocemente, i singoli
+gruppi sono liberi di scegliere la tecnologia da usare e di cambiarla e oltre questo
+gli errori che riaguardano un singolo servizio sono più facili da trovare.
+Ovviamente c'è un rovescio della medaglia, ad esempio: il sistema non ha caratteristiche comuni,
+ogni volta che si aggiunge un microservizio il gruppo di sviluppo si deve organizzare per suo conto.</p>
+
+<p style="text-align: center"><img style="width:6sssssssss0vw"
+src="immagini/monolitico_microservizi.png"
+alt="diagramma sistema monolitico e microservizi"/></p>
+
+<h2>Cosa è Spring Boot</h2>
 <p><a href="">Spring Boot</a>
 è una estensione del 
 <a href="https://spring.io/">framework Spring</a> il cui scopo 
-è di mettere facilmente in esecuzione applicazioni web scritte in Java.
+è di mettere facilmente in esecuzione micro servizi web scritti in Java.
 Si tratta di un <a href="https://it.wikipedia.org/wiki/Framework">framework</a>
 cioè di un insieme di componenti preconfezionati che facilita lo sviluppo
 di software, spesso utilizzando specifiche strategie di sviluppo.</p>
@@ -43,11 +88,51 @@ di software, spesso utilizzando specifiche strategie di sviluppo.</p>
 </ul>
 
 <p>Trattandosi di un framework faremo la sua conoscenza direttamente utilizzandolo!
-Quello che anddremo a realizzare è un sistema per la gestione di una lista di cose da fare.
 Per evitare di confonderli con quelli di HTTP i "metodi" degli oggetti Java verranno
 chiamati "funzioni".</p>
 
-<h2>Creazione del progetto</h2>
+<h2>Prima applicazione Spring</h2>
+
+<p>Quella che ci apprestiamo a realizzare è la parte server (o backend) di una
+semplice applicazione per gestire una lista di cose da fare ( "todo" ).
+Il sistema gestisce più liste ma di un solo utente: deve permettere sia di visualizzare le liste
+che di fare ricerche che di inserire nuove cose da fare nelle liste che di cancellare delle voci.</p>
+<p>Per rappresentare le informazioni forzando un po' la mano
+(magari uno schema ER ben fatto prevederebbe più relazioni)
+utilizziamo un singolo oggetto (e quindi avremo una singola tabella)
+che rappresenta una cosa da fare con le seguenti proprietà:</p>
+<ul>
+    <li>lista: un modo per identificare diverse categorie di cose da fare, es: "casa" o "lavoro"</li>
+    <li>cosa: è la cosa che deve essere fatta, es: "completare la presentazione"</li>
+    <li>fatto: un booleano per dire se la cosa è stata fatta o meno</li>
+</ul>
+<p>Le richieste verso il server verranno fatte tutte via HTTP utilizzando i vari metodi possibili
+in riferimento alle nostre cose da fare: ad esempio potremmo mandare una richiesta per cancellare
+una specifica cossa da fare indicandone il suo id e utilizzando il metodo <code>DELETE</code>
+di HTTP. Le singole "cose da fare" saranno mappate da delle URL, un esempio chiarirà il tutto:
+<code>http://localhost:8080/<em>todo/4</em></code> è la "cosa da fare" che ha come id 4.
+Se la richiesta HTTP verso la URL in esempio
+verrà inviata utilizzando il metodo <code>GET</code> si avrà
+come risposta la rappresentazione JSON della cosa da fare, se la richiesta sarà
+inviata con <code>DELETE</code> la risorsa verrà cancellata, con <code>PUT</code>
+potremmo inviare nel body della richiesta eventuali variazioni da applicare alle
+"cosa da fare" numero 4.</p>
+<p>Tutti gli oggetti verranno scambiati dal client al server e viceversa
+rappresentandoli in JSON... perché è il metodo più utilizzato e 
+perché Spring Boot lo fa in automatico.</p>
+
+<p>Una scelta però la lasciamo aperta: il database.
+Nel seguito di questo capitolo seguiremo per quanto riguarda il db due strade parallele, ovviamente
+una volta scelto ne va seguita una sola! I due percorsi si possono riconoscere dai relativi colori.</p>
+<p class="h2">Questo percorso riguarda l'uso del database 
+<a href="https://www.h2database.com/html/main.html">H2</a> che verrà incluso
+nell'applicazione e quindi non va installato a parte, percorso buono per fare delle prove.
+H2 gestirà il database in memoria, database che quindi verrà
+resettato ad ogni avvio del server.</p>
+<p class="mysql">Questo percorso riguarda l'uso del server <a href="https://www.mysql.com/">MySQL</a>
+(o volendo <a href="https://mariadb.org/download/">MariaDB</a>) che però deve essere già
+stato installato e configurato, è la strata che normalmente si segue in un progetto funzionante
+ma biosogna avere in esecuzione un server MySQL e saperlo configurare.</p>
 
 <h3>Il progetto</h3>
 <p>Creare un progetto Spring boot è davvero molto facile: si crea on-line
@@ -85,9 +170,9 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
             web di tipo REST e usare Tomcat</li>
             <li>Spring Data JPA: un modo semplice per comunicare con i database, 
             serve poi un driver per un database specifico</li>
-            <li>H2 Database: in questo caso come DB usiamo H2 che ci permette di
-            creare un database al volo (e senza scriverlo su disco e senza doverlo installare), 
-            normalmente si utilizzerà qualcosa come "MySQL Driver"</li>
+            <li class="h2">H2 Database: in questo caso come DB usiamo H2</li>
+            <li class="mysql">MySQL JDBC driver: una liberia che consente
+            di dialogare con un server MySQL.</li>
         </ul>
     </dd>
     <dt>GENERATE [8]</dt>
@@ -108,24 +193,21 @@ le applicazioni: in Eclipse conviene usare
 
 
 <h2>Configurazione del progetto</h2>
-<h3>Spring</h3>
 <p>Ne serve pochissima, fa quasi tutto Spring da solo, anche regolandosi in base
-alle dipendenze (ad esempio visto che usiamo H2 cercherà di creare le tabelle lui in automatico)
-ma qualcosa va configurato, non fosse altro l'accesso al db... e altre cose che ci fanno comodo.
-La configurazione va scritta nel file <code>application.properties</code>
+alle dipendenze, in pratica nel nostro caso la sola configurazione da fare
+riguarda l'accesso ai dati.</p>
+<p>La configurazione va scritta nel file <code>application.properties</code>
 che si trova nella cartella <code>src/main/resources</code> (è un file per il funzionamento 
-del programma e non per il test quindi sta in "main", non essendo un file java sta in resources).</p> 
-<p>Delle configurazioni qui sotto molte sono opzionali perché le suppone Spring di
-suo visto che usiamo H2, le vediamo in ogni caso perché possono servire cambiando DB,
-il formato del file è il solito "nome=valore", prima di ogni riga c'è una breve spiegazione.</p> 
+del programma e non per il test quindi sta in "main", non essendo un file java sta in resources).</p>
+<p>Il formato del file è il solito <em>nome_proprietà=valore</em>,
+i commenti sono inseriti utilizzando il simbolo <em>#</em>.</p>
 
-<pre>
-<em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
-# per MySQL un esempio è "jdbc:mysql://localhost:3306/nome_database"</em>
+
+<section class="h2">
+<p>Il file di configurazione qui sotto è per H2, ridotto al minimo:</p>
+
+<pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db</em>
 spring.datasource.url=jdbc:h2:mem:todolist
-<em># soliti username e password per la connessione al db</em>
-spring.datasource.username=nome
-spring.datasource.password=chiave
 
 <em># serve soltanto per H2 o per gli altri database "in memory"
 # per cui se non si mette questa le tabelle vengono create al volo
@@ -135,23 +217,16 @@ spring.datasource.password=chiave
 spring.jpa.hibernate.ddl-auto=none
 
 <em># questa è soltanto per comodità visto che usiamo H2, questo db permette di
-# avere una console accessibile via web aggiungendo "/h2-console" all'indirizzo del server
+# avere una console accessibile via web aggiungendo "/h2-console" 
+# (una cosa tipo phpmyadmin) all'indirizzo del server
 # ad esempio: "http://localhost:8080/h2-console"</em>
 spring.h2.console.enabled=true
 </pre>
 
 <h3>database</h3>
-<p>Questa parte serve soltanto qui per esercizio, normalmente il database esiste
-e quindi non va creato!
-Per semplicità noi utilizziamo un database con una singola tabella il cui significato dei 
-campi dovrebbe essere chiarito dalle insert qui sotto.</p>
-<p>I due file che seguono vanno inseriti nella cartella <code>src/main/resources</code>
-e verranno eseguiti all'avvio dell'applicazine automaticamente.
-Siccome H2 è un database in memoria ogni volta che il server
-verrà ricaricato si ricomincerà da capo, comodo per fare delle prove!
-Quando si andrà in produzione (quindi quando il sistema sarà funzionante e
-accessibile al pubblico) useremo un db diverso come MySQL o PostgreSQL
-e non avremo certo questi file.</p>
+<p>Dobbiamo istruire il sistema per creare il database all'avvio,
+fortunatamente basta inserire un paio di file di configurazione
+nella cartella <code>src/main/resources</code>, i file sono quelli qui sotto.</p>
 
 <h4>schema.sql</h4> 
 <p>La creazione delle tabelle</p>
@@ -173,6 +248,48 @@ INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', fa
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
 </pre>
+
+</section>
+
+<section class="mysql">
+<p>Il database è un server esterno (che se qualcuno non ha configurato per noi dobbiamo
+installare e configurare), quel che abbiamo nei nel progetto Spring è semplicemente
+un modo per collegarci con lui. In particolare dobbiamo aver creato
+(usando phpMyAdmin o altro strumento):</p>
+<ul>
+    <li>un database chiamato <code>todo</code></li>
+    <li>un utente chiamato <code>utente</code> con password <code>chiave</code> con accesso al db</li>
+    <li>il database deve avere la tabella <code>todo</code> con dei dati preinseriti,
+    per comodità sono riportate sotto le istruzioni per crearlo e inserire i dati.</li>
+</ul>
+<pre>CREATE TABLE todo(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    lista VARCHAR(20),
+    cosa VARCHAR(200),
+    fatto BOOLEAN
+);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'pulire', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'comperare fagioli', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pagare palestra', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pulire scarpe', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
+</pre>
+
+<p>Le impostazioni da inserire in <code>application.properties</code> sono queste:</p>
+
+<pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
+in questo caso supponiamo che il server MySQL sia in esecuzione sullo stesso host
+dell'applicazione Spring</em>
+jdbc:mysql://localhost:3306/todo
+<em># soliti username e password per la connessione al db</em>
+spring.datasource.username=utente
+spring.datasource.password=chiave
+</pre>
+
+</section>
+
 
 
 <h2>Programma</h2>
@@ -251,7 +368,10 @@ parametri due cose: il tipo dell'oggetto che stiamo considerando e il tipo della
 che ci serve per poter fare un tipo particolare di ricerca: una ricerca per approssimazione.
 L'annotazione <code>@Query</code> serve per specificare la query da eseguire e il suo
 parametro <code>nativeQuery</code> impostato a true nel nostro caso è essenziale perché
-stiamo scrivendo la query in SQL, se non lo avessimo messo avremmo dovuto
+stiamo scrivendo la query in SQL (e per uno specifico motore di database,
+se usiamo una nsintassi valida solo per uno specifico database in caso che volessimo
+cambiarlo dovremmo riscrivere la query),
+se non lo avessimo messo avremmo dovuto
 usare la sintassi JPA nella query che è leggermente diversa da quella di SQL.
 Due cose da notare sul come è scritta la query:</p>
 <ol>
@@ -490,6 +610,11 @@ public class TodolistApplication {
 dover fare tutte le configurazioni del caso, cercare i componenti dell'applicazione
 (ad esempio la nostra classe ToDoListManager)...</p>
 <p><em>A questo punto non resta che avviare l'applicazione.</em></p>
+
+<p>Un'ultima cosa: se durante lo sviluppo qualcosa va storto ma non si riesce a capire
+il perché potrebbe far comodo aprire un terminale nella cartella del progetto
+e usare i comandi <code>mvn clean</code>, <code>mvn compile</code> e 
+<code>mvn spring-boot:run</code> (poi per fermare il server CTRL+C).</p>
 </article>
 </body>
 </html>
