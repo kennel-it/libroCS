@@ -3,6 +3,7 @@
 <!-- grafoIndice requires="json" group="javascript" -->
 <!-- changelog 2018-02-21 inserita prima parte dei contenuti -->
 <!-- changelog 2020-03-01 inseriti link, alcune precisazioni e rimosso "work in progress" -->
+<!-- changelog 2023-04-17 sistemazione generale e aggiunto stringify -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -17,8 +18,8 @@
 </header>
 <article>
 	<p>Come linguaggio lato client prendiamo in considerazione soltanto JavaScript 
-	(ma per esestono delle librerie per gli altri linguaggi) e la gestione dei
-	messaggi JSON è davvero semplice.</p>
+	in cui la gestione dei messaggi JSON è davvero semplice ma praticamente
+	per tutti i linguaggi esistono librerie per fare le cose che vediamo qui sotto.</p>
 	
 	<p>Il nome stesso del formato (JavaScript Object Notation) 
 	ci da indicazioni sulla sua semplicità di uso con JavaScript che
@@ -26,20 +27,21 @@
 	<a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a>
 	per trasformare un testo JSON in un oggetto e viceversa.</p>
 	
+	<h2>JSON → oggetto JS</h2>
+	
 	<p>Per convertire una stringa in un oggetto basta usare il metodo
-	<code>parse()</code> dell'oggetto <code>JSON</code>.</p>
-	<p><code>JSON.parse(testo)</code> restituisce un oggetto costruito come specificato
+	<code>parse()</code> dell'oggetto <code>JSON</code>,
+	<code>JSON.parse(testo)</code> restituisce un oggetto costruito come specificato
 	nella stringa <code>testo</code>.</p>
 
-	<h2>Esempio</h2>
 	<p>Normalmente il messaggio JSON viene da un server o da un sistema di archiviazione
 	ma nella sostanza il modo di lavorarci è quello qui sotto:</p>
 
 <div class="prog">
 // invento un messaggio
-var messaggioDalServer = '{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
+let messaggioDalServer = '{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
 // trasformo il testo in un oggetto
-var oggetto = JSON.parse(messaggioDalServer);
+let oggetto = JSON.parse(messaggioDalServer);
 console.log(oggetto.telefoni[1]);
 </div>
 	<div class="test">
@@ -48,12 +50,7 @@ console.log(oggetto.telefoni[1]);
 	    <a onclick="sbagliata(this)">555-1111<span class="spiegazione">questo sarebbe l'indice zero</span></a> 
 	    <a onclick="giusta(this)">555-2222</a> 
 	</div>
-
-<div class="prog">
-var messaggioDalServer='{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
-var oggetto = JSON.parse(messaggioDalServer);
-console.log(oggetto.Pluto);
-</div>	
+	
 	<div class="test">
 	   	<p>Cosa stampa il precedente frammento di programma nella console?</p>
 	    <a onclick="sbagliata(this)">nome<span class="spiegazione">no, la proprietà "Pluto" non esiste</span></a>
@@ -61,6 +58,32 @@ console.log(oggetto.Pluto);
 	    <a onclick="giusta(this)">undefined</a> 
 	</div>
 	
+	
+	<h2>Oggetto JS → JSON</h2>
+	<p>Anche in questo caso piuttosto facile: <code>JSON.stringify(oggetto)</code>
+	restituisce una stringa che è la rappresentazione delle proprietà di <code>oggetto</code>.
+	Vediamo subito come funziona con un frammento di programma</p>
+	
+<div class="prog">
+let oggetto = {nome: "Batman"};
+oggetto.citta = "Gotham";
+oggetto.attori = ["Christian Bale","Val Kilmer"];
+let testo = JSON.stringify(oggetto);</div>
+
+    <p>la variabile testo conterrà:</p>
+<pre>{
+  "nome": "Batman",
+  "citta": "Gotham",
+  "attori": [
+    "Christian Bale",
+    "Val Kilmer"
+  ]
+}</pre>
+
+    <p>In effetto il frammento di programma sopra si potrebbe anche scrivere:</p>
+    <div class="prog">let oggetto = {nome: "Batman", citta: "Gotham", attori : ["Christian Bale","Val Kilmer"]};
+let testo = JSON.stringify(oggetto);</div>
+
 </article>
 </body>
 </html>
