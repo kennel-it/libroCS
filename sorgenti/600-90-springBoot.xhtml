@@ -611,7 +611,30 @@ dover fare tutte le configurazioni del caso, cercare i componenti dell'applicazi
 (ad esempio la nostra classe ToDoListManager)...</p>
 <p><em>A questo punto non resta che avviare l'applicazione.</em></p>
 
-<p>Un'ultima cosa: se durante lo sviluppo qualcosa va storto ma non si riesce a capire
+<h2>CORS</h2>
+<p>Molte volte un sito chiede risorse ad altri siti, questa pratica viene chiamata 
+<em>Cross-Origin Resource Sharing</em> e per default non è permessa dai browser 
+per motivi di sicurezza.
+Quando un oggetto come ad esempio <code>XMLHttpRequest</code> fa una richiesta verso un sito diverso
+rispetto a quello da cui è stata caricato 
+(cioè la URL della richiesta ha un diverso protocollo, indirizzo o porta) il 
+browser controlla se il sito a cui è stata fatta la richiesta permette che altri siti interagiscano
+con lui in base ad un header HTTP eventualmente presente nella risposta: 
+<code>Access-Control-Allow-Origin</code>.
+Se la richiesta CORS è permessa allora il browser recapita la risposta allo script 
+altrimenti la richiesta da origine ad un errore.</p>
+<p>Spring Boot ci mette a disposizione una annotazione che può essere inserita
+prima della classe o dei singoli metodi per permettere al nostro sistema
+di servire richieste CORS: <code>@CrossOrigin</code>. Questa
+annotazione inserisce nella risposta l'header richiesto per permettere ad uno script
+presente in altri siti di chiedere dati al nostro sistema.
+L'annotazione permette di essere più selettivi riguardo a chi può farci richieste,
+alcuni articoli come
+<a href="https://www.baeldung.com/spring-cors">questo su Baeldung</a>
+forniscono ulteriori dettagli.</p>
+
+
+<p style="background-color:#ffff77;padding:1em">Un'ultima cosa: se durante lo sviluppo qualcosa va storto ma non si riesce a capire
 il perché potrebbe far comodo aprire un terminale nella cartella del progetto
 e usare i comandi <code>mvn clean</code>, <code>mvn compile</code> e 
 <code>mvn spring-boot:run</code> (poi per fermare il server CTRL+C).</p>
