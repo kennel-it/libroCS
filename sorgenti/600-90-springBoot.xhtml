@@ -4,6 +4,7 @@
 <!-- changelog 2023-04-11 inserito capitolo -->
 <!-- changelog 2023-04-15 trattati parallelo MySQL e H2 -->
 <!-- changelog 2023-04-15 messa definizione di microservizio -->
+<!-- changelog 2023-05-02 inserito "spring.datasource.url=" e pacchetto per CrossOrigin -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -280,9 +281,9 @@ INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', fal
 <p>Le impostazioni da inserire in <code>application.properties</code> sono queste:</p>
 
 <pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
-in questo caso supponiamo che il server MySQL sia in esecuzione sullo stesso host
-dell'applicazione Spring</em>
-jdbc:mysql://localhost:3306/todo
+# in questo caso supponiamo che il server MySQL sia in esecuzione sullo stesso host
+# dell'applicazione Spring</em>
+spring.datasource.url=jdbc:mysql://localhost:3306/todo
 <em># soliti username e password per la connessione al db</em>
 spring.datasource.username=utente
 spring.datasource.password=chiave
@@ -625,7 +626,8 @@ Se la richiesta CORS è permessa allora il browser recapita la risposta allo scr
 altrimenti la richiesta da origine ad un errore.</p>
 <p>Spring Boot ci mette a disposizione una annotazione che può essere inserita
 prima della classe o dei singoli metodi per permettere al nostro sistema
-di servire richieste CORS: <code>@CrossOrigin</code>. Questa
+di servire richieste CORS: <code>@CrossOrigin</code> 
+(il nome completo è org.springframework.web.bind.annotation.CrossOrigin). Questa
 annotazione inserisce nella risposta l'header richiesto per permettere ad uno script
 presente in altri siti di chiedere dati al nostro sistema.
 L'annotazione permette di essere più selettivi riguardo a chi può farci richieste,
