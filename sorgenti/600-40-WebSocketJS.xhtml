@@ -4,12 +4,13 @@
 <!-- changelog 2018-10-29 aggiunto capitolo -->
 <!-- changelog 2020-04-21 corretto titolo -->
 <!-- changelog 2022-11-04 riorganizzato l'intero capitolo -->
+<!-- changelog 2023-11-10 cambiati nomi variabili messaggio inviato/ricevuto -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
        <title>WebSocketJS</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -40,16 +41,16 @@
 &lt;title&gt;Comunicazione via Websocket&lt;/title&gt;
 &lt;script type="text/javascript"&gt;
   "use strict";
-  function gestoreRicezione(messaggio){
-    document.getElementById("ricezione").textContent += <span class="evidenza">messaggio.data</span> + "\n"; // [1]
+  function gestoreRicezione(messaggioRicevuto){
+    document.getElementById("ricezione").textContent += <span class="evidenza">messaggioRicevuto.data</span> + "\n"; // [1]
   }
 
   <span class="evidenza">let ws = new WebSocket("ws://esempio.org/wschat/chat"); // [2]</span>
   <span class="evidenza">ws.onmessage = gestoreRicezione;</span>
 
   function inviaAlServer(){
-    let messaggio = document.getElementById("msg").value;
-    <span class="evidenza">ws.send( messaggio );</span>  // [3]
+    let messaggioDaInviare = document.getElementById("msg").value;
+    <span class="evidenza">ws.send( messaggioDaInviare );</span>  // [3]
   }
   function chiudiLaConnessione(){
     <span class="evidenza">ws.close();</span>  // [4]
