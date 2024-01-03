@@ -133,6 +133,14 @@ RewriteRule "^servizio/([0-9]+)$" "servizio.php?p1=$1" [L]
 
 <p>nota: il parametro p1 se presente nell'URL originale (prima di fare rewrite) viene comunque passato allo script</p>
 
+<p>[2024-01-03] è possibile che Apache httpd e in particolare la negoziazione
+dei contenuti dai errore nel mapping. 
+Può essere di aiuto la configurazione sotto come riportato in 
+<a href=" https://serverfault.com/questions/372733/apache-file-negotiation-failed">
+post su serverfault</a>.</p>
+
+<pre>AddType application/x-httpd-php .php</pre> 
+
 </article>
 </body>
 </html>
