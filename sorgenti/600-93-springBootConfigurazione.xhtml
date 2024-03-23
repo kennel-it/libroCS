@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="springBoot" group="spring" -->
+<!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot -->
+<!-- changelog 2024-03-23 sezione con spiegazioni su output dell'avvio di applicazione Spring Boot-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>springBoot</title>
+        <link type="text/css" rel="stylesheet" href="style.css"/>
+        <script type="text/javascript" src="script/test.js"></script>
+        <style>
+            .h2::before, .mysql::before {
+                background-size: contain;
+                background-repeat: no-repeat;
+                display: inline-block;
+                content:"";
+                height: 1em;
+                width: 2em;
+                margin: 0em 0.25em;
+            }
+            .h2 { background-color: #b9cafa}
+            .h2::before { background-image: url('immagini/H2_logo.png') }
+            .mysql {background-color: #ffc869}
+            .mysql::before { background-image: url('immagini/mysql_logo.png') }
+            section { padding:1em ; margin:1em 0}
+            section.h2::before, section.mysql::before { height: 3em; width: 6em;}
+
+            #output { overflow: scroll}
+            #output span { font-size: 50% ; opacity: 50%}
+            #output em { font-style: normal; background-color: yellow; color: red; font-weight: bold }
+        </style>
+   </head>
+<body>
+<header>
+    <h1>springBootConfigurazione</h1>
+    <p>setup iniziale del sistema</p>
+</header>
+<article>
+
+<p>Trattandosi di un framework faremo la sua conoscenza direttamente utilizzandolo!
+Per evitare di confonderli con quelli di HTTP i "metodi" degli oggetti Java verranno
+chiamati "funzioni".</p>
+
+<h2>Prima applicazione Spring</h2>
+
+<p>Quella che ci apprestiamo a realizzare è la parte server (o backend) di una
+semplice applicazione per gestire una lista di cose da fare ( "todo" ).
+Il sistema gestisce più liste ma di un solo utente: deve permettere sia di visualizzare le liste
+che di fare ricerche che di inserire nuove cose da fare nelle liste che di cancellare delle voci.</p>
+<p>Per rappresentare le informazioni forzando un po' la mano
+(magari uno schema ER ben fatto prevederebbe più relazioni)
+utilizziamo un singolo oggetto (e quindi avremo una singola tabella)
+che rappresenta una cosa da fare con le seguenti proprietà:</p>
+<ul>
+    <li>lista: un modo per identificare diverse categorie di cose da fare, es: "casa" o "lavoro"</li>
+    <li>cosa: è la cosa che deve essere fatta, es: "completare la presentazione"</li>
+    <li>fatto: un booleano per dire se la cosa è stata fatta o meno</li>
+</ul>
+<p>In questo elenco manca qualcosa per essere una tabella utile: cosa?</p>
+<p>Le richieste verso il server verranno fatte tutte via HTTP utilizzando i vari metodi possibili
+in riferimento alle nostre cose da fare: ad esempio potremmo mandare una richiesta per cancellare
+una specifica cossa da fare indicandone il suo id e utilizzando il metodo <code>DELETE</code>
+di HTTP. Le singole "cose da fare" saranno mappate da delle URL, un esempio chiarirà il tutto:
+<code>http://localhost:8080/<em>todo/4</em></code> è la "cosa da fare" che ha come id 4.
+Se la richiesta HTTP verso la URL in esempio
+verrà inviata utilizzando il metodo <code>GET</code> si avrà
+come risposta la rappresentazione JSON della cosa da fare, se la richiesta sarà
+inviata con <code>DELETE</code> la risorsa verrà cancellata, con <code>PUT</code>
+potremmo inviare nel body della richiesta eventuali variazioni da applicare alle
+"cosa da fare" numero 4.</p>
+<p>Tutti gli oggetti verranno scambiati dal client al server e viceversa
+rappresentandoli in JSON... perché è il metodo più utilizzato e 
+perché Spring Boot lo fa in automatico.</p>
+
+<p>Una scelta però la lasciamo aperta: il database.
+Nel seguito di questo capitolo seguiremo per quanto riguarda il db due strade parallele, ovviamente
+una volta scelto ne va seguita una sola! I due percorsi si possono riconoscere dai relativi colori.</p>
+<p class="h2">Questo percorso riguarda l'uso del database 
+<a href="https://www.h2database.com/html/main.html">H2</a> che verrà incluso
+nell'applicazione e quindi non va installato a parte, percorso buono per fare delle prove.
+H2 gestirà il database in memoria, database che quindi verrà
+resettato ad ogni avvio del server.</p>
+<p class="mysql">Questo percorso riguarda l'uso del server <a href="https://www.mysql.com/">MySQL</a>
+(o volendo <a href="https://mariadb.org/download/">MariaDB</a>) che però deve essere già
+stato installato e configurato, è la strata che normalmente si segue in un progetto funzionante
+ma biosogna avere in esecuzione un server MySQL e saperlo configurare.</p>
+
+<h3>Il progetto</h3>
+<p>Creare un progetto Spring boot è davvero molto facile: si crea on-line
+con <a href="https://start.spring.io/">Spring initializr</a> e poi si scarica.
+Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizione di ogni parte.</p>
+
+<img src="immagini/spring_initializr.png" alt="Spring initializr configurato per il progetto di todo list"/>
+<dl>
+    <dt>Project [1]</dt>
+    <dd>il tipo di progetto che deve essere creato, nel nostro caso
+    un progetto gestito da Maven</dd>
+    <dt>Language [2]</dt>
+    <dd>questo è piuttosto evidente: il linguaggio che vorremo usare per scrivere il codice</dd>
+    <dt>Spring Boot [3]</dt>
+    <dd>la versione di Spring Boot da utilizzare, in genere è una buona scelta per i nuovi
+    progetti prendere l'ultima versione escludendo i vari SNAPSHOT e Milestone se
+    non si è assolutamente sicuri di quel che si sta facendo</dd>
+    <dt>Project Metadata [4]</dt>
+    <dd>sono i dati descrittivi del progetto, gli stessi usati da Maven per
+    identificarlo e descriverlo</dd>
+    <dt>Packaging [5]</dt>
+    <dd>il tipo di pacchetto che vogliamo venga prodotto: il "jar" contiene tutto quanto serve 
+    per essere avviato su una Java Virtiual Machine, il "war" va invece caricato su un application server
+    tipo Tomcat</dd>
+    <dt>Java [6]</dt>
+    <dd>la versione di Java che vogliamo usare, qui mettere l'ultima potrebbe non essere 
+    una buona idea: nella figura sono presentate soltanto alcune versioni: 8, 11 e 17 sono
+    versioni con supporto al lungo termine (meglio prendere l'ultima di queste se possibile)
+    mentre la 20 è l'ultima versione uscita</dd>
+    <dt>Dependencies [7]</dt>
+    <dd>facendo click su questo pulsante si possono aggiungere le dipendenze al progetto,
+    a noi ne servono alcune che sono descritte qui sotto ma ne esistono tantissime:
+        <ul>
+            <li>Spring Web: quello che tra le altre cose ci permette di creare servizi 
+            web di tipo REST e usare Tomcat</li>
+            <li>Spring Data JPA: un modo semplice per comunicare con i database, 
+            serve poi un driver per un database specifico</li>
+            <li class="h2">H2 Database: in questo caso come DB usiamo H2</li>
+            <li class="mysql">MySQL JDBC driver: una liberia che consente
+            di dialogare con un server MySQL.</li>
+        </ul>
+    </dd>
+    <dt>GENERATE [8]</dt>
+    <dd>click qui per scaricare un file zip che contiene tutto il progetto,
+    questo file andrà poi scompattato e importato in Eclipse</dd>
+
+</dl>
+
+
+<h3>IDE</h3>
+<p>Usiamo Eclipse (nella versione " Eclipse IDE for Enterprise Java and Web Developers")
+per cui è disponibile una estensione per Spring Boot: click sul menu "/help/Eclipse Marketplace..."
+e nella casella "find" scrivere <em>Spring Tools</em> e installare "Spring Tools 4",
+a questo punto verrà installata l'estensione.</p>
+<p>Nota: nella scrittura di applicazioni Spring Boot è spesso necessario fermare e poi riavviare
+le applicazioni: in Eclipse conviene usare
+<img src="immagini/eclipse_relaunch.png" alt="icona del pulsante relaunch in Eclipse" style="height:1em"/></p>
+
+
+<h2>Configurazione del progetto</h2>
+<p>Ne serve pochissima, fa quasi tutto Spring da solo, anche regolandosi in base
+alle dipendenze, in pratica nel nostro caso la sola configurazione da fare
+riguarda l'accesso ai dati.</p>
+<p>La configurazione va scritta nel file <code>application.properties</code>
+che si trova nella cartella <code>src/main/resources</code> (è un file per il funzionamento 
+del programma e non per il test quindi sta in "main", non essendo un file java sta in resources).</p>
+<p>Il formato del file è il solito <em>nome_proprietà=valore</em>,
+i commenti sono inseriti utilizzando il simbolo <em>#</em>.</p>
+
+
+<section class="h2">
+<p>Il file di configurazione qui sotto è per H2, ridotto al minimo:</p>
+
+<pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db</em>
+spring.datasource.url=jdbc:h2:mem:todolist
+
+<em># serve soltanto per H2 o per gli altri database "in memory"
+# per cui se non si mette questa le tabelle vengono create al volo
+# all'avvio dell'applicazione in base agli oggetti che definiremo, siccome io
+# voglio creare le tabelle e inserire dei dati non voglio che queste
+# vengano create da Spring quindi metto questa riga, normalmente non serve</em>
+spring.jpa.hibernate.ddl-auto=none
+
+<em># questa è soltanto per comodità visto che usiamo H2, questo db permette di
+# avere una console accessibile via web aggiungendo "/h2-console" 
+# (una cosa tipo phpmyadmin) all'indirizzo del server
+# ad esempio: "http://localhost:8080/h2-console"</em>
+spring.h2.console.enabled=true
+</pre>
+
+<h3>database</h3>
+<p>Dobbiamo istruire il sistema per creare il database all'avvio,
+fortunatamente basta inserire un paio di file di configurazione
+nella cartella <code>src/main/resources</code>, i file sono quelli qui sotto.</p>
+
+<h4>schema.sql</h4> 
+<p>La creazione delle tabelle</p>
+<pre>CREATE TABLE todo(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    lista VARCHAR(20),
+    cosa VARCHAR(200),
+    fatto BOOLEAN
+);</pre>
+
+<h4>data.sql</h4>
+<p>Per poter testare l'applicazioni farebbe comodo avere anche dei dati caricati nel db,
+facile: mettiamo le insert in questo file</p>
+<pre>INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'pulire', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'comperare fagioli', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pagare palestra', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pulire scarpe', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
+</pre>
+
+</section>
+
+<section class="mysql">
+<p>Il database è un server esterno (che se qualcuno non ha configurato per noi dobbiamo
+installare e configurare), quel che abbiamo nei nel progetto Spring è semplicemente
+un modo per collegarci con lui. In particolare dobbiamo aver creato
+(usando phpMyAdmin o altro strumento):</p>
+<ul>
+    <li>un database chiamato <code>todo</code></li>
+    <li>un utente chiamato <code>utente</code> con password <code>chiave</code> con accesso al db</li>
+    <li>il database deve avere la tabella <code>todo</code> con dei dati preinseriti,
+    per comodità sono riportate sotto le istruzioni per crearlo e inserire i dati.</li>
+</ul>
+<pre>CREATE TABLE todo(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    lista VARCHAR(20),
+    cosa VARCHAR(200),
+    fatto BOOLEAN
+);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'pulire', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'comperare fagioli', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pagare palestra', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pulire scarpe', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', false);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
+</pre>
+
+<p>Le impostazioni da inserire in <code>application.properties</code> sono queste:</p>
+
+<pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
+# in questo caso supponiamo che il server MySQL sia in esecuzione sullo stesso host
+# dell'applicazione Spring</em>
+spring.datasource.url=jdbc:mysql://localhost:3306/todo
+<em># soliti username e password per la connessione al db</em>
+spring.datasource.username=utente
+spring.datasource.password=chiave
+</pre>
+</section>
+
+<h2>Avviare il server</h2>
+<p>Utilizzando Eclipse, una volta importato il progetto, bisogna trovare la classe
+<code>DemoApplication</code>, fare click con il tasto destro sulla classe e poi 
+selezionare "Run as/Spring Boot App".</p>
+<p>Se si usa il terminale (potrebbe essere utile in caso di problemi con Eclipse)
+misogna entrare nella cartella del progetto e poi usare il comando
+<code>mvn spring-boot:run</code>.</p>
+<p>All'avvio Spring Boot stamperà diversi messaggi, quello sotto è un esempio
+leggermente formattato per evidenziare le cose che più ci interessano:</p>
+<pre id="output">
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.4)
+
+<span>2024-03-23T19:02:12.335+01:00  INFO 35563 --- [demo] [           main]</span> com.example.demo.DemoApplication         : <em>Starting DemoApplication using Java 21.0.2 with PID 35563</em> (/Volumes/ramdisk/demo/target/classes started by edoardo in /Volumes/ramdisk/demo)
+<span>2024-03-23T19:02:12.336+01:00  INFO 35563 --- [demo] [           main]</span> com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+<span>2024-03-23T19:02:12.529+01:00  INFO 35563 --- [demo] [           main]</span> .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+<span>2024-03-23T19:02:12.535+01:00  INFO 35563 --- [demo] [           main]</span> .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+<span>2024-03-23T19:02:12.700+01:00  INFO 35563 --- [demo] [           main]</span> o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+<span>2024-03-23T19:02:12.705+01:00  INFO 35563 --- [demo] [           main]</span> o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+<span>2024-03-23T19:02:12.705+01:00  INFO 35563 --- [demo] [           main]</span> o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+<span>2024-03-23T19:02:12.752+01:00  INFO 35563 --- [demo] [           main]</span> o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+<span>2024-03-23T19:02:12.752+01:00  INFO 35563 --- [demo] [           main]</span> w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 401 ms
+<span>2024-03-23T19:02:12.799+01:00  INFO 35563 --- [demo] [           main]</span> com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+<span>2024-03-23T19:02:12.868+01:00  INFO 35563 --- [demo] [           main]</span> com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:e55b89e5-7a37-43b1-8790-d3e42c7a13be user=SA
+<span>2024-03-23T19:02:12.869+01:00  INFO 35563 --- [demo] [           main]</span> com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+<span>2024-03-23T19:02:12.884+01:00  INFO 35563 --- [demo] [           main]</span> o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+<span>2024-03-23T19:02:12.899+01:00  INFO 35563 --- [demo] [           main]</span> org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+<span>2024-03-23T19:02:12.908+01:00  INFO 35563 --- [demo] [           main]</span> o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+<span>2024-03-23T19:02:12.975+01:00  INFO 35563 --- [demo] [           main]</span> o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+<span>2024-03-23T19:02:13.100+01:00  INFO 35563 --- [demo] [           main]</span> o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+<span>2024-03-23T19:02:13.101+01:00  INFO 35563 --- [demo] [           main]</span> j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+<span>2024-03-23T19:02:13.117+01:00  WARN 35563 --- [demo] [           main]</span> JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+<span>2024-03-23T19:02:13.269+01:00  INFO 35563 --- [demo] [           main]</span> o.s.b.w.embedded.tomcat.TomcatWebServer  : <em>Tomcat started on port 8080 (http)</em> with context path ''
+<span>2024-03-23T19:02:13.273+01:00  INFO 35563 --- [demo] [           main]</span> com.example.demo.DemoApplication         : Started DemoApplication in 1.06 seconds (process running for 1.201)
+</pre>
+
+<div class="suggerimento">ATTENZIONE: potrebbero esserci anche dei messaggi di errore, vanno letti e non ignorati!</div>
+
+<p>Ogni singola riga contiene una marca temporale (spesso detto timestamp) dell'operazione,
+una versione contratta del nome della classe Java interessata e un messaggio:
+limitiamoci a leggere le due righe con la parte evidenziata.</p>
+<dl>
+    <dt>Starting DemoApplication using Java 21.0.2 with PID 35563</dt>
+    <dd>il server è stato avviato usando la versione 21.0.2 di Java e il processo
+    del server ha come id il numero 35563</dd>
+    <dt>Tomcat started on port 8080 (http)</dt>
+    <dd>il server è Tomcat e sta in ascolto sulla porta 8080 (detto in altri termini
+    se vogliamo far delle prove la url da usare dalla nostra macchina è 
+    <code>http://localhost:8080</code>)</dd>
+</dl>
+
+<section class="h2">
+<p>Nel caso sia stato correttamente configurato H2 tra i messaggi si troverà una riga particolare simile a questa:</p>
+<pre id="output">
+<span>2024-03-23T19:20:11.243+01:00  INFO 35819 --- [demo] [           main]</span> o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:todolist'
+</pre>
+
+<p>In questo caso potremmo connetterci a <code>http://localhost:8080/h2-console</code> per poter ispezionare il database,
+nel form ci verrà richiesto un "JDBC URL" e dovremmo specificare <code>jdbc:h2:mem:todolist</code>,
+nome utente è di default "sa" e la password è vuota.</p>
+  
+</section>
+
+</article>
+</body>
+</html>

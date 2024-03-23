@@ -7,6 +7,7 @@
     --colore-sfondo-1: #f8bbd0; /* pink 200 */
     --colore-sfondo-2: #a1887f; /* brown 300 */
     --colore-sfondo-servizi: #66BB6A; /* Green 400 */
+    --colore-sfondo-spring: #a74dd4;
     /* i relativi light */
     --colore-sfondo-noGroup-chiaro: #ffffff; /* grey 100 */
     --colore-sfondo-http-chiaro: #c3fdff; /* blue 200 */
@@ -15,6 +16,7 @@
     --colore-sfondo-1-chiaro: #ffc1e3 ; /* pink 200 */
     --colore-sfondo-2-chiaro: #d3b8ae ; /* brown 300 */
     --colore-sfondo-servizi-chiaro: #C8E6C9; /* Green 100 */
+    --colore-sfondo-spring-chiaro: #ca9fdf;
     /* i relativi dark */
     --colore-sfondo-noGroup-scuro: #c2c2c2; /* grey 100 */
     --colore-sfondo-http-scuro: #5d99c6; /* blue 200 */
@@ -23,7 +25,7 @@
     --colore-sfondo-1-scuro: #bf5f82 ; /* pink 200 */
     --colore-sfondo-2-scuro: #725b53 ; /* brown 300 */
     --colore-sfondo-servizi-scuro: #388E3C ; /* green 700 */
-
+    --colore-sfondo-spring-scuro: #7a21a8;
 }
 
 ellipse.noGroup { 
@@ -45,4 +47,8 @@ ellipse.javascript {
 ellipse.servizi { 
     fill: var(--colore-sfondo-servizi);
     stroke: var(--colore-sfondo-servizi-scuro)
+}
+ellipse.spring { 
+    fill: var(--colore-sfondo-spring);
+    stroke: var(--colore-sfondo-spring-scuro)
 }
