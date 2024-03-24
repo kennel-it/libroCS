@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
-        <title>springBoot</title>
+        <title>springBootConfigurazione</title>
         <link type="text/css" rel="stylesheet" href="style.css"/>
         <script type="text/javascript" src="script/test.js"></script>
         <style>
@@ -42,7 +42,7 @@
 Per evitare di confonderli con quelli di HTTP i "metodi" degli oggetti Java verranno
 chiamati "funzioni".</p>
 
-<h2>Prima applicazione Spring</h2>
+<h2>Configurare la prima applicazione Spring</h2>
 
 <p>Quella che ci apprestiamo a realizzare è la parte server (o backend) di una
 semplice applicazione per gestire una lista di cose da fare ( "todo" ).
@@ -176,8 +176,9 @@ spring.h2.console.enabled=true
 </pre>
 
 <h3>database</h3>
-<p>Dobbiamo istruire il sistema per creare il database all'avvio,
-fortunatamente basta inserire un paio di file di configurazione
+<p>Siccome utilizziamo H2 con un database in memoria
+dobbiamo istruire il sistema per creare il database all'avvio.
+Fortunatamente basta inserire un paio di file di configurazione
 nella cartella <code>src/main/resources</code>, i file sono quelli qui sotto.</p>
 
 <h4>schema.sql</h4> 
@@ -246,8 +247,8 @@ spring.datasource.password=chiave
 <code>DemoApplication</code>, fare click con il tasto destro sulla classe e poi 
 selezionare "Run as/Spring Boot App".</p>
 <p>Se si usa il terminale (potrebbe essere utile in caso di problemi con Eclipse)
-misogna entrare nella cartella del progetto e poi usare il comando
-<code>mvn spring-boot:run</code>.</p>
+bisogna entrare nella cartella del progetto e poi usare il comando
+<code>mvn spring-boot:run</code> (per fermarlo bisogna premere CTRL+c).</p>
 <p>All'avvio Spring Boot stamperà diversi messaggi, quello sotto è un esempio
 leggermente formattato per evidenziare le cose che più ci interessano:</p>
 <pre id="output">
@@ -306,7 +307,7 @@ limitiamoci a leggere le due righe con la parte evidenziata.</p>
 <p>In questo caso potremmo connetterci a <code>http://localhost:8080/h2-console</code> per poter ispezionare il database,
 nel form ci verrà richiesto un "JDBC URL" e dovremmo specificare <code>jdbc:h2:mem:todolist</code>,
 nome utente è di default "sa" e la password è vuota.</p>
-  
+
 </section>
 
 </article>
