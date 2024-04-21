@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="richiestaHttp rispostaHttp" group="javascript" -->
+<!-- changelog 2024-04-22 inserita prima parte dei contenuti -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>XMLHttpRequest</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>
+       <style>
+       		div.prog {
+       			line-height: inherit;
+       		}
+       </style>
+   </head>
+<body>
+<header>
+	<h1>FetchAPI</h1>
+	<p>recuperare risorse remote con javascript</p>
+</header>
+<article>
+	<p><a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
+	è una modalità per accedere a risorse remote usando dei meccanismi
+    asincroni anche in maniera semplificata.
+    In questo capitolo faremo uso sia di fetch API che delle istruzioni
+    async await di Javascript. Non è necessario usare async await ma ci
+    semplifica non poco la scrittura dei programmi.</p>
+	
+	<p>Per fare una richiesta remota è possibile usare il metodo<code>fetch()</code>
+    che ha come parametro l'indirizzo della risorsa che vogliamo
+    e ritorna come risultato un oggetto di tipo
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>
+    che di per se indica una operazione che prima o poi verrà completata
+    (è pur sempre una richiesta in rete... ha bisogno di qualche millesimo di secondo!)
+    o fallirà.</p>
+
+    <p>A questo punto dovremmo istruire l'oggetto Promise sul da farsi quando la richiesta
+    sarà completata, il che non è poi impossibile ma ci viene in aiuto l'istruzione 
+    <code>await</code> per semplificarci la vita:</p>
+
+    <p><code>let risposta = await fetch("https://x.y.x/risorsa");</code></p> 
+
+    <p><code>await</code> fa in modo che l'esecuzione del nostro script venga sospesa
+    e riprenda soltanto quando la risorsa è arrivata. La gestione asincrona
+    in pratica la fa il browser. Da tener presente però che 
+    se usiamo await la funzione che contiene questa istruzione
+    va dichiarata come <code>async</code> per marcare che è una funzione asincrona.</p> 
+
+    <p>Nel caso del metodo fetch() il risultato nel caso in cui tutto va bene
+    è un oggetto 
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">Response</a>
+    che tra gli altri ha un metodo <code>json()</code> che fa il parsing di un testo
+    JSON e restituisce di nuovo un <code>Response</code> (una Promise) 
+    che se "finisce bene" mi restituise l'oggetto Javascript rappresentato. 
+    A questo punto però possiamo usare di nuovo <code>await</code>.</p>
+
+	<p>La pratica è molto più facile:</p>
+
+<div class="prog">
+
+<span class="evidenza ">async</span> function recuperaInformazioni() {
+    <span class="evidenza ">let risposta = await fetch("https://x.y.z/risorsa.json");</span>
+    <span class="evidenza ">let libro = await risposta.json();</span>
+    console.log(libro.titolo);
+}
+
+</div>
+
+	<h2>Invio dei dati al server</h2>
+	<p>TODO</p>
+
+
+</article>
+</body>
+</html>
