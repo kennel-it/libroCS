@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- grafoIndice requires="springBootConfigurazione" group="spring" -->
-<!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot-->
+<!-- grafoIndice requires="springBootConfigurazione" group="spring" coords="100,20" -->
+<!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot -->
+<!-- changelog 2024-04-25 inserite in fondo al capitolo indicazioni per nomi servizi -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -156,13 +157,13 @@ public class ToDoManager {
     @Autowired
     ToDoRepository repoToDo;
 
-    @GetMapping("/todolist")
+    @GetMapping("/esempio1")
     public List&lt;ToDo&gt; elenco() {
         List&lt;ToDo&gt; k = repoToDo.findAll();
         return k;
     }
 
-    @GetMapping("/cerca1")
+    @GetMapping("/todos")
     public List&lt;ToDo&gt; cerca(
         @RequestParam(required = false) String lista,
         @RequestParam(required = false) Boolean fatto
@@ -174,7 +175,7 @@ public class ToDoManager {
         return repoToDo.findAll( example );
     }
 
-    @GetMapping("/cerca2")
+    @GetMapping("/esempio2")
     public List&lt;ToDo&gt; cercaParte( @RequestParam String cosa){
         return repoToDo.cerca("%"+cosa+"%");
     }
@@ -221,7 +222,7 @@ istanza di ToDoRepository da poter utilizzare.</p>
 server andrà in esecuzione sulla macchina locale alla porta usuale (8080).</p>
 
 <h4>elenco()</h4>
-<pre>@GetMapping("/todolist")
+<pre>@GetMapping("/esempio1")
 public List&lt;ToDo&gt; elenco() {
     List&lt;ToDo&gt; k = repoToDo.findAll();
     return k;
@@ -235,7 +236,7 @@ findAll() del nostro <code>repoToDo</code> (NB: che non abbiamo mai scritto,
 fa tutto Spring).</p>
 
 <h4>cerca1()</h4>
-<pre>@GetMapping("/cerca1")
+<pre>@GetMapping("/todos")
 public List&lt;ToDo&gt; cerca(
     @RequestParam(required = false) String lista,
     @RequestParam(required = false) Boolean fatto
@@ -261,7 +262,7 @@ erano presenti nella richiesta), poi con <code>Example.of(t)</code> creo un "Ese
 da fornire alla funzione di ricerca.</p>
 
 <h4>cerca2()</h4>
-<pre>@GetMapping("/cerca2")
+<pre>@GetMapping("/esempio2")
 public List&lt;ToDo&gt; cercaParte( @RequestParam String cosa ){
     return repoToDo.cerca("%"+cosa+"%");
 }</pre>
@@ -375,6 +376,36 @@ L'annotazione permette di essere più selettivi riguardo a chi può farci richie
 alcuni articoli come
 <a href="https://www.baeldung.com/spring-cors">questo su Baeldung</a>
 forniscono ulteriori dettagli.</p>
+
+<h2>Nomi dei servizi</h2>
+<p>Dare nomi sensati è importante perché chi scrive i servizi non sarà 
+poi colui che li usa e l'interesse è che gli altri sviluppatori possano
+utilizzarli facilmente.</p>
+
+<p>Anche qui ci sono delle convenzioni:
+i nomi devono essere dei sostantivi, singolare se il servizio 
+ritorna un singolo oggetto, plurale se ne ritorna un elenco,
+non devono essere dei verbi perché l'azione da compiere è specificata
+dal metodo HTTP utilizzato.</p>
+
+<p>Poniamo il caso che io abbia un servizio che gestisce i dati anagrafici
+di un insieme di persone, alcuni esempi di azione / end point:</p>
+
+<dl>
+    <dt>[GET] /persona/317</dt>
+    <dd>restituisce un singolo oggeto Persona
+    con le informazioni riguardo all'utente il cui id è 317</dd>
+    <dt>[GET] /persone?anno=2009</dt>
+    <dd>restituisce un elenco di Persona che sono nate nel 2009</dd>
+    <dt>[DELETE] /persona/317</dt>
+    <dd>elimina l'oggetto Persona il cui id è 317</dd>
+    <dt>[POST] /persona</dt>
+    <dd>inserisce un nuovo oggetto Persona (che è descritto nel body
+    della richiesta) nel sistema</dd>
+    <dt>[PUT] /persona/44</dt>
+    <dd>rimpiazzare la Persona esistente con id 44 nel sistema
+    (i nuovi dati sono presenti nel body della richiesta)</dd>
+</dl>
 
 
 <p style="background-color:#ffff77;padding:1em">Un'ultima cosa: se durante lo sviluppo qualcosa va storto ma non si riesce a capire
