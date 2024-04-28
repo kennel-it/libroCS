@@ -109,7 +109,7 @@ div.prog, div.pseudo {
 	white-space: pre;
 	font-family: monospace;
 	font-size: 115%;
-	line-height: 100%;
+	line-height: 110%;
 	overflow: scroll;
 }
 
@@ -128,7 +128,7 @@ div.prog div {
 }
 
 div.prog .evidenza {
-	background-color: #ffd
+	background-color: #ff9;
 }
 
 div.pseudo {

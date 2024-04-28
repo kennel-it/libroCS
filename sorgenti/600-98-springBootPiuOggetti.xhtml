@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="springBootApplicazione" group="spring" coords="110,20" -->
+<!-- changelog 2024-04-28 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>springBootPiuOggetti</title>
+        <link type="text/css" rel="stylesheet" href="style.css"/>
+        <script type="text/javascript" src="script/test.js"></script>
+        <style>
+            .h2::before, .mysql::before {
+                background-size: contain;
+                background-repeat: no-repeat;
+                display: inline-block;
+                content:"";
+                height: 1em;
+                width: 2em;
+                margin: 0em 0.25em;
+            }
+            .h2 { background-color: #b9cafa}
+            .h2::before { background-image: url('immagini/H2_logo.png') }
+            .mysql {background-color: #ffc869}
+            .mysql::before { background-image: url('immagini/mysql_logo.png') }
+            section { padding:1em ; margin:1em 0}
+            section.h2::before, section.mysql::before { height: 3em; width: 6em;}
+        </style>
+   </head>
+<body>
+<header>
+    <h1>springBootPiuOggetti</h1>
+    <p>applicazione che gestisce più oggetti</p>
+</header>
+<article>
+
+<h2>Scenario</h2>
+<p>Le applicazioni che scriviamo con Spring boot sono tecnicamente dei microservizi,
+per quanto abbiamo visto finora gli oggetti che rappresentano la nostra realtà
+sono non correlati (in verità abbiamo gestito un solo oggetto ma gestirne di più
+allo stesso modo non fa differenza). Questa situazione però è troppo
+semplice per essere generalizzabile, in questo capitolo vediamo come si realizza
+un sistema che usa due oggeti che sono in una relazione <em>uno a molti</em>.</p>
+
+<p>La realtà che andiamo a modellare prevede che ci siano degli hotel ciascuno dei quali
+ha più stanze. Non scriveremeo il sistema per intero ma soltanto le parti
+"diverse" rispetto al caso di entità di un solo tipo.</p>
+
+
+<h2>Il modello dei dati</h2>
+<p>Come dicevamo un oggeto Hotel con alcune proprietà legato a più oggetti Stanza
+con altre proprietà.</p>
+<p>Il database va creato con queste due istruzioni (o con piccoli aggiustamenti
+dovuti al fatto che si usa h2 o MySQL o altro):</p>
+<div class="prog">
+create table hotel (
+    id integer not null auto_increment,
+    nome varchar(50),
+    telefono varchar(20),
+    provincia char(2),
+    primary key (id)
+);
+create table stanza (
+    id integer not null auto_increment,
+    nome varchar(255),
+    prezzo float(53) not null,
+    <span class="evidenza">hotel_id integer references hotel(id)</span>,
+    primary key (id)
+);
+</div>
+<p>Attenzione al campo chiamato <code>hotel_id</code>: il nome non è casuale ma
+formato dal nome della tabella a cui punta e dal relativo campo chiave legati
+da un underscore (solito discorso "Convention over configuration",
+FIXME: serve riferimento).
+Se si vogliono utilizzare nomi diversi è possibile usare l'annotazione
+<a href="https://www.baeldung.com/jpa-join-column"><code>@JoinColumn</code></a>
+nella classe che rappresenta il "molti" della relazione, Stanza nel nostro caso.</p>
+
+<div class="prog">package it.aspix.hotel;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
+public class Hotel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private String telefono;
+    private String provincia;
+
+    <span class="evidenza">@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    private List&lt;Stanza&gt; stanze = new ArrayList&lt;Stanza&gt;();</span>
+
+    /* si prosegue con usuali get/set */
+</div>
+<p>Risulta evidente che l'unica cosa di cui parlare è l'attributo <code>stanze</code>:
+questo attributo non risiede nel database e lo si capisce dalla annotazione
+<code>@OneToMany</code> che specifica tre cose: 
+intanto che un Hotel è legato a più Stanza, poi
+con <code>mappedBy = "hotel"</code>
+il fatto che nella classe Stanza è la proprietà hotel che la lega ad un hotel,
+<code>fetch = FetchType.LAZY</code> indica invece che una volta che è stato letto
+un Hotel dal database le relative stanze vanno lette soltanto all'occorrenza
+(sarebbe a dire se qualcuno usa la proprietà stanze).</p>
+
+<div class="prog">package it.aspix.hotel;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class Stanza {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private double prezzo;
+    <span class="evidenza">@ManyToOne</span>
+    private Hotel hotel;
+
+    /* si prosegue con usuali get/set */
+</div>
+
+<p>Nella classe Stanza c'è soltanto una annotazione di cui parlare:
+<code>@ManyToOne</code> che indica semplicemente che molte istanze della classe Stanza
+appartengono allo stesso Hotel, in pratica fa il paio con <code>@OneToMany</code>
+presente in Hotel.</p>
+
+<p>Per tutto il resto non cambia nulla, ogni classe dovrà avere il relativo 
+<code>JpaRepository</code> scritto come in precedenza e potrenno esserci una o più classi
+annotate con <code>@RestController</code>.</p>
+
+<h2>Serializzazione in JSON</h2>
+<p>Non ce ne occupiamo noi ma Spring boot giusto? Si e no... tutte le cose di default
+vengono fatte in automatico ma in questo caso sorge un problema: quando
+deve essere rappresentato con testo JSON un Hotel vengono automaticamente
+inserite tutte le Stanza relative (il che ci fa comodo) ma ogni Stanza ha a sua volta un Hotel,
+che ha delle Stanza e via di seguito: si viene a creare una specie di ciclo infinito.</p>
+<p>La libreria che usiamo che crea il testo JSON
+(formalmente di dice "serializza gli oggetti in JSON") si chiama <em>jackson</em>
+ed è possibile indicargli che deve passare da Hotel a Stanza ma non viceversa:
+quando stampa una stanza non vogliamo che metta di nuovo l'Hotel.
+Di nuovo si usano due annotazioni: <code>@JsonManagedReference</code> e 
+<code>@JsonBackReference</code>.
+La prima va inserita in Hotel (da Hotel devo passare a Stanza) mentre la seconda
+in Stanza (da Stanza non devo passare ad Hotel).</p>
+
+<p>Due righe in più in totale!</p>
+
+<div class="prog">package it.aspix.hotel;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@Entity
+public class Hotel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private String telefono;
+    private String provincia;
+
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    <span class="evidenza">@JsonManagedReference</span>
+    private List&lt;Stanza&gt; stanze = new ArrayList&lt;Stanza&gt;();
+
+    /* si prosegue con usuali get/set */
+</div>
+
+<div class="prog">package it.aspix.hotel;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+@Entity
+public class Stanza {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private double prezzo;
+    @ManyToOne
+    <span class="evidenza">@JsonBackReference</span>
+    private Hotel hotel;
+
+    /* si prosegue con usuali get/set */
+</div>
+
+<h2>Ancora sui nomi dei servizi</h2>
+<p>Nulla cambia rispetto a ciò che è scritto nel capitolo precedente,
+ad esempio per avere le informazioni sull'Hotel il cui id è 75 useremo
+la url <code>/hotel/75</code> ma come ci si regola se voglio la stanza 654
+dell'hotel 75? Così: <code>/hotel/75/stanza/654</code></p>
+</article>
+</body>
+</html>
