@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- grafoIndice requires="springBootApplicazione" group="spring" coords="110,20" -->
 <!-- changelog 2024-04-28 inserito capitolo -->
+<!-- changelog 2024-05-18 attributo value di @JsonManagedReference/@JsonBackReference -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -198,6 +199,33 @@ public class Stanza {
     private Hotel hotel;
 
     /* si prosegue con usuali get/set */
+</div>
+
+<p>Le annotazioni @JsonManagedReference/JsonBackReference hanno un attributo
+<code>value</code> che può essere omesso (come nell'esempio sopra) ma che diventa
+necessario ad esempio quando in una classe si trovano più <code>@JsonBackReference</code>,
+nel caso del nostro esempio l'attributo value va usato nel seguente modo:</p>
+
+<div class="prog">
+public class Hotel {
+
+    ...
+
+    @JsonManagedReference<span class="evidenza">(value="hotel-stanza")</span>
+    private List&lt;Stanza&gt; stanze = new ArrayList&lt;Stanza&gt;();
+
+    ...
+</div>
+
+<div class="prog">package it.aspix.hotel;
+public class Stanza {
+
+    ...
+
+    @JsonBackReference<span class="evidenza">(value="hotel-stanza")</span>
+    private Hotel hotel;
+
+    ...
 </div>
 
 <h2>Ancora sui nomi dei servizi</h2>
