@@ -20,11 +20,11 @@
 </header>
 <article>
     <p>Nell'elaborare una sequenza di dati più o meno lunga JavaScript ci offre
-    delle pèossibilità per poterlo fare in maniera più comoda e magari anche più intutitiva,
+    delle possibilità per poterlo fare in maniera più comoda e magari anche più intuitiva,
     quelle che vedremo sono tutte operazioni che si possono fare con le classiche strutture
     per il controllo del flusso (if e for ad esempio) ma che con i metodi dell'oggetto
-    <code>Array</code> si possono fare diversamente.</p>
-    <p>Quelli che vedfremo sono alcuni modi per utilizzare i metodi più comuni,
+    <code>Array</code> si possono fare diversamente.
+    Qui vedemo sono alcuni modi per utilizzare i metodi più comuni,
     per moltissime ulteriori informazioni è possibile viosualizzare la 
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">
     pagina di <code>Array</code> su MDN</a>.</p>
@@ -39,30 +39,33 @@ let oggetti = [
 ];
 let contenitore = document.getElementById("selectNomi");
     </div>
-    <p>un vettore di numeri, uno di oggetti.</p>
+    <p>un vettore di numeri, uno di oggetti e un oggetto del DOM (un select nella pagina!).</p>
 
     <h2>Elaborarare tutti gli elementi di un vettore</h2>
-    <h3>Stampare tuttio i numeri conetenutio in un vettore sulla console</h3>
+
+    <h3>Stampare tutti i numeri contenuti in un vettore sulla console</h3>
     <p>Iniziamo da una cosa che capita di fare spesso: voglio fare una qualche operazione
-    su tuttti gli elementi di un vettore uno per uno, ad esempio stamparli sulla console:</p>
+    su tutti gli elementi di un vettore uno per uno, ad esempio stamparli sulla console:</p>
 <div class="prog vecchio">
 for(let i=0 ; i&lt;numeri.length ; i++){
     console.log(numeri[i]);
 }
     </div>
-    <p>Molti linguaggi adesso offrono la possibilità di lavorare sugli stream cioè di immaginare
+    <p>La parte di codice precedente fa il suo lavoro, però molti linguaggi attuali offrono la possibilità di lavorare sugli stream cioè di immaginare
     non un vettore di cui si guarda una casella alla volta ma un flusso di elementi
     che arrivano uno dietro l'altro (alla fine l'indice dove stanno nel vettore importa poco),
     in pratica lo stesso lavoro possiamo farlo così:</p>
 <div class="prog nuovo">
 numeri.forEach( (x) =&gt; { console.log(x); });
 </div>
+    <p>Parafrasi: <em>Per ogni elemento <code>x</code> che sta nell'Array <code>numeri</code>
+    esegui <code>console.log(x)</code></em>.</p>
     <p>Forse è il caso di richiamare la sintassi di "=&gt;", quella che viene specificata 
     nelle parentesi tonde del forEach è una funzione che verrà chiamata per ogni elemento
     del vettore x passandogli il valore dell'elemento come parametro,
     cioè la parte nelle graffe viene eseguita una volta per il numero 1, una volta per il 12, 
     una volta per il 7 e così via.</p>
-    <p>è una versione contratta (e magari anche più leggibile) di:</p>
+    <p>È una versione contratta (e magari anche più leggibile) di:</p>
 <div class="prog nuovo">
 function elabora(x){
     console.log(x);
@@ -71,7 +74,7 @@ numeri.forEach( elabora );
 </div>
 
     <h3>Creare gli option per il select</h3>
-    <p>I dati li prendiamo dal vettore di oggetti <code>oggetti</code>.</p>
+    <p>I dati li prendiamo dal vettore di oggetti chiamato <code>oggetti</code>.</p>
 <div class="prog vecchio">
 for(let i=0 ; i&lt;oggetti.length ; i++){
     let elemento = document.createElement("option");
@@ -93,7 +96,8 @@ oggetti.forEach( e => {
 
     <h2>Filtri</h2>
     <p>Può capitare che dei dati che ci arrivano non ci serva di utilizzarli tutti
-    ma soltanto una parte, vediamo come si può procedere segendo i due diversi
+    ma soltanto una parte, parte che possiamo selezionare utilizzando opportuni citeri,
+    vediamo come si può procedere seguendo i due diversi
     approcci e lavorando al solito su numeri e oggetti</p>
 
     <h3>Stampare i soli numeri pari</h3>
@@ -105,8 +109,9 @@ for(let i=0 ; i&lt;numeri.length; i++){
 }
 </div>
 
-    <p>Oppure posso usare il metodo fileter che prende come parametro una funzione
-    che usa appunto da filtro: se il risultato è true prende l'elemento altrimenti lo scarta</p>
+    <p>Oppure posso usare il metodo filter che prende come parametro una funzione
+    che usa appunto da filtro: gli viene passato un elemento alla volta e 
+    se il risultato della funzione (un test solitamente) è true prende l'elemento altrimenti lo scarta</p>
 <div class="prog nuovo">
 numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
 </div>
@@ -114,8 +119,8 @@ numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
     <h2>Trasformare qualcosa in qualcos'altro</h2>
     <p>Questa strategia (parte del pattern conosciuto come map/reduce)
     è utile quando si vuol trasformare un qualcosa in qualcos'altro, 
-    forse più facile con un paio di esempi come al solito.</p>
-    
+    forse più facile da capire con un paio di esempi come al solito.</p>
+
     <h3>Il doppio di ciascun elemento di un vettore</h3>
 <div class="prog vecchio">
 let risultato = [];
@@ -123,10 +128,15 @@ for(let i=0;i &lt; numeri.length;i++){
     risultato.push(numeri[i]*2);
 }
 </div>
-
+    <p>Quella che segue è la versione che usa <code>map()</code>.</p>
 <div class="prog nuovo">let risultato = numeri.map( n => n*2 );</div>
 
     <h3>Creare degli option</h3>
+    <p>Con lo stesso schema possiamo creare gli elementi <code>option</code>
+    per un <code>select</code>, il vantaggio dal punto di vista della lunghezza
+    del codice è minore, ragiona così: da ogni elemento del vettore 
+    <code>oggetti</code> creo il corrispondente <code>Node</code> (un elemento della pagina HTML)
+    poi un elemento alla volta lo aggiungo al select.</p>
 <div class="prog nuovo">
 oggetti.map( elemento => {
     let n = document.createElement("option");
@@ -140,7 +150,7 @@ oggetti.map( elemento => {
 
     <h2>Creare dei riassunti</h2>
     <p>L'altra parte del pattern map/reduce prevede di creare un
-    unico oggetto alla fine, proviamo a vedere ad esempio come sommare un vettore:</p>
+    unico oggetto alla fine del lavoro, proviamo a vedere ad esempio come sommare un vettore:</p>
 <div class="prog vecchio">
 let somma = 0;
 for(let i=0 ; i&lt;numeri.length ; i++){
@@ -151,12 +161,22 @@ for(let i=0 ; i&lt;numeri.length ; i++){
 <div class="prog nuovo">
 let somma = numeri.reduce( (somma, v) => somma+v, 0);
 </div>
-
+    <p>Il metodo <code>reduce</code> prende due parametri:</p>
+    <dl>
+        <dt>(somma, v) => somma+v</dt>
+        <dd>una funzione a cui passa due valori: una variabile detta accumulatore
+        cioè quella che serve a fare la sintesi (la somma nel nostro caso) 
+        e l'elemento dello stream, il risultato di questa funzione 
+        finisce di nuovo nell'accumulatore</dd>
+        <dt>0</dt>
+        <dd>il valore da dare all'inizio all'accumulatore
+        (0 nel nostro caso perché facciamo una somma)</dd>
+    </dl>
 
     <h2>Tutto insieme</h2>
-    <p>Vediamo un esempio pratico completo: mi arriva un set di dati e io voglio
-    creare una select utilizzandone soltanto alcuni. Questa volta però creiamo
-    una stringa da inserire nel select con <code>innerHTML</code></p>
+    <p>Vediamo un esempio pratico completo: mi arriva un insieme di dati (un vettore!) e io voglio
+    creare una select utilizzandone soltanto alcuni (quelli che hanno un valore inferiore
+    a cinque). Questa volta però creiamo una stringa da inserire nel select con <code>innerHTML</code></p>
 
 <div class="prog vecchio">
 let stringa = "";
