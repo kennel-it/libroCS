@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html>
+<!-- grafoIndice requires="FetchAPI" group="javascript" coords="80,60" -->
+<!-- changelog 2025-02-26 inserito capitolo -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+   	<meta charset="UTF-8"/>
+       <title>mappeMeteo</title>
+       <link type="text/css" rel="stylesheet" href="style.css"/>
+       <script type="text/javascript" src="script/test.js"></script>
+   </head>
+<body>
+<header>
+    <h1>mappeMeteo</h1>
+    <p>usare lavoro fatto da altri!</p>
+</header>
+<article>
+    <p>Vedremo due possibili esempi per l'uso di codice/servizi scritti da altri:
+    alcuni modi per creare le mappe e un modo per avere le previsioni meteo.</p>
+    <h2>Mappe</h2>
+
+    <p>Come al solito le alternative disponibili sono molte, una è quella più nota:
+    Google Maps. È utilizzabile anche in altri siti ma è proprietaria e 
+    bisogna registrarsi presso Google per cui faremo soltanto un accenno alla fine.</p>
+    <p>Qualche indicazione in più la daremo per leaflet e openlayers,
+    la prima è molto semplice da usare mentre la seconda è molto più versatile.</p>
+
+    <h3>Leaflet</h3>
+
+    <p>Per avere una mappa visualizzata all'interno di un elemento HTML
+    ce la possiamo cavare con una manciata di righe di codice:></p>
+<div class="prog">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;mappe con leaflet&lt;/title&gt;
+  <em>&lt;link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /&gt;</em>
+  <em>&lt;script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"&gt;&lt;/script&gt;</em>
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="map" style="height: 900px;"&gt;&lt;/div&gt;
+  &lt;script&gt;
+    const zoom = 18;
+    const lat = 43.35160018000546;
+    const lng = 12.565156706685794;
+
+    // creo una mappa
+    <em>const map = L.map("map");</em>
+    <em>map.setView([lat, lng], zoom);</em>
+    // aggiungo un layer alla mappa
+    <em>let layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    });
+    layer.addTo(map);</em>
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </div> 
+
+    <p>I tag <code>link</code> e <code>script</code> servono per importare la libreria
+    vera e propria (script) e il suo fogli di stile (link).</p>
+    <p>L'uso della libreria stessa si risolve in poche righe, due delle quali iniziano
+    con "L" che è il nome dell'oggetto che ci permette di creare le mappe e i loro elementi.</p>
+    <p><code>L.map(elemento)</code> crea una nuova mappa inserendola nell'elemento il cui
+    id viene passato come parametro alla funzione,
+    la mappa appena creata ha un metodo setView che prende come parametro le coordinate
+    geografiche del centro della mappa e il livello di zoom (più è alto e più la mappa sarà dettagliata)</p>
+
+    <p>Praticamente sempre quelle due righe vengono scritte in una soltanto:</p>
+<div class="prog">const map = <em>L.map("map").setView([lat, lng], zoom);</em></div>
+
+    <p>Nelle due righe successive usiamo un meccanismo analogo per creare un layer
+    ad aggiungerlo ad una mappa già creata. Una mappa può essere formata da tanti layer
+    (ad esempio uno che contiene le foto satellitari e un altro con i nomi delle città)
+    che vengono tracciati uno sopra l'altro.</p>
+
+    <p>Anche queste due istruzioni vengono solitamente raggruppate in una sola,
+    eliminando anche la variabile "layer" che in questa caso non è utile nel resto del programma:</p>
+
+<div class="prog">
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+     attribution: '© OpenStreetMap contributors'
+})<em>.addTo(map)</em>;
+</div>
+
+    <p>Un ulteriore passo spesso utile è di aggiungere un segnalino (marker) alla mappa,
+    visto che ci siamo facciamo anche in modo che al click sul segnalino compaia un popup!</p>
+
+<div class="prog">
+const segnalino = L.marker([43.35160018000546, 12.565156706685794]);
+segnalino.addTo(map);
+segnalino.bindPopup("IIS Cassata Gattapone,&lt;br/&gt;sede Cassata"); 
+</div>
+
+    <p>Anche questo di solito viene scritto in una forma più compatta:</p>
+<div class="prog">
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+</div>
+
+    <h3>🚧OpenLayers🚧</h3>
+
+    <h2>🚧meteo🚧</h2>
+</article>
+</body>
+</html>
