@@ -41,27 +41,6 @@
         		document.getElementById("grafo").style.display='none';
         		document.getElementById("toc").style.display='block';
         	}
-            var httpRequest;
-        function elaboraRisultato(){
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                console.log("elaboro risultati");
-                var risposta = JSON.parse(httpRequest.responseText);
-                var lista = new Array();
-                for(var i=0; i<risposta.length; i++){
-                        lista.push(risposta[i].title);
-                }
-                evidenziaNodi(lista);
-                document.getElementById("risultatoRicerca").innerHTML = 
-                        "trovati "+risposta.length+" elementi";
-            }
-        }
-        function eseguiRicerca(){
-            console.log("cerco");
-            httpRequest = new XMLHttpRequest();
-            httpRequest.onreadystatechange = elaboraRisultato;
-            httpRequest.open('GET', 'cerca.php?q='+document.getElementById("q").value);
-            httpRequest.send();
-        }
         //]]>
         </script>
         <script type="application/javascript"><!-- animazione C/S -->
@@ -129,7 +108,7 @@
     <body onload="init()">        
         <div style="font-size:9em;text-align: center">
         		<h1 style="font-size:20px">programmazione</h1>
-        		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="220" viewBox="0 0 100 50" >
+        		<svg xmlns="http://www.w3.org/2000/svg" width="220" viewBox="0 0 100 50" >
 		        <path id="pathCs"
 			       style="fill:none;stroke:#32822a;stroke-width:4;stroke-linecap:round;stroke-opacity:1"
 			       d="m 35 , 5 c -35 , 0 -35 , 40 0 , 40"
@@ -159,20 +138,16 @@
         	</div> 
         	<div id="grafo" style="text-align: center">
                 <div id="strumenti">
-                    <div id="cerca">
-                        <input type="text" id="q"/>
-                        <label id="eseguiCerca" onclick="eseguiRicerca()" for="q">cerca</label>
-                        <p id="risultatoRicerca"></p>
-                    </div>
-                </div>      
-        		<!-- placeholder: indice grafo -->
+                <!--  placeholder search -->
+                </div>
+        		<!-- placeholder: index graph -->
         	</div> 
 	        <nav id="toc" style="display:none;">
-	            <!-- placeholder: indice html -->
+	            <!-- placeholder: index html -->
 	        </nav>    
         </div>
         <footer>
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="immagini/cc-by-nc-sa.png" /></a>Quest'opera è distribuita con Licenza <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribuzione - Non commerciale - Condividi allo stesso modo 4.0 Internazionale</a>.
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0; margin-right:1em" src="immagini/cc-by-nc-sa.png" /></a>Quest'opera è distribuita con Licenza <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribuzione - Non commerciale - Condividi allo stesso modo 4.0 Internazionale</a>.
         </footer>
     </body>
 </html>

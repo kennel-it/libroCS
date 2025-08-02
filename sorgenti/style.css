@@ -1,32 +1,12 @@
-* {
-    /* colori di base delle sezioni */
-    --colore-sfondo-noGroup: #f5f5f5; /* grey 100 */
-    --colore-sfondo-http: #90caf9; /* blue 200 */
-    --colore-sfondo-java: #FB8C00; /* Orange 600 */
-    --colore-sfondo-javascript: #ffee58; /* yellow 400 */
-    --colore-sfondo-1: #f8bbd0; /* pink 200 */
-    --colore-sfondo-2: #a1887f; /* brown 300 */
-    --colore-sfondo-servizi: #66BB6A; /* Green 400 */
-    --colore-sfondo-spring: #a74dd4;
-    /* i relativi light */
-    --colore-sfondo-noGroup-chiaro: #ffffff; /* grey 100 */
-    --colore-sfondo-http-chiaro: #c3fdff; /* blue 200 */
-    --colore-sfondo-java-chiaro: #FFA726 ; /* Orange 400 */
-    --colore-sfondo-javascript-chiaro: #ffff8b ; /* yellow 400 */
-    --colore-sfondo-1-chiaro: #ffc1e3 ; /* pink 200 */
-    --colore-sfondo-2-chiaro: #d3b8ae ; /* brown 300 */
-    --colore-sfondo-servizi-chiaro: #C8E6C9; /* Green 100 */
-    --colore-sfondo-spring-chiaro: #ca9fdf;
-    /* i relativi dark */
-    --colore-sfondo-noGroup-scuro: #c2c2c2; /* grey 100 */
-    --colore-sfondo-http-scuro: #5d99c6; /* blue 200 */
-    --colore-sfondo-java-scuro: #E65100 ; /* Orange 900 */
-    --colore-sfondo-javascript-scuro: #c9bc1f ; /* yellow 400 */
-    --colore-sfondo-1-scuro: #bf5f82 ; /* pink 200 */
-    --colore-sfondo-2-scuro: #725b53 ; /* brown 300 */
-    --colore-sfondo-servizi-scuro: #388E3C ; /* green 700 */
-    --colore-sfondo-spring-scuro: #7a21a8;
+/* color noGroup #f5f5f5 grey 100 */
+/* color http #90caf9 blue 200 */
+/* color java #FB8C00 Orange 600 */
+/* color javascript #ffee58 yellow 400 */
+/* color servizi #66BB6A Green 400 */
+/* color spring #a74dd4 */
+/* placeholder color map HTML */
 
+* {
     box-sizing:border-box;
     --colore-primario: #ffab40; /* orange A700 */
     --colore-primario-chiaro: #ffdd71; /* light di orange A700 */
