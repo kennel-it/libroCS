@@ -20,7 +20,7 @@
     --colore-secondario-testo: #000000; 
 }
 	
-body    { font-family: Verdana, sans-serif; margin:0em }
+body    { font-family: Optima, Verdana, sans-serif; margin:0em }
 /* ------------------------------------------- header ------------------------------------------ */
 body.noGroup                 header { background-color: var(--colore-sfondo-noGroup) }
 body.http                    header { background-color: var(--colore-sfondo-http) }
@@ -47,7 +47,7 @@ body.servizi                 nav { background-color: var(--colore-sfondo-servizi
 body.spring                  nav { background-color: var(--colore-sfondo-spring-chiaro) }
 nav {
     margin:0; padding: 1rem;
-    display: flex; flex-direction: row 
+    display: flex; flex-direction: row;
 }
 nav a { color: white} 
 body.noGroup                 nav > * { background-color: var(--colore-sfondo-noGroup-scuro) }
@@ -61,21 +61,26 @@ nav > * {
     text-align:center; text-decoration: none;
     margin:0em 1em; padding:0.5em; 
 }
-
-.FIXME { background-color: yellow; color:red; padding:1em ; margin:1em}
-
-#toc { margin:0em 2em }
-#toc img { height: 16px }
-
+/* ---------------------------- parti principali della pagina ---------------------------------- */
 article { margin:1em 5% ; padding-bottom:3em}
 
 h2 { text-align: left }
 
 p {
-	text-align: justify;
-	line-height: 1.5em;
-	text-indent: 2em;
+    text-align: justify;
+    line-height: 1.5em;
+    text-indent: 2em;
 }
+
+
+
+
+
+
+
+.FIXME { background-color: yellow; color:red; padding:1em ; margin:1em}
+
+
 
 pre { /* deprecato, usare invece div.prog */ 
 	font-size: 115%;
