@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- autoIndex requires="" group="base" coords="20,20" -->
 <!-- changelog 2019-09-18 inserito quadro generale sulle architetture -->
+<!-- changelog 2025-08-08 riscritto il capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -20,27 +21,130 @@
 sia le funzionalità che hanno delle componenti
 software o hardware e le relazioni che si possono instaurare tra di loro.</dfn>
 
-<p>Il contesto in cui opereremo è quello del livello 7 dello stack ISO/OSI
-in cui cui diverse entità (processi) scambiano tra loro informazioni.
-A questo livello non ci interessa la struttura fisica della rete sottostante
-che può essere di qualsiasi tipo, noi abbiamo la garanzia di poter raggiungere
-qualsiasi altro processo che risiede su una macchina connessa: che sia la nostra
-stessa o una a 10.000km di distanza non importa, l'infrastruttura sottostante ci garantisce
-che questo sia possibile.</p>
+<p>Una architettura semplice è quella costituita da un programma
+desktop che esegue delle elaborazioni senza collegarsi a nessun altro sistema
+ne chiedendo informazioni ad altri programmi presenti nella stessa macchina:
+questo è in molti casi quel che ci serve ma non sempre. Spesso i programmi
+hanno bisogno di reperire informazioni che non possiedono o di svolgere operazioni
+complesse che non sono in grado di portare avanti da soli.
+In questi contesti (sempre più comuni) l'architettura che si viene
+in aiuto è quella detta distribuita.</p>
 
+<h2>Sistemi distribuiti</h2>
+<p>Esistono molte definizioni di sistema distribuito più o meno
+equivalenti noi useremo quella di 
+<a href="https://www.cs.vu.nl/~ast/Publications/Papers/computing-2016.pdf">
+van Steen1 e Tanenbaum</a>:</p>
+<dfn>Un <em>sistema distribuito</em> è un insieme di elementi di elaborazione autonomi
+che appare ai suoi utenti come un unico sistema coerente.</dfn>
 
+<p>Nella definizione rientrano tantissime architetture attuali e in
+"elementi di elaborazione" possiamo includere sia componenti hardware che software,
+anche l'uso di una applicazione su un dispositivo mobile che accede a dati
+presenti su un sistema remoto ovviamente rientra nella definizione (es: Spotify).</p>
 
+<p>Come in tutti i sistemi tecnologici la loro adozione è imposta dal fatto
+che i vantaggi superino gli svantaggi, nell'analizzare la situzione iniziamo però
+da questi ultimi.</p>
 
+<h3>Svantaggi dei sistemi distribuiti</h3>
+<p>Una definizione alternativa per i sistemi distribuiti
+può aiutare ad inquadrare la situazione:</p>
+<blockquote>"Un sistema distribuito è uno in cui il guasto di un computer che
+non sapevi nemmeno esistere può rendere il tuo computer inutilizzabile"
+<cite>Leslie Lampor</cite></blockquote>
 
+<ul>
+<li>Complessità: un sistema distribuito è spesso più complesso
+da progettare e realizzare rispetto ad un sistema centralizzato,
+la comunicazione tra due computer ad esempio introduce complessità
+nella realizzazione del software.</li>
+<li>Dipendenza dalla rete: sia le prestazioni che l'affidabilità del sistema
+dipendono dall'infrastruttura di comunicazione su cui non è detto che
+si posssa intervenire e che spesso introduce dei costi economici.</li>
+<li>Debugging e testing più difficili: individuare la causa
+di un problema è più complesso perché il bug potrebbe dipendere
+dall'interazione tra i componenti.</li>
+<li>Difficoltà di sincronizzazione: sincronizzare i dati presenti
+in più elementi di elaborazione non è ovvio.</li>
+<li>Problemi di sicurezza: avere più elementi di elebaorazione
+semplicemente significa ampliare le superfici di attacco.</li>
+</ul>
 
+<h3>Vantaggi dei sistemi distribuiti</h3>
+<p>Come dicevamo poco sopra visto che li usiamo c'è da supporre che
+i vantaggi superino gli svantaggi, quindi vediamo un sistema distribuito
+ben progettato quali vantaggi porta:</p>
 
-<p>Qui daremo per scontate delle conosce informatiche di programmazione e ci concentreremo di più
-sulla parte di comunicazione tra un gruppo di entità, queste saranno organizzate sostanzialmente in
-duepossibili modi: peer to peer (abbreviata solitamente in p2p, di cui vedremo soltanto l'architettura
-senza realizzare ne studiare software specifico) o client/server.</p>
+<ul>
+<li>Flessibilità e modularità: 
+una architettura modulare permette di mantenere e aggiornare il sistema più facilmente,
+posso sostituire un componente alla volta e non tutto il sistema nel suo insieme.</li>
+<li>Scalabilità: posso migliorare le prestazioni del stema aggiungendo nodi
+di elaborazione per adattarmi all'aumento di richieste di prestazioni,
+questo potrebbe consentirmi anche di utilizzare macchine meno costose.</li>
+<li>Affidabilità: se il sistema è organizzato in modo che i dati siano
+presenti in più nodi il fallimento di uno di questi non provoca un blocco,
+altri nodi interverranno per svolgere il suo lavoro.</li>
+</ul>
 
-<!-- TODO aggiungi qui robe per multilivello-->
+<p>Altro grande beneficio per l'utente è la trasparenza di queste architetture:</p>
 
+<dfn>La <em>trasparenza</em> indica la capacità di un sistema o componente di funzionare
+in modo nascosto o invisibile all'utente o ad altri componenti.</dfn>
+
+<p>Nel caso specifico l'utente non tiene conto affatto dell'architettura complessa
+del sistema distribuito ma interagisce con un dispositivo locale come se tutto accadesse lì.</p>
+<p>Sistemi ben strutturati offrono dei livelli di trasparenza anche agli sviluppatori
+ad esempio permettendogli di trattare un archivio come se fosse unico e centralizzato
+sebbene sia distribuito in diversi computer ospitati in diverse server farm.</p>
+
+<h2>Tier</h2>
+<p>Anche nella progettazione di architetture distribuite si utilizza spesso una
+struttura a livelli che in questo contesto si chiamano usualmente <em>tier</em>.
+Come nel caso dei livelli nelle strutture di rete o dei sistemi operativi 
+anche qui ad un tier vengono affidati compiti specifici come ad esempio l'interfaccia con l'utente
+o la memorizzazione dei dati. A seconda della singola soluzione si potranno avere uno o più livelli.</p>
+
+<p>Possiamo avere una architettura a due tier quando ad esempio una applicazione desktop
+lavora connettendosi con un server db (presente sulla stessa macchina o in una remota).</p>
+
+<p><img src="immagini/tiers.svg" alt="architettura a 3 tier" style="width:18rem; float:right">
+Una architettura classica multi tier divide un sistema complesso in tre livelli:
+il <em>data tier</em> è quello che si occupa della gestione dei dati (es: il SGBD di un database relazionale),
+l'<em>application tier</em> è quello che contiene la logica di elaborazione
+(l'applicazione lato server) e il <em>presentation tier</em> si occupa dell'interazione con
+l'utente (ad esempio delle pagine HTML-JS o una applicazione mobile). In sistemi di questo genere ci si riferisce
+al livello presentation come al <em>frontend</em> e agli altri due come <em>backend</em>.</p>
+
+<p style="clear:both">Architettura più complesse potrebbero avere ulteriori livelli ad esempio inserendo un sistema
+di cache tra l'applicazione e il database.</p>
+
+<h2>Componenti tecnologiche</h2>
+<p>Una volta definita l'architettura di un sistema un ulteriore passo da fare è la scelta delle
+singole tecnologie da utilizzare per la sua costruzione.
+Vediamone alcune con degli esempi di tecnologie utilizzabili:</p>
+
+<dl>
+<dt>Frontend</dt>
+<dd>Anche in funzione di come vogliamo rendere fruibile il sistema che realizziamo potremmo
+decidere di scriverlo utilizzando HTML+CSS+JS oppure magari Flutter o entrambe.</dd>
+<dt>Backend-applicazioni</dt>
+<dd>Con quale linguaggio o ambiente svilupperò l'applicazione lato server?
+Spring Boot con Java, PHP, Node.js sono soltanto alcune possibilità.</dd>
+<dt>Backend-database</dt>
+<dd>Voglio usare un database relazionale come Oracle, MySQL o PostgreSQL? oppure il miei dati
+sono archiviati in modalità diverse e quindi potrei voler usare MongoDB?</dd>
+</dl>
+<p>In alcuni casi è possibile scegliere liberamente la tecnologia da utilizzare
+il che presuppone di avere una conoscenza almeno indicativa delle alternative ma in altri le
+scelte sono almeno in parte predeterminate:</p>
+<ul>
+    <li>sul server a mia disposizione quali linguaggi posso usare?</li>
+    <li>i dati sono organizzati (forse meglio organizzabili) in maniera relazionale o meno?</li>
+    <li>quali sono i tempi di lavorazione?</li>
+    <li>quanto è complesso il sistema?</li>
+</ul>
 </article>
 </body>
 </html>
