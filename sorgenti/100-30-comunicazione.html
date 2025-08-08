@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="architettura" coords="30,30" -->
+<!-- autoIndex requires="architettura" group="base" coords="30,30" -->
 <!-- changelog 2017-09-16 inserita definizione di protocollo -->
 <!-- changelog 2020-03-29 errore battitura -->
 <!-- changelog 2020-09-20 riscritto capitolo -->
@@ -10,7 +10,7 @@
    	<meta charset="UTF-8"/>
        <title>comunicazione</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -20,38 +20,38 @@
 <article>
 	<dfn>Un <em>protocollo</em> è un insieme di regole
 	(sia di tipo sintattico che di tipo semantico)
-	che determinano come due o più entità si scambiano informazioni tra loro.</dfn> 
-	
-	<p>Nel nostro contesto utilizziamo dei protocolli per scambiarci informazioni tra 
+	che determinano come due o più entità si scambiano informazioni tra loro.</dfn>
+
+	<p>Nel nostro contesto utilizziamo dei protocolli per scambiarci informazioni tra
 	programmi in un ambiente di rete. Sono stati definiti tantissimi protocolli
 	per svolgere le operazioni più diverse, ad esempio:
 	per trasferire dei file possiamo usare SFTP, SSH per terminali remoti sicuri,
 	HTTP per trasferire ipertesti, SMTP per inviare la posta e IMAP e POP3 per leggerla.</p>
-	
-	<p>Nel protocollo oltre alle regole per comunicare viene specificato anche quale (o quali) 
-	formati vanno usati per rappresentare le informazioni che vogliamo scambiare, ci occuperemo di 
-	quelli più diffusi che si usano in ambito informatico	
+
+	<p>Nel protocollo oltre alle regole per comunicare viene specificato anche quale (o quali)
+	formati vanno usati per rappresentare le informazioni che vogliamo scambiare, ci occuperemo di
+	quelli più diffusi che si usano in ambito informatico
 	partendo proprio da come si identifica un formato dei dati presenti in un file
-	(che sia un file o un pacchetto di dati inviati in rete non cambia nulla): utilizzando 
+	(che sia un file o un pacchetto di dati inviati in rete non cambia nulla): utilizzando
 	il suo tipo mime.</p>
-	
+
 	<dfn>Un <em><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">media type</a></em>
-	conosciuto anche come "Multipurpose Internet Mail Extensions" 
+	conosciuto anche come "Multipurpose Internet Mail Extensions"
 	o "tipo mime" indica la natura e il formato di un file. Nella sua forma più sempllice
 	si scrive <em>tipo/sottotipo</em>.</dfn>
-	
+
 	<p>Degli esempi chiarificano la situazione: i file che contengono pagine
-	HTML sono di tipo <code>text/html</code> sarebbe a dire appartengono al gruppo "text" 
+	HTML sono di tipo <code>text/html</code> sarebbe a dire appartengono al gruppo "text"
 	e in particolare sono "html", le immagini jpeg sono di tipo <code>image/jpeg</code>.</p>
-	
-	<p>Torniamo però allo scambio dei dati: uno dei primi formati usati per lo scambio dei dati 
-	è il formato CSV (text/csv): questo formato è molto comodo perché è un formato di testo e 
+
+	<p>Torniamo però allo scambio dei dati: uno dei primi formati usati per lo scambio dei dati
+	è il formato CSV (text/csv): questo formato è molto comodo perché è un formato di testo e
     è adatto a rappresentare i valori presenti in una tabela.<br/>
 	I dati presenti in una singola cella vengono rappresentati in formato testo,
-	ogni cella è separata dalla successiva da una virgola e ogni riga termina con 
+	ogni cella è separata dalla successiva da una virgola e ogni riga termina con
 	un "a capo". Questo formato è a tutt'oggi molto usato,
 	possiamo facilmente avere un esempio per una agenda:</p>
-	
+
 
 <pre>Nome,Cognome,Telefono
 Mario,Rossi,349771188
@@ -67,15 +67,15 @@ Luigi,Bianchi,374776749
 		<li>i byte dal 20 al 40 sono il cognome</li>
 		<li>i byte dal 41 al 49 sono il numero di telefono</li>
 	</ul>
-	
+
 	<p>Guardando questi due esempi possiamo trovare due punti deboli:
-	nel text/csv se ho una virgola nel nome o nel cognome sono nei guai... 
+	nel text/csv se ho una virgola nel nome o nel cognome sono nei guai...
 	nel application/octet-stream se ho un cognome molto lungo non posso scriverlo.<br/>
-	Il primo problema è falso in realtà: 
+	Il primo problema è falso in realtà:
 	il formato csv è un pochino più complesso e non ha problemi con le virgole
-	ma il secondo problema purtroppo è un problema reale.</p> 
-	
-	
+	ma il secondo problema purtroppo è un problema reale.</p>
+
+
 </article>
 </body>
 </html>

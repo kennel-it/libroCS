@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>streams</title>
+    <title>streamsJavascript</title>
     <link type="text/css" rel="stylesheet" href="style.css"/>
     <script type="text/javascript" src="script/test.js"></script>
     <style>
@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-    <h1>streams</h1>
+    <h1>streams Javascript</h1>
     <p>elaborare vettori in JS</p>
 </header>
 <article>
@@ -24,7 +24,7 @@
     per il controllo del flusso (if e for ad esempio) ma che con i metodi dell'oggetto
     <code>Array</code> si possono fare diversamente.
     Qui vedemo sono alcuni modi per utilizzare i metodi più comuni,
-    per moltissime ulteriori informazioni è possibile viosualizzare la 
+    per moltissime ulteriori informazioni è possibile viosualizzare la
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">
     pagina di <code>Array</code> su MDN</a>.</p>
     <p>Per semplificare la trattazione definiamo subito tre variabili che utilizzeremo
@@ -59,10 +59,10 @@ numeri.forEach( (x) =&gt; { console.log(x); });
 </div>
     <p>Parafrasi: <em>Per ogni elemento <code>x</code> che sta nell'Array <code>numeri</code>
     esegui <code>console.log(x)</code></em>.</p>
-    <p>Forse è il caso di richiamare la sintassi di "=&gt;", quella che viene specificata 
+    <p>Forse è il caso di richiamare la sintassi di "=&gt;", quella che viene specificata
     nelle parentesi tonde del forEach è una funzione che verrà chiamata per ogni elemento
     del vettore x passandogli il valore dell'elemento come parametro,
-    cioè la parte nelle graffe viene eseguita una volta per il numero 1, una volta per il 12, 
+    cioè la parte nelle graffe viene eseguita una volta per il numero 1, una volta per il 12,
     una volta per il 7 e così via.</p>
     <p>È una versione contratta (e magari anche più leggibile) di:</p>
 <div class="prog nuovo">
@@ -109,7 +109,7 @@ for(let i=0 ; i&lt;numeri.length; i++){
 </div>
 
     <p>Oppure posso usare il metodo filter che prende come parametro una funzione
-    che usa appunto da filtro: gli viene passato un elemento alla volta e 
+    che usa appunto da filtro: gli viene passato un elemento alla volta e
     se il risultato della funzione (un test solitamente) è true prende l'elemento altrimenti lo scarta</p>
 <div class="prog nuovo">
 numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
@@ -117,7 +117,7 @@ numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
 
     <h2>Trasformare qualcosa in qualcos'altro</h2>
     <p>Questa strategia (parte del pattern conosciuto come map/reduce)
-    è utile quando si vuol trasformare un qualcosa in qualcos'altro, 
+    è utile quando si vuol trasformare un qualcosa in qualcos'altro,
     forse più facile da capire con un paio di esempi come al solito.</p>
 
     <h3>Il doppio di ciascun elemento di un vettore</h3>
@@ -133,7 +133,7 @@ for(let i=0;i &lt; numeri.length;i++){
     <h3>Creare degli option</h3>
     <p>Con lo stesso schema possiamo creare gli elementi <code>option</code>
     per un <code>select</code>, il vantaggio dal punto di vista della lunghezza
-    del codice è minore, ragiona così: da ogni elemento del vettore 
+    del codice è minore, ragiona così: da ogni elemento del vettore
     <code>oggetti</code> creo il corrispondente <code>Node</code> (un elemento della pagina HTML)
     poi un elemento alla volta lo aggiungo al select.</p>
 <div class="prog nuovo">
@@ -164,8 +164,8 @@ let somma = numeri.reduce( (somma, v) => somma+v, 0);
     <dl>
         <dt>(somma, v) => somma+v</dt>
         <dd>una funzione a cui passa due valori: una variabile detta accumulatore
-        cioè quella che serve a fare la sintesi (la somma nel nostro caso) 
-        e l'elemento dello stream, il risultato di questa funzione 
+        cioè quella che serve a fare la sintesi (la somma nel nostro caso)
+        e l'elemento dello stream, il risultato di questa funzione
         finisce di nuovo nell'accumulatore</dd>
         <dt>0</dt>
         <dd>il valore da dare all'inizio all'accumulatore

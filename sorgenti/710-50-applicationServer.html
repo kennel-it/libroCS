@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="maven" group="servizi" coords="60,50" -->
+<!-- autoIndex requires="architetturaServizi" group="servizi" coords="60,50" -->
 <!-- changelog 2021-12-09 prima introduziolne del capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
        <title>applicationServer</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -23,41 +23,41 @@
 	eseguire applicazioni che genereranno un qualche tipo di output che viene fornito al client.</p>
 	<p>Questi server offrono un elevato numero di comode funzioni per poter scrivere e mantenere
 	facilmente applicazioni lato server anche di grandi dimensioni, in questa breve introduzione daremo uno sguardo
-	a quei server che ci permettono di scrivere i programmi in Java. Ne esistono diversi tipi che offrono 
+	a quei server che ci permettono di scrivere i programmi in Java. Ne esistono diversi tipi che offrono
 	diverse categorie di servizi, noi prendiamo in considerazione il profilo web.</p>
-	<p>Il costo che dovremo pagare per tutte queste comodità è un maggior lavoro in fase 
+	<p>Il costo che dovremo pagare per tutte queste comodità è un maggior lavoro in fase
 	di configurazione della nostra applicazione.</p>
-	
+
 	<h2><a href="http://tomcat.apache.org/"><img src="immagini/Apache_Tomcat_logo.png" alt="tomcat"/>Tomcat</a></h2>
 	<p>Scegliamo Tomcat come application server ma ne esistono altri sia free che a pagamento, quanto
-	descritto qui per la struttura della nostra applicazione vale in generale, 
+	descritto qui per la struttura della nostra applicazione vale in generale,
 	quello che cambia è la configurazione del server che noi non tratteremo perché
 	Tomcat si avvia senza la necessità di particolari configurazioni, spostare la nostra applicazione
 	su un altro server di questa categoria come
 	<a hreF="https://javaee.github.io/glassfish/">GlassFish</a> o altri.</p>
-	
+
 	<p>Una volta scaricato il pacchetto
 	va scompattato e per avviarlo basta lanciare il programma
-	<code>startup.bat</code> in Windows o <code>startup.sh</code> su Unix 
+	<code>startup.bat</code> in Windows o <code>startup.sh</code> su Unix
 	che si trova nella sottocartella <code>bin</code>.</p>
 	<p>Per poter avviare Tomcat ha bisogno di sapere dove si trova Java: questo lo possiamo indicare
-	utilizzando una variabile di ambiente chiamata <code>JAVA_HOME</code> 
+	utilizzando una variabile di ambiente chiamata <code>JAVA_HOME</code>
 	nel file <code>setenv.sh</code> che si trova sempre nella cartella bin,
 	il file conterrà semplicemente una riga:</p>
 	<pre>JAVA_HOME=/percorso/cartella/jdk-17</pre>
 
 	<h2>Hello World!</h2>
-	<p>Come esempio creiamo un oggetto che si chiama 
+	<p>Come esempio creiamo un oggetto che si chiama
 	"<a href="https://it.wikipedia.org/wiki/Servlet"></a>Servlet" che è in grado di rispondere
-	sia a richieste di tipo GET che POST, seguiamo un procedimento che richieda meno strumenti possibile, 
+	sia a richieste di tipo GET che POST, seguiamo un procedimento che richieda meno strumenti possibile,
 	esistono però software che semplificano di molto la vita di uno sviluppatore
 	(ma bisogna imparare ad utilizzarli).</p>
-	<p>Se stiamo usando Eclipse fa comodo avere la versione <em>EE</em> (quella indicata 
+	<p>Se stiamo usando Eclipse fa comodo avere la versione <em>EE</em> (quella indicata
 	come Java Enterprise nella pagina di Download). Creiamo un nuovo progetto "Dynamic Web Project"
 	lasciando le impostazioni di default.</p>
-	<p>A questo punto creiamo una nuova classe <code>HelloWorld</code> (in qualsiasi pacchetto), 
+	<p>A questo punto creiamo una nuova classe <code>HelloWorld</code> (in qualsiasi pacchetto),
 	l'applicazione in se non è complessa (altrimenti perché usare un Application server?):</p>
-	
+
 <pre>
 package servlet;
 
@@ -87,35 +87,35 @@ public class HelloWorld extends HttpServlet {
 </pre>
 
 <p>Se abbiamo fatto tutto in ordine dovremmo avere tantissimi errori nella classe... questo perché
-stiamo utilizzando degli oggetti che non sono presenti nella libreria base di Java. In eclipse correggere il 
+stiamo utilizzando degli oggetti che non sono presenti nella libreria base di Java. In eclipse correggere il
 problema non  è difficile: basta aprire le proprietà del progetto, andare nella sezione
 "Java build path" nella pagina delle
 librerie e aggiungere uno specifico jar che si chiama <code>servlet-api.jar</code> e si trova nella
 cartella lib di Tomee.</p>
 
     <h2>Pubblicazione</h2>
-    <p>Pubblicare una applicazione vuol dire renderla disponibile per i client e in pratica 
+    <p>Pubblicare una applicazione vuol dire renderla disponibile per i client e in pratica
     tutto sta nel copiare dei file in posizioni ben precise all'interno della
     cartella di TomEE.</p>
-    <p>La prima cosa da fare è scegliere il nome dell'applicaizone (poniamo come esempio 
+    <p>La prima cosa da fare è scegliere il nome dell'applicaizone (poniamo come esempio
     <code>ciao</code>) e nel creare la relativa cartella all'interno della cartella
     <code>webapps</code> di TomEE, da qui in avanti il lavoro andrà fatto all'interno di questa cartella.</p>
-    <p>Se il progetto è stato fatto con Eclipse e contiene la cartella <em>WebContent</em> 
-    il suo contenuto (e non la cartella stessa) va copiato nella cartella appena creata, 
+    <p>Se il progetto è stato fatto con Eclipse e contiene la cartella <em>WebContent</em>
+    il suo contenuto (e non la cartella stessa) va copiato nella cartella appena creata,
     in questo modo avremo copiato tuti i file della nostra applicazione (pagine html, immaini... )
     esclusi i programmi veri e propri. Alcune cartelle hanno nomi precisi e non possono
     essere rinominate: <code>META-INF</code> contiene informazioni sull'applicazine mentre
     <code>WEB-INF</code> contiene il codice (compilato).</p>
-    <p>A questo punto dobbiamo copiare i nostri programmi all'interno della cartella 
-    dell'applicazione, in particolare le librerie (sono dei file .jar che non tutte le 
-    applicazioni usano) vanno copiati nella cartella <code>WEB-INF/lib</code> 
+    <p>A questo punto dobbiamo copiare i nostri programmi all'interno della cartella
+    dell'applicazione, in particolare le librerie (sono dei file .jar che non tutte le
+    applicazioni usano) vanno copiati nella cartella <code>WEB-INF/lib</code>
     mentre i programmi compilati (i file <code>.class</code> ottenuti dalla compilazione
-    dei nostri file sorgente <code>.java</code>) vanno copiati nella cartella 
-    <code>WEB-INF/classes</code> (che se non c'è va creata) 
+    dei nostri file sorgente <code>.java</code>) vanno copiati nella cartella
+    <code>WEB-INF/classes</code> (che se non c'è va creata)
     facendo attenzione a non cambiare l'organizzazione
     dei paccetti: in pratica usando Eclipse come IDE basta copiare il contenuto della cartella
-    <code>bin</code> del nostro progetto all'interno di <code>WEB-INF/classes</code> di TomEE.</p> 
-    
+    <code>bin</code> del nostro progetto all'interno di <code>WEB-INF/classes</code> di TomEE.</p>
+
     <ul>
         <li><div>cartella di <em>webapps</em></div>
             <ul>
@@ -136,7 +136,7 @@ cartella lib di Tomee.</p>
             </ul>
         </li>
     </ul>
-    
+
     <h2>Test</h2>
     <p>Dopo aver copiato le cartelle opportune riavviare Tomee.</p>
     <p>Per provare se tutto funziona bisogna usare un browser web e scrivere l'indirizzo della
@@ -153,7 +153,7 @@ cartella lib di Tomee.</p>
         <dt>ciao</dt>
         <dd>è il nome dell'applicazione cioè della cartella dentro webapps</dd>
         <dt>saluto</dt>
-        <dd>è il nome della servlet che vogliamo usare come specificato in 
+        <dd>è il nome della servlet che vogliamo usare come specificato in
             <code>@WebServlet("/saluto")</code></dd>
     </dl>
 

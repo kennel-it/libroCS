@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="richiestaHttp rispostaHttp" group="javascript" coords="70,50" -->
+<!-- autoIndex requires="richiestaHttp rispostaHttp architetturaServizi" group="javascript" coords="70,50" -->
 <!-- changelog 2018-01-24 inserita prima parte dei contenuti -->
 <!-- changelog 2018-02-21 inserito esempio commentato di uso -->
 <!-- changelog 2019-03-05 aggiunto controllo per stato della risposta -->
@@ -13,7 +13,7 @@
    	<meta charset="UTF-8"/>
        <title>XMLHttpRequest</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
        <style>
        		div.prog {
        			line-height: inherit;
@@ -29,29 +29,29 @@
 	<p>ci sono diversi modi per comunicare con un server da parte di una applicazione
 	che gira in un browser e che ha bisogno di aver risposta per una singola richiesta: uno è
 	<a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
-	e l'altro sono le classiche 
-	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">richieste asincrone XML</a> 
+	e l'altro sono le classiche
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">richieste asincrone XML</a>
 	che ci accingiamo a vedere (e che non si usano soltanto per XML!).</p>
-	
+
 	<p><code>XMLHttpRequest</code> è un oggetto utilizzabile nei programmi
 	Javascript per interagire con un server remoto comunicando tramite singole interazioni
 	richiesta/risposta.</p>
 
-	<p>Microsoft ha sviluppato inizialmengte questo oggetto (perché di un oggetto si tratta) 
-	prima del 2000, successivamente nel 2006 ne è stata publicata una bozza di 
-	<a href="https://www.w3.org/TR/XMLHttpRequest/">standard dal World Wide Web Consortium</a>. 
+	<p>Microsoft ha sviluppato inizialmengte questo oggetto (perché di un oggetto si tratta)
+	prima del 2000, successivamente nel 2006 ne è stata publicata una bozza di
+	<a href="https://www.w3.org/TR/XMLHttpRequest/">standard dal World Wide Web Consortium</a>.
 	Come il nome suggerisce è stato inventato per trasferire contenuto XML
 	ma attualmente viene usato per diversi formati di file.</p>
-	
+
 	<p>Lo scopo per cui viene usato è solitamente quello di trasferire informazioni senza cambiare
-	l'intera pagina e senza bloccare l'utente in attesa di una risposta: viene inviata la richiesta 
+	l'intera pagina e senza bloccare l'utente in attesa di una risposta: viene inviata la richiesta
 	al server e 	la pagina continua ad essere normalmente interattiva, all'arrivo della risposta
 	questa verrà elaborata (in maniera asincrona) magari per aggiornare la pagina.</p>
-	
+
 	<h2>Breve riferimento</h2>
 	<p>Quelle sotto sono le proprietà e i metodi più utili, per avere informazioni più dettagliate
-	oltre che sulla pagina dello standard è possibile consultare 
-	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">MDN</a> o 
+	oltre che sulla pagina dello standard è possibile consultare
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">MDN</a> o
 	<a href="https://www.w3schools.com/xml/xml_http.asp">w3schools</a>. </p>
 	<dl>
 		<dt>onreadystatechange</dt>
@@ -62,7 +62,7 @@
 		<dt>send</dt>
 		<dd>è il metodo che serve per inviare la richiesta</dd>
 		<dt>readyState</dt>
-		<dd>una variabile che contiene l'attuale 
+		<dd>una variabile che contiene l'attuale
 		<a href="https://developer.mozilla.org/it/docs/Web/API/XMLHttpRequest/readyState">stato dell'oggetto</a>
 		</dd>
 		<dt>responseText</dt>
@@ -92,9 +92,9 @@ function statoCambiato(){
   <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</span>
   <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</span>
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
-    
+
     if(httpRequest.status == 200){
-      <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</span>	
+      <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</span>
       document.getElementById("risposta").innerHTML = httpRequest.responseText;
     }else{
       <span class="evidenza">// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</span>
@@ -102,21 +102,21 @@ function statoCambiato(){
     }
 
   }
-  
+
 }
 
 function premuto(){
 
   <span class="evidenza ">// creo l'oggetto</span>
   httpRequest = new XMLHttpRequest();
-  
+
   <span class="evidenza ">// imposto la funzione da chiamare ogni volta che ci sarà</span>
   <span class="evidenza ">// un cambiamento di stato</span>
   httpRequest.onreadystatechange = statoCambiato;
-  
+
   <span class="evidenza ">// inizializzo la richiesta </span>
   httpRequest.open('GET', 'info.txt');
-  
+
   <span class="evidenza ">// invio la richiesta al server </span>
   httpRequest.send();
 }
@@ -126,7 +126,7 @@ function premuto(){
 &lt;body&gt;
 <span class="evidenza ">
 &lt;!-- l'attributo <code>onclick</code> indica al browser il codice javascript da eseguire quando
-     l'utente fa click sull'elemento (un paragrafo in questo caso)  --&gt;</span> 
+     l'utente fa click sull'elemento (un paragrafo in questo caso)  --&gt;</span>
 &lt;p onclick="premuto()" id="risposta"&gt;premi qui&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;
@@ -136,7 +136,7 @@ function premuto(){
 	<h2>Invio dei dati al server</h2>
 	<h3>Nella URL</h3>
 	<p>Il metodo più semplice per inviare dei dati al server (ad esempio dei parametri di ricerca)
-	è quello di usare il metodo GET e scriverli direttamente nella URL: 
+	è quello di usare il metodo GET e scriverli direttamente nella URL:
 	dopo il nome dello script va in inserito un "?" e si possono concatenare usando una "&amp;"</p>
 	<p>Un esempio chiarirà tutto il da farsi: poniamo di voler inviare allo script "cercatore.php"
 	due parametri per fare la ricerca: il primo è il <code>nome</code> dell'utente "bruce" e il secondo
@@ -147,10 +147,10 @@ function premuto(){
 	<a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/encodeURI"><code>encodeURI(uri)</code></a>
 	ad esempio scrivendo<code>URLDaInviare = encodeURI(miaStringa)</code>
 	</p>
-	
+
 	<h3>Nel body</h3>
 	<p>Spesso capita di dover però inviare molti dati ad un metodo POST e in questo caso dobbiamo inserirli nel body.
-	Questa cosa non è difficile da fare usando XMLHttpRequest: basta specificare POST come metodo e 
+	Questa cosa non è difficile da fare usando XMLHttpRequest: basta specificare POST come metodo e
 	passarli come parametro a <code>send()</code>, in poche parole:</p>
 <pre><code>httpRequest.open('POST', 'script.php');</code>
 <code>httpRequest.send(corpoDelMessaggio);</code></pre>

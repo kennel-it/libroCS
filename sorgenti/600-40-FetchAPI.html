@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="elaborazioneJsonClient richiestaHttp rispostaHttp" group="javascript" coords="70,60" -->
+<!-- autoIndex requires="elaborazioneJsonClient richiestaHttp rispostaHttp architetturaServizi" group="javascript" coords="70,60" -->
 <!-- changelog 2024-04-22 inserita prima parte dei contenuti -->
 <!-- changelog 2024-04-28 completato capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,14 +36,14 @@
     che l'operazione (la comunicaizone in rete nel nostro caso)
     è terminata ma è più semplice utilizzare l'istruzione <code>await</code>.</p>
 
-    <p><code>let risposta = await fetch("https://x.y.x/risorsa");</code></p> 
+    <p><code>let risposta = await fetch("https://x.y.x/risorsa");</code></p>
 
     <p><code>await</code> fa in modo che l'esecuzione del nostro script venga sospesa
     e riprenda soltanto quando la Promise viene completata
     (sarebbe a dire che la risorsa è arrivata nel caso della fetch). La gestione asincrona
-    in pratica la fa il browser. Da tener presente però che 
+    in pratica la fa il browser. Da tener presente però che
     se usiamo await la funzione che contiene questa istruzione
-    va dichiarata come <code>async</code> per marcarla come asincrona.</p> 
+    va dichiarata come <code>async</code> per marcarla come asincrona.</p>
 
     <p>L'oggetto Promise restituito da <code>fetch()</code> se tutto va bene
     si risolve in un oggetto di tipo
@@ -72,7 +72,7 @@
 </div>
 
     <h2>Invio dei dati al server</h2>
-    <p>In metodo 
+    <p>In metodo
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">fetch()</a>
     ha in realtà due parametri: il primo è la URL
     della risorsa che ci interessa (già visto nella sezione precedente)
@@ -90,9 +90,9 @@
 
     <p>Un caso comune è quello in cui si vuole inviare un oggetto al server
     per poterlo archiviare
-    rappresentandolo come JSON nel corpo della richiesta. Una possibile soluzione 
+    rappresentandolo come JSON nel corpo della richiesta. Una possibile soluzione
     è quella di creare un oggetto specificando il metodo (POST), un header
-    che descrive il media type del corpo (che è in JSON) e il corpo stesso, successivamente 
+    che descrive il media type del corpo (che è in JSON) e il corpo stesso, successivamente
     si chiama la funzione fetch specificando sia la url del servizio che i parametri
     appena definiti.</p>
 

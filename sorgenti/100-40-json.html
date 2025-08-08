@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="comunicazione" coords="40,35" -->
+<!-- autoIndex requires="comunicazione" group="base" coords="40,35" -->
 <!-- changelog 2018-01-24 inseriti contenuti -->
 <!-- changelog 2019-03-16 inserito esempio più complesso -->
 <!-- changelog 2020-03-29 errore battitura -->
@@ -17,22 +17,22 @@
 	<p>JavaScript Object Notation</p>
 </header>
 <article>
-	<p>Andiamo in ordine... prima di tutto il 
+	<p>Andiamo in ordine... prima di tutto il
 	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">tipo mime</a>:
-	<code>application/json</code> 
+	<code>application/json</code>
 	(<a href="https://tools.ietf.org/html/rfc8259">RFC 8259</a>).</p>
-	
-	<p><a href="https://www.json.org/json-it.html">JSON</a> sta per 
+
+	<p><a href="https://www.json.org/json-it.html">JSON</a> sta per
 	<b>J</b>ava<b>S</b>cript <b>O</b>bject <b>N</b>otation ed è un formato leggero per l'interscambio dei dati.
 	L'idea che ha portato alla sua creazione era di avere un linguaggio facile da leggere per
 	le persone e da analizzare/generare per i computers.
 	Quello che viene rappresentato è un singolo oggetto ed
 	è basato sulla notazione che usa Javascript per definire le costanti e i vettori.</p>
-	
+
 	<p>Quello che segue è un esempio di specifica di una rubrica:</p>
-	
+
 	<pre>
-{	
+{
     "nome": "rubrica lavoro",
     "contatti":[
         {"nome":"Pluto", "numero":"555-87562345", "eta":18 },
@@ -40,7 +40,7 @@
     ]
 }
 	</pre>
-	
+
 	<p>Le regole da seguire sono piuttosto semplici:</p>
 	<ul>
 		<li>le parentesi quadre contengono array (composti da un elenco di valori separati da virgola)</li>
@@ -49,10 +49,10 @@
 		<li>i valori di tipo stringa vanno tra virgolette</li>
 		<li>i valori di tipo numerico e booleano non hanno bisogno di virgolette</li>
 	</ul>
-	 
-	<p>Ad oggi moltissimi linguaggi hanno delle librerie pee leggere/scrivere dati in formato JSON 
+
+	<p>Ad oggi moltissimi linguaggi hanno delle librerie pee leggere/scrivere dati in formato JSON
 	e alcuni database permettono di registrare le informazioni in questo formato.</p>
-	
+
 	<p>Proviamo a vedere un oggetto on pochino più complicato: il menu di una pizzeria.</p>
 	<pre>
 {
@@ -71,11 +71,11 @@
     ]
 }
 	</pre>
-	<p>In questo caso l'oggetto ha due proprietà un <em>nome</em> e un array 
+	<p>In questo caso l'oggetto ha due proprietà un <em>nome</em> e un array
 	(in pratica è un elenco) di <em>piatti</em>, a sua volta ogni singolo piatto
 	ha un <em>nome</em>, un <em>prezzo</em> (che non ha bisogno di virgolette perché è un numero)
 	e un elenco di <em>ingredienti</em> che sono dei testi.</p>
-	
+
 	<h2>Alcuni riferimenti utili</h2>
 	<p><a href="http://www.html.it/articoli/introduzione-a-json-1/">introduzione su html.it</a></p>
 	<p><a href="https://jsonlint.com/">validatore per json</a></p>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="comunicazione" coords="40,40" -->
+<!-- autoIndex requires="comunicazione" group="base" coords="40,40" -->
 <!-- changelog 2018-01-24 inseriti contenuti -->
 <!-- changelog 2019-03-16 inserito esempio più complesso anche con attributi -->
 <!-- changelog 2020-02-21 descritte meglio le regole e inseriti ulteriori esempi per attributi -->
@@ -10,7 +10,7 @@
    	<meta charset="UTF-8"/>
        <title>xml</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -18,17 +18,17 @@
 	<p>eXtensible Markup Language</p>
 </header>
 <article>
-	
+
 	<p>XML è formalmente definito come metalinguaggio: un linguaggio per definire altri linguaggi.
 	La definizione è molto altisonante ma nella
-	pratica ci permette di definire dei marcatori (tag) che possono contenere qualsiasi 
+	pratica ci permette di definire dei marcatori (tag) che possono contenere qualsiasi
 	tipo di informazioni, per capire meglio la situazione possiamo dire che XHTML è una
 	versione particolare di XML che consentre di descrivere pagine web.</p>
-	<p>La sintassi di un documento è molto semplice: inizia con 
-	<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> (facendo la ragionevole supposzione 
+	<p>La sintassi di un documento è molto semplice: inizia con
+	<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> (facendo la ragionevole supposzione
 	che il file sia codificato in UTF-8)
 	e poi prosegue con una serie di tag nidificati in maniera corretta (i parser
-	XML non sono tolleranti come i browser nel leggere un documento), 
+	XML non sono tolleranti come i browser nel leggere un documento),
 	vediamo come esempio una rubrica:</p>
 	<pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -43,7 +43,7 @@
 	&lt;/persona&gt;
 &lt;/rubrica&gt;
 	</pre>
-	
+
 	<p>In pratica scrivere un documento XML è abbastanza semplice tenedo conto di alcune regole:</p>
 	<ul>
 		<li>un qualsiasi contenuto va racchiuso in un tag</li>
@@ -54,24 +54,24 @@
 		<li>per chiudere un tag si racchgiude tra <code>&lt;/</code> e <code>&gt;</code></li>
 		<li>i tag vanno chiusi nidificandoli correttamente (si chiude per primo l'ultimo aperto)</li>
 	</ul>
-	
-	<p>XML ha due possibili 
-	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">tipi mime</a>: 
+
+	<p>XML ha due possibili
+	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">tipi mime</a>:
     <code>application/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>) e
     <code>text/xml</code> (<a href="https://tools.ietf.org/html/rfc3023">RFC 3023</a>).</p>
-    
-	<p>L'XML è molto usato per l'interscambio (e la memorizzazione) dei dati in ambito aziendale, 
+
+	<p>L'XML è molto usato per l'interscambio (e la memorizzazione) dei dati in ambito aziendale,
 	offre alcuni strumenti/tecnologie molto utili come ad esempio:</p>
 	<dl>
-		<dt>DTD</dt><dd>un insieme di regole grammaticali che definiscono uno specifico linguaggio 
+		<dt>DTD</dt><dd>un insieme di regole grammaticali che definiscono uno specifico linguaggio
 		(es: nella rubrica posso mettere quante persone voglio...)</dd>
 		<dt>XML Schema</dt><dd>di uso analogo ad DTD ma più recente</dd>
     		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i foglli di stile,
-    		sarebbe a dire un modo per descrivere come va visualizzato il documento</dd> 
+    		sarebbe a dire un modo per descrivere come va visualizzato il documento</dd>
     	</dl>
-	
+
 	<p>Proviamo a vedere un oggetto on pochino più complicato: il menu di una pizzeria</p>
-	
+
 <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;pizzeria&gt;
@@ -138,8 +138,8 @@
 <pre>&lt;persona&gt;&lt;eta&gt;17&lt;/eta&gt;&lt;nome&gt;piero&lt;/nome&gt;&lt;/persona&gt;</pre>
 
 <pre>&lt;persona eta="17"&gt;piero&lt;/persona&gt;</pre>
-	
-	
+
+
 	<h2>Alcuni riferimenti utili</h2>
 	<p><a href="https://www.w3schools.com/xml/">XML tutorial su w3schools.com</a></p>
 	<p><a href="http://www.html.it/pag/16214/introduzione26/">introduzione su html.it</a></p>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!-- autoIndex requires="architettura" coords="30,20" -->
+<!-- autoIndex requires="architettura" group="base" coords="30,20" -->
 <!-- changelog 2019-09-18 inserito capitolo -->
 <!-- changelog 2020-09-20 riscritto capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -7,7 +7,7 @@
    	<meta charset="UTF-8"/>
        <title>peerToPeer</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -16,26 +16,26 @@
 </header>
 <article>
     <p style="text-align: center"><img src="immagini/p2p.svg" width="40%"/></p>
-    
+
     <p>In questo tipo di architettura tutte le macchine svolgono gli stessi ruoli,
     nel diagramma sopra è rappresentata la situazione in cui ogni processo dialoga con tutti gli altri,
     questa ovviamente è una semplificazione: è possibile che un processo parli in ogni istante
     con nessuno o più degli altri (anche con tutti) ma non è necessario che lo faccia sempre con tutti.</p>
-    
+
     <p>Una struttura come questa ha degli ovvi vantaggi:
     non c'è una macchina che ha più carico di lavoro delle altre e
     non ha un punto centrale di fragilità, è difficile però da implementare.</p>
-    
+
     <p>In una architettura p2p "pura" ogni client ha il compito di scoprire gli altri "peer":
     questa cosa potrebbe essere facile da farsi in una piccola rete locale mandando un messaggio
     in broadcast ma non è affatto ovvia su una rete di grandi dimensioni che viene usata anche per
     altri scopi oltre al nostro.</p>
-     
-    <p>Una soluzione per trovare i propri peer è quella dell'uso di un "Discovery Server": 
-    quando mi connetto dico al server (di cui devo conoscere l'ubicazione) chi sono e lui mi da un elenco di miei peer 
+
+    <p>Una soluzione per trovare i propri peer è quella dell'uso di un "Discovery Server":
+    quando mi connetto dico al server (di cui devo conoscere l'ubicazione) chi sono e lui mi da un elenco di miei peer
     (questa è la soluzione usata da BitTorrent). Ci si riferisce a queste soluzioni comunque come
     p2p perché l'architettura di tipo client/server viene utilizzata solo in una piccola fase del lavoro.</p>
-    
+
 
 </article>
 </body>

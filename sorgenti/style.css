@@ -1,9 +1,10 @@
 /* color noGroup #f5f5f5 grey 100 */
-/* color http #90caf9 blue 200 */
-/* color java #FB8C00 Orange 600 */
-/* color javascript #ffee58 yellow 400 */
-/* color servizi #66BB6A Green 400 */
-/* color spring #a74dd4 */
+/* color base #ff5cff */
+/* color http #90caf9 */
+/* color java #ffee58 */
+/* color javascript #fb8c00 */
+/* color servizi #4dc452 */
+/* color spring #39fa42 */
 /* placeholder color map HTML */
 
 * {
@@ -17,12 +18,13 @@
 
     --colore-secondario: #00bfa5; /* teal A700 */
     --colore-secondario-scuro: #008e76; /* dark di teal A700 */
-    --colore-secondario-testo: #000000; 
+    --colore-secondario-testo: #000000;
 }
-	
+
 body    { font-family: Optima, Verdana, sans-serif; margin:0em }
 /* ------------------------------------------- header ------------------------------------------ */
 body.noGroup                 header { background-color: var(--colore-sfondo-noGroup) }
+body.base                    header { background-color: var(--colore-sfondo-base) }
 body.http                    header { background-color: var(--colore-sfondo-http) }
 body.java                    header { background-color: var(--colore-sfondo-java) }
 body.javascript              header { background-color: var(--colore-sfondo-javascript) }
@@ -32,6 +34,7 @@ header    { margin:0 ; padding:0 }
 header h1 { margin:0 ; padding:2rem 3em 0.5rem 3em ; text-align: center }
 header p  { margin:0 ; padding: 0.5rem 1rem 2rem 1rem ; text-align: center }
 .legenda.noGroup             { background-color: var(--colore-sfondo-noGroup) }
+.legenda.base                { background-color: var(--colore-sfondo-noGroup) }
 .legenda.http                { background-color: var(--colore-sfondo-http) }
 .legenda.java                { background-color: var(--colore-sfondo-java) }
 .legenda.javascript          { background-color: var(--colore-sfondo-javascript) }
@@ -40,6 +43,7 @@ header p  { margin:0 ; padding: 0.5rem 1rem 2rem 1rem ; text-align: center }
 .legenda { border:1px solid gray; padding:0.5em ; margin-top:1em }
 /* -------------------------- precedente - indice - successiva --------------------------------- */
 body.noGroup                 nav { background-color: var(--colore-sfondo-noGroup-chiaro) }
+body.base                    nav { background-color: var(--colore-sfondo-base-chiaro) }
 body.http                    nav { background-color: var(--colore-sfondo-http-chiaro) }
 body.java                    nav { background-color: var(--colore-sfondo-java-chiaro) }
 body.javascript              nav { background-color: var(--colore-sfondo-javascript-chiaro) }
@@ -49,8 +53,9 @@ nav {
     margin:0; padding: 1rem;
     display: flex; flex-direction: row;
 }
-nav a { color: white} 
+nav a { color: white}
 body.noGroup                 nav > * { background-color: var(--colore-sfondo-noGroup-scuro) }
+body.base                    nav > * { background-color: var(--colore-sfondo-base-scuro) }
 body.http                    nav > * { background-color: var(--colore-sfondo-http-scuro) }
 body.java                    nav > * { background-color: var(--colore-sfondo-java-scuro) }
 body.javascript              nav > * { background-color: var(--colore-sfondo-javascript-scuro) }
@@ -59,7 +64,7 @@ body.spring                  nav > * { background-color: var(--colore-sfondo-spr
 nav > * {
     flex-grow: 1;
     text-align:center; text-decoration: none;
-    margin:0em 1em; padding:0.5em; 
+    margin:0em 1em; padding:0.5em;
 }
 /* ---------------------------- parti principali della pagina ---------------------------------- */
 article { margin:1em 5% ; padding-bottom:3em}
@@ -82,7 +87,7 @@ p {
 
 
 
-pre { /* deprecato, usare invece div.prog */ 
+pre { /* deprecato, usare invece div.prog */
 	font-size: 115%;
 	background-color: #eee;
 }
@@ -120,11 +125,11 @@ div.pseudo {
 	background-color: #eef;
 }
 
-code { 
+code {
 	font-size: 125%;
 	color: #700;
 	padding-left:0.25em; padding-right:0.25em;
-	white-space: nowrap; 
+	white-space: nowrap;
 	word-wrap: normal;
 	overflow-wrap: normal;
 }
@@ -141,7 +146,7 @@ li { margin-top:0.2em }
 li a {padding: 0.35em ; display:inline-block; color:black }
 li a strong { font-size:110% }
 
-h2 { 
+h2 {
     text-align: left;
     margin-top:2em;
     margin-bottom:0.25em
@@ -160,7 +165,7 @@ dfn {
     display: block;
     padding: 0.75em;
     background-color: var(--colore-primario); color: var(--colore-primario-testo);
-    border-top: 0.5em solid var(--colore-primario-scuro) 
+    border-top: 0.5em solid var(--colore-primario-scuro)
 }
 
 /* esercizi e test */
@@ -181,7 +186,7 @@ dfn {
 .test a {
 	display: inline-table;
 	margin-top: 0.5em;
-	margin-bottom: 0.5em; 
+	margin-bottom: 0.5em;
 	padding: 0.25em;
 	border:1px solid #aaa;
 	background-color: #eee;
@@ -214,7 +219,7 @@ dfn {
 }
 
 .esercizio h3 {
-	margin-top:0em; margin-bottom:0em;	
+	margin-top:0em; margin-bottom:0em;
 }
 
 body {
@@ -228,31 +233,31 @@ div.esercizio:before {
 
 div.curiosita, div.suggerimento, div.suggerimentoProgramma {
 	float:right; clear:both; width:25%; font-size:85% ;
-	padding:1em ; margin: 1em 0em 1em 2em ; 
+	padding:1em ; margin: 1em 0em 1em 2em ;
 	text-align: left;
 }
 
-div.curiosita {   
-	background-color: #fefae3; 
+div.curiosita {
+	background-color: #fefae3;
 }
 
-div.suggerimento {   
-	background-color: #c7eacb; 
+div.suggerimento {
+	background-color: #c7eacb;
 	white-space: normal !important;
-	overflow:auto; 
+	overflow:auto;
 }
-div.suggerimentoProgramma {   
-	background-color: #c7eacb; 
+div.suggerimentoProgramma {
+	background-color: #c7eacb;
 	white-space: nowrap;
-	overflow: scroll; 
+	overflow: scroll;
 	white-space: pre;
 }
 
-.netbeans { 
+.netbeans {
 	background-color: rgb(240,240,255);
 }
 
-.eclipse { 
+.eclipse {
 	background-color: rgb(255,240,240);
 }
 
@@ -263,7 +268,7 @@ div.suggerimentoProgramma {
 nav#top {
     display: flex;
     flex-direction: row;
-} 
+}
 
 nav#top > * {
 	flex-grow: 1;
