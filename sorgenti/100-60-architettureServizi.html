@@ -1,22 +1,165 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
 <!-- autoIndex requires="architettura clientServer" group="base" coords="50,60" -->
-<!-- changelog 2025-08-06 inserito capitolo -->
+<!-- changelog 2025-08-09 inserito capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
-        <title>architetturaServizi</title>
+        <title>architettureServizi</title>
         <link type="text/css" rel="stylesheet" href="style.css"/>
         <script type="text/javascript" src="script/test.js"></script>
+        <style>
+            article table { border-collapsE: collapse }
+            article td, article th {
+                border: 1px solid var(--colore-primario-scuro);
+                padding:0.5rem
+            }
+            article table th:first-child { text-align: left }
+        </style>
    </head>
 <body>
 <header>
-    <h1>architettura dei servizi</h1>
+    <h1>architetture orientate ai servizi</h1>
     <p>lavori in corso</p>
 </header>
 <article>
-    <!-- WIP -->
-    <!-- FIXME: da fare da capo -->
+
+<h2>SOA</h2>
+<dfn>Una <em>architettura orientata ai servizi</em> (SOA: Service Oriented Architecure)
+è un metodo di sviluppo del software che utilizza componenti indipendenti
+ciascuno con un compito preciso accessibile in maniera definita.</dfn>
+
+<p>In questo contesto gli attori coninvolti nella produzione e nell'uso 
+di un <em>servizio</em> sono sempre programmi: un programma usa servizi
+offerti da altri e a sua volta può offrirne ad altri ancora.</p>
+
+<h3>Principi base</h3><!--https://aws.amazon.com/it/what-is/service-oriented-architecture/ -->
+<p>Non esiste uno standard nell'implementazione di questo tipo di architetture
+ma alcuni principi basilari vengono normalmente seguiti:</p>
+
+<ul>
+    <li>Interoperabilità: ciascun servizio descrive le funzionalità
+    che implementa e le modalità di accesso. Questo implica che qualsiasi cliente
+    del servizio può accedervi indipendentemente dal linguaggio in cui è
+    stato scritto.</li>
+    <li>Astrazione: i clienti del sistema non devono conoscere la logica
+    o i dettagli di implementazione con cui è implementato un servizio.
+    Per loro i servizi devono apparire come una scatola nera.</li>
+    <li>Accoppiamento debole: di un servizio si conosce il minimo indispensabile
+    per poterlo utilizzare, in questo modo modificando l'implementazione
+    di un servizio non si devono modificare i suoi utilizzatori.</li>
+    <li>Granularità: ogni servizio dovrebbe avere delle dimensioni adeguate,
+    è poi possibile usare più servizi "di base" per crearne uno composto.</li>
+</ul>
+
+<p>Come in tutte le architetture ci sono dei pro e dei contro. Da tenere sempre in mente
+che i contro dovrebbero essere utili perché in fase di progetto si mitighino
+tali problemi per quanto possibile e i pro funzionano per un sistema ben realizzato!</p>
+
+<h3>Vantaggi delle architetture SOA</h3>
+<ul>
+    <li>riuso dei servizi: una volta scritto un sertvizio può essere usato da più
+    applicazioni</li>
+    <li>interoperabile: utilizza protocolli di comunicazione standard e non dipendenti
+    da uno specifico linguaggio</li>
+    <li>manutenzione/aggiornamento semplificati: sviluppando ogni servizio
+    in maniera indipendente posso cambiare tecnologie o aggiornare un servizio
+    senza impattare sugli altri</li>
+    <li>scalabilità: in caso di necessità si può intervenire sui servizi
+    che sono usati più pesantemente</li>
+</ul>
+
+<h3>Svantaggi delle architetture SOA</h3>
+<ul>
+    <li>complessità architetturale: richiede dei meccanismi che
+    servono a far comunicare i servizi il che potrebbe creare 
+    un collo di bottiglia o esporre il sistema a fragilità.</li>
+    <li>dipendenda dai sistemi di comunicazione:
+    ogni chiamata di un servizio passa per la rete e questo
+    (dipende anche dalle tecnologie utilizzate) implica rallentamenti</li>
+    <li>test e debug complessi:
+    essendo coinvolti più elementi distinti trovare gli erori è più complicato</li>
+    <li>versioni e documentazione:
+    serve mantenere documentazione per permettere l'usabilità dei servizi
+    e quando si fa una nuova versione bisogna mantenere anche la vecchia</li>
+    <li>avvio più complesso: l'avvio iniziale dello sviluppo del sistema è più complesso rispetto
+    ad un sistema monolitico (singolo programma)</li>
+</ul>
+
+<h2>Microservizi</h2>
+<p>In questi ultimi anni questaq architettura sta prendendo sempre più
+spazio, pur partendo dall'idea di SEO la porta ancora più avanti:</p>
+<ul>
+<li>Ogni microservizio è indipendente:
+ha il proprio database e il proprio ciclo di rilascio.</li>
+<li>Comunicazione leggera: spesso i servizi SOA hanno una struttura centrale
+per smistare i messaggi che qui manca, i microservizi usano
+infrastrutture esistenti come HTTP</li>
+<li>Agilità nello sviluppo: ogni team può lavorare per suo conto
+e scegliere gli strumenti che preferisce.</li>
+<li>Orientata alla scalabilità orizzontale: è possibile replicare
+un singolo microservizio su più nodi.</li>
+</ul>
+
+<p>Proviamo a riassumere la situazione confrontando i due estremi:
+un sistema monolitico e uno a microservizi:</p>
+<p style="text-align: center"><img style="width:60vw"
+src="immagini/monolitico_microservizi.svg"
+alt="diagramma sistema monolitico e microservizi"/></p>
+
+
+<table>
+    <tr>
+        <th>Aspetto</th>
+        <th>Monolitico</th>
+        <th>Microservizi</th>
+    </tr>
+    <tr>
+        <th>struttura</th>
+        <td>Un’unica applicazione che contiene tutte le funzionalità</td>
+        <td>Applicazione divisa in molti servizi indipendenti</td>
+    </tr>
+    <tr>
+        <th>Deploy (pubblicazione del servizio)</th>
+        <td>Tutto il codice viene rilasciato insieme</td>
+        <td>Ogni microservizio può essere rilasciato separatamente</td>
+    </tr>
+    <tr>
+        <th>Scalabilità</th>
+        <td>Si scala tutta l’applicazione insieme (anche parti che non servono)</td>
+        <td>Si scala solo il servizio necessario</td>
+    </tr>
+    <tr>
+        <th>Comunicazione interna tra le parti dell'applicazione</th>
+        <td>Più veloce: chiamate locali (metodi, funzioni)</td>
+        <td>Più lente (in rete): scambio di messaggi con protocolli leggeri</td>
+    </tr>
+    <tr>
+        <th>Database</th>
+        <td>Un unico database condiviso</td>
+        <td>Database separato per ogni microservizio</td>
+    </tr>
+    <tr>
+        <th>Gestione del codice</th>
+        <td>Più semplice all’inizio, ma cresce la complessità con le dimensioni del progetto</td>
+        <td>Codice distribuito, più gestione ma più flessibilità</td>
+    </tr>
+    <tr>
+        <th>Resistenza ai guasti</th>
+        <td>Un problema può bloccare tutta l’applicazione</td>
+        <td>Il problema resta confinato nel servizio</td>
+    </tr>
+    <tr>
+        <th>Tecnologie</th>
+        <td>Non è obbligatorio ma di solito un unico stack tecnologico e unico linguaggio di programmazione</td>
+        <td>Ogni servizio può usare stack diversi e linguaggi di programmazione diversi</td>
+    </tr>
+    <tr>
+        <th>Manutenzione a lungo termine</th>
+        <td>Difficile per applicazioni grandi</td>
+        <td>Più semplice isolando responsabilità</td>
+    </tr>
+</table>
 
 
 </article>

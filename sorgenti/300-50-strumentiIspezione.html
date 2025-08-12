@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <!-- autoIndex requires="rispostaHttp richiestaHttp" group="http" coords="70,20" -->
 <!-- changelog 2017-09-26 inserito contenuto capitolo -->
+<!-- changelog 2025-08-12 inserita parte su test con Bruno -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -15,6 +16,7 @@
 	<p>strumenti per visualizare richiesta/risposta http</p>
 </header>
 <article>
+    <h2>Browser</h2>
 	<p>La maggior parte dei browser ha degli strumenti per ispezionare la richiesta e la risposta http,
 	qui vedremo quelli di Firefox accessibili dal menu "/sviluppo/attiva strumenti".</p>
 	<p>In particolare a noi interessa la scheda "Rete" nella quale sono accessibili molte
@@ -23,7 +25,7 @@
 	<img src="immagini/firefox_1.jpg" style="width:100%; border:1px solid black" alt="scheda rete degli strumenti per sviluppatori"/>
 	<p>Quella qui sopra è la richiesta di una singola pagina che origina poi altre due ulteriori richieste,
 	il primo numero sulla sinistra è il codice di risposta fornito dal server per ogni richiesta.</p>
-	<p>facendo click su una singola richiesta si apre un ulteriore pannello che divide in due l'area delle
+	<p>Facendo click su una singola richiesta si apre un ulteriore pannello che divide in due l'area delle
 	informazioni e che contiene
 	i dati della richiesta specifica. Sulla destra c'è un pulsante "Header non elaborati (raw)"
 	che mostra gli header così come sono stati inviati/ricevuti.</p>
@@ -31,7 +33,22 @@
 	<p>Le informazioni contenute nella prima riga della richiesta e della risposta
 	(più alcune aggiuntive) sono mostrate nella parte alta del pannello.</p>
 
-	<!-- TODO: inserisci bruno -->
+	<h2>Bruno</h2>
+    <p><a href="https://www.usebruno.com/">Bruno</a>
+    è un programma che permette di svolgere test sulle comunicazioni HTTP:
+    inviare una richiesta e vedere cosa risponde il server.</p>
+    <p style="text-align:center">
+    <img src="immagini/bruno_finestra.svg" style="border:1px solid gray" alt="schermata Bruno"></p>
+
+    <p>Una volta avviato il programma si presenta come una schermata sostanzialmente vuota,
+    basta fare click su [1] (Create) per creare una vuova cartella che conterrà
+    i test: nella finestra di dialogo che si apre bisogna indicare
+    il nome della cartella e la posizione in cui salvarla.</p>
+    
+    <p>Una volta creata la cartella comparirà il suo nome
+    sempre nell'area grigia sulla sinistra, a questo punto andando sopra il 
+    nome della cartella comparirà alla sua destra un menu "⋯" da cui
+    sarà possibile creare nuove richieste da inviare al sewrver.</p>
 </article>
 </body>
 </html>

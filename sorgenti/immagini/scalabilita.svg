@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="158.62399mm"
+   height="98.353996mm"
+   viewBox="0 0 158.624 98.354"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="scalabilita.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.89887065"
+     inkscape:cx="295.92689"
+     inkscape:cy="464.47172"
+     inkscape:window-width="1560"
+     inkscape:window-height="1186"
+     inkscape:window-x="946"
+     inkscape:window-y="146"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-26.834186,-25.738268)">
+    <path
+       id="path8"
+       style="fill:#1ec832;fill-opacity:0.15;stroke:none;stroke-width:0.749922;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       inkscape:transform-center-x="-3.7306047"
+       d="m 90.159918,96.245764 v 6.779116 H 62.230431 v 12.28828 h 27.929487 v 6.77911 l 22.383512,-12.92306 z" />
+    <circle
+       style="fill:#c8c8c8;fill-opacity:1;stroke:#4b4b4b;stroke-width:1.01519;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="path1"
+       cx="47.355221"
+       cy="109.16901"
+       r="9.492404" />
+    <circle
+       style="fill:#fa141e;fill-opacity:1;stroke:#4b4b4b;stroke-width:1.03777;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="circle2"
+       cx="47.355221"
+       cy="45.238728"
+       r="16.981117" />
+    <circle
+       style="fill:#1ec832;fill-opacity:1;fill-rule:nonzero;stroke:#4b4b4b;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="circle3"
+       cx="127.26899"
+       cy="109.16901"
+       r="9.3503571" />
+    <text
+       xml:space="preserve"
+       style="font-weight:600;font-size:7.05556px;line-height:1.25;font-family:'Hiragino Sans';-inkscape-font-specification:'Hiragino Sans Semi-Bold';text-align:start;text-decoration-color:#000000;letter-spacing:0px;word-spacing:2.64583px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#1d0030;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       x="64.158585"
+       y="107.62385"
+       id="text5"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="font-size:7.05556px;fill:#1d0030;fill-opacity:1;stroke:none;stroke-width:1"
+         x="64.158585"
+         y="107.62385">scalabilità</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:7.05556px;fill:#1d0030;fill-opacity:1;stroke:none;stroke-width:1"
+         x="64.158585"
+         y="116.4433"
+         id="tspan6">orizzontale</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:600;font-size:7.05556px;line-height:1.25;font-family:'Hiragino Sans';-inkscape-font-specification:'Hiragino Sans Semi-Bold';text-align:start;text-decoration-color:#000000;letter-spacing:0px;word-spacing:2.64583px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#1d0030;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       x="47.425777"
+       y="83.334892"
+       id="text8"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#1d0030;fill-opacity:1;stroke:none;stroke-width:1"
+         x="47.425777"
+         y="83.334892">scalabilità</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#1d0030;fill-opacity:1;stroke:none;stroke-width:1"
+         x="47.425777"
+         y="92.154343"
+         id="tspan8">verticale</tspan></text>
+    <circle
+       style="fill:#1ec832;fill-opacity:1;fill-rule:nonzero;stroke:#4b4b4b;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="circle8"
+       cx="150.43842"
+       cy="109.16901"
+       r="9.3503571" />
+    <circle
+       style="fill:#1ec832;fill-opacity:1;fill-rule:nonzero;stroke:#4b4b4b;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="circle9"
+       cx="173.60783"
+       cy="109.16901"
+       r="9.3503571" />
+    <path
+       id="path9"
+       style="fill:#fa141e;fill-opacity:0.15;stroke:none;stroke-width:0.590358;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       inkscape:transform-center-x="-1.2e-06"
+       d="m 34.431967,79.235385 h 6.779112 v 17.308583 h 12.28828 V 79.235385 h 6.77911 L 47.355409,65.363778 Z"
+       inkscape:transform-center-y="-2.3119465" />
+  </g>
+</svg>

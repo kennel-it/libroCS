@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="" group="base" coords="20,20" -->
+<!-- autoIndex requires="softwareInRete" group="base" coords="20,20" -->
 <!-- changelog 2019-09-18 inserito quadro generale sulle architetture -->
 <!-- changelog 2025-08-08 riscritto il capitolo -->
+<!-- changelog 2025-08-10 inserita scalabilità -->
+<!-- changelog 2025-08-10 inserita architettura monolitica -->
+<!-- changelog 2025-08-10 inserita definizione di stack tecnologico -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -13,28 +16,68 @@
 <body>
 <header>
 	<h1>architettura</h1>
-	<p>cosa si intende per architettura di un sistema</p>
+	<p>diversi modi per costruire sistemi complessi</p>
 </header>
 <article>
 
+<p>Iniziamo inquadrando il problema:</p>
+
 <dfn>Con <em>architettura</em> di un sistema si intendono
 sia le funzionalità che hanno delle componenti
-software o hardware e le relazioni che si possono instaurare tra di loro.</dfn>
+software o hardware che le relazioni che si possono instaurare tra di loro.</dfn>
 
-<p>Una architettura semplice è quella costituita da un programma
+<p>Una esempio di architettura semplice è quello dato da un programma
 desktop che esegue delle elaborazioni senza collegarsi a nessun altro sistema
 ne chiedendo informazioni ad altri programmi presenti nella stessa macchina:
-questo è in molti casi quel che ci serve ma non sempre. Spesso i programmi
-hanno bisogno di reperire informazioni che non possiedono o di svolgere operazioni
-complesse che non sono in grado di portare avanti da soli.
-In questi contesti (sempre più comuni) l'architettura che si viene
-in aiuto è quella detta distribuita.</p>
+questo è in molti casi quel che ci serve ma non sempre.
+Architetture di questo genere vengono dette <em>monolitiche</em>
+e prevedono che il sistema venga sviluppato come un unico programma: 
+un sistema di questo tipo ha alcuni vantaggi come la facilità
+iniziale di sviluppo, la possibilità di ottimizzazione
+e la semplicità di fare test.
+Ci sono però anche degli svantaggi:
+quando crescono sono più difficili da mantenere,
+è difficile cambiare le tecnologie utilizzate e spesso
+non riescono a mantenere buone prestazione all'aumentare del carico di lavoro.</p>
+
+<p>Una misura che può essere utile nel valutare 
+la bontà di un sistema facendo riferimento alle sue prestaizoni è la scalabilità:</p>
+
+<dfn>La <em>scalabilità</em> di un sistema è la capacità
+che ha il sistema stesso di mantenere le prestazioni stabili anche 
+a fronte di un aumento di carico di lavoro.</dfn>
+
+<img src="immagini/scalabilita.svg" style="float:right; width:16rem; margin:1rem">
+
+<p>In particolare con l'espressione <em>scalabilità verticale</em>
+ci si rifertisce alla possibilità di migliorare le prestazioni del sistema
+migliorando il singolo nodo di elaborazione (più RAM, processore più veloce...)
+e questo di solito non richiede modifiche del sistema ma ha dei limiti
+(non posso mettere un processore cento volte più veloce o cento volte più RAM).
+Con <em>scalabilità orizzontale</em> si intende invece la possibilità di
+migliorare le prestazioni aggiungendo più nodi di elaborazione, in questo caso
+il sistema deve essere stato progettato dall'inizio per permettere di fare
+questo lavoro.</p>
+
+<p>Attenzione ai termini "migliorare" e "mantenere".
+Poniamo di avere un sistema web che ha circa 50 richieste al secondo e 
+per soddisfare una richiesta impiega 100 millesimi di secondo.
+Ad un certo punto le richieste diventano 100 al secondo 
+e per via dell'aumentato lavoro il tempo di servizio
+diventa di 200 ms. Se questo sistema "scala bene" devo poterlo
+"migliorare" in modo da "mantenere" il livello
+originale di servizio: devo cioè migliorare il sistema in modo che pur 
+avendo 100 richieste al secondo io possa servire ciascuna richiesta in 100ms.</p>
 
 <h2>Sistemi distribuiti</h2>
-<p>Esistono molte definizioni di sistema distribuito più o meno
-equivalenti noi useremo quella di 
+<p>Spesso i programmi hanno bisogno di reperire informazioni
+che non possiedono o di svolgere operazioni complesse che non sono in grado
+di portare avanti da soli. In questi contesti (sempre più comuni)
+una architettura che viene in aiuto è quella detta distribuita,
+esistono diverse definizioni di sistema distribuito più o meno
+equivalenti, noi useremo quella di 
 <a href="https://www.cs.vu.nl/~ast/Publications/Papers/computing-2016.pdf">
-van Steen1 e Tanenbaum</a>:</p>
+van Steen e Tanenbaum</a>:</p>
 <dfn>Un <em>sistema distribuito</em> è un insieme di elementi di elaborazione autonomi
 che appare ai suoi utenti come un unico sistema coerente.</dfn>
 
@@ -65,8 +108,8 @@ si posssa intervenire e che spesso introduce dei costi economici.</li>
 <li>Debugging e testing più difficili: individuare la causa
 di un problema è più complesso perché il bug potrebbe dipendere
 dall'interazione tra i componenti.</li>
-<li>Difficoltà di sincronizzazione: sincronizzare i dati presenti
-in più elementi di elaborazione non è ovvio.</li>
+<li>Difficoltà di sincronizzazione: in caso i dati siano presenti in più
+elementi di elaborazione mantenerli sincronizzati non è ovvio.</li>
 <li>Problemi di sicurezza: avere più elementi di elebaorazione
 semplicemente significa ampliare le superfici di attacco.</li>
 </ul>
@@ -104,12 +147,13 @@ sebbene sia distribuito in diversi computer ospitati in diverse server farm.</p>
 struttura a livelli che in questo contesto si chiamano usualmente <em>tier</em>.
 Come nel caso dei livelli nelle strutture di rete o dei sistemi operativi 
 anche qui ad un tier vengono affidati compiti specifici come ad esempio l'interfaccia con l'utente
-o la memorizzazione dei dati. A seconda della singola soluzione si potranno avere uno o più livelli.</p>
+o la memorizzazione dei dati. A seconda della singola soluzione si potranno avere uno o più livelli.
+Vediamo alcuni esempi di architetture a più tier.</p>
 
-<p>Possiamo avere una architettura a due tier quando ad esempio una applicazione desktop
+<p><em>2 tier</em>. Possiamo avere una architettura a due tier quando ad esempio una applicazione desktop
 lavora connettendosi con un server db (presente sulla stessa macchina o in una remota).</p>
 
-<p><img src="immagini/tiers.svg" alt="architettura a 3 tier" style="width:18rem; float:right">
+<p><em>3 tier</em>. <img src="immagini/tiers.svg" alt="architettura a 3 tier" style="width:18rem; float:right">
 Una architettura classica multi tier divide un sistema complesso in tre livelli:
 il <em>data tier</em> è quello che si occupa della gestione dei dati (es: il SGBD di un database relazionale),
 l'<em>application tier</em> è quello che contiene la logica di elaborazione
@@ -117,8 +161,43 @@ l'<em>application tier</em> è quello che contiene la logica di elaborazione
 l'utente (ad esempio delle pagine HTML-JS o una applicazione mobile). In sistemi di questo genere ci si riferisce
 al livello presentation come al <em>frontend</em> e agli altri due come <em>backend</em>.</p>
 
-<p style="clear:both">Architettura più complesse potrebbero avere ulteriori livelli ad esempio inserendo un sistema
+<p style="clear:both"><em>4 tier</em>.Architettura più complesse potrebbero avere ulteriori livelli ad esempio inserendo un sistema
 di cache tra l'applicazione e il database.</p>
+
+<h2>Stack tecnologici</h2>
+<p>Nello sviluppo e nel funzionamento molti strumenti entrano in gioco:
+ci si riferisce al loro insieme come allo "stack tecnologico",
+di solito abbreviato soltanto in <em>stack</em>.</p>
+
+
+<dfn>Uno <em>stack tecnologico</em>
+è l'insieme di linguaggi di programmazione, framework, database,
+sistemi di gestione, librerie e strumenti scelti per lo sviluppo,
+la pubblicazione e l’esecuzione di un’applicazione.</dfn>
+
+<p>Nella definizione di stack tecnologico è presente un termine che si usa
+molto spesso in questo contesto: framework.</p>
+
+<dfn>Un <em>framework</em> è un insieme strutturato di strumenti,
+librerie, regole e componenti già pronti che forniscono
+l’ossatura di base per sviluppare applicazioni in uno specifico
+linguaggio di programmazione.</dfn>
+
+<p>Per vederla da un punto di vista pratico: un framework semplifica
+lo sviluppo di applicazioni a patto che si accettino
+le modalità di sviluppo e funzionamento da lui previste.</p>
+
+<p>Un esempio di stack per un progetto potrebbe essere:</p>
+<ul>
+    <li>Sitema Operativo (es: Linux, Windows Server, macOS)</li>
+    <li>Runtime (Java Virtual Machine, .NET CLR, Node.js)</li>
+    <li>Linguaggi e framework( es: il linguaggio Java o il framework Spring Boot)</li>
+    <li>Database (es: PostgreSQL)</li>
+    <li>Tool di supporto( es: git, maven)</li>
+    <li>Infrastruttura (es: AWS, docker)</li>
+</ul>
+
+<p>Dall'esempio dovrebbe essere evidente che esistono una infinità di combinazioni.</p>
 
 <h2>Componenti tecnologiche</h2>
 <p>Una volta definita l'architettura di un sistema un ulteriore passo da fare è la scelta delle
@@ -130,7 +209,7 @@ Vediamone alcune con degli esempi di tecnologie utilizzabili:</p>
 <dd>Anche in funzione di come vogliamo rendere fruibile il sistema che realizziamo potremmo
 decidere di scriverlo utilizzando HTML+CSS+JS oppure magari Flutter o entrambe.</dd>
 <dt>Backend-applicazioni</dt>
-<dd>Con quale linguaggio o ambiente svilupperò l'applicazione lato server?
+<dd>Con quale linguaggio o framework svilupperò l'applicazione lato server?
 Spring Boot con Java, PHP, Node.js sono soltanto alcune possibilità.</dd>
 <dt>Backend-database</dt>
 <dd>Voglio usare un database relazionale come Oracle, MySQL o PostgreSQL? oppure il miei dati
@@ -145,6 +224,7 @@ scelte sono almeno in parte predeterminate:</p>
     <li>quali sono i tempi di lavorazione?</li>
     <li>quanto è complesso il sistema?</li>
 </ul>
+
 </article>
 </body>
 </html>

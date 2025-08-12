@@ -5,19 +5,24 @@
 <!-- changelog 2020-03-29 errore battitura -->
 <!-- changelog 2020-09-20 riscritto capitolo -->
 <!-- changelog 2024-09-18 rimosso FTP in favore di SFTP -->
+<!-- changelog 2025-08-12 piccole correzioni e cambiato nome al capitolo-->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
-       <title>comunicazione</title>
+       <title>protocolliFormati</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
        <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
-	<h1>comunicazione</h1>
+	<h1>protocolli e formati</h1>
 	<p>protocolli e formato dei dati</p>
 </header>
 <article>
+
+    <p>La prima cosa che ci serve per poter comunicare è concordare il
+    modo per farlo:</p>
+    
 	<dfn>Un <em>protocollo</em> è un insieme di regole
 	(sia di tipo sintattico che di tipo semantico)
 	che determinano come due o più entità si scambiano informazioni tra loro.</dfn>
@@ -35,16 +40,18 @@
 	(che sia un file o un pacchetto di dati inviati in rete non cambia nulla): utilizzando
 	il suo tipo mime.</p>
 
-	<dfn>Un <em><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">media type</a></em>
+	<dfn>Un <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">
+    <em>media type</em></a>
 	conosciuto anche come "Multipurpose Internet Mail Extensions"
-	o "tipo mime" indica la natura e il formato di un file. Nella sua forma più sempllice
-	si scrive <em>tipo/sottotipo</em>.</dfn>
+	o "tipo mime" indica la natura e il formato di un file. Nella sua forma più semplice
+	si scrive <code>tipo/sottotipo</code>.</dfn>
 
 	<p>Degli esempi chiarificano la situazione: i file che contengono pagine
 	HTML sono di tipo <code>text/html</code> sarebbe a dire appartengono al gruppo "text"
 	e in particolare sono "html", le immagini jpeg sono di tipo <code>image/jpeg</code>.</p>
 
-	<p>Torniamo però allo scambio dei dati: uno dei primi formati usati per lo scambio dei dati
+	<p>Torniamo però allo scambio dei dati: 
+    uno dei primi formati usati per lo scambio dei dati
 	è il formato CSV (text/csv): questo formato è molto comodo perché è un formato di testo e
     è adatto a rappresentare i valori presenti in una tabela.<br/>
 	I dati presenti in una singola cella vengono rappresentati in formato testo,
@@ -73,6 +80,7 @@ Luigi,Bianchi,374776749
 	nel application/octet-stream se ho un cognome molto lungo non posso scriverlo.<br/>
 	Il primo problema è falso in realtà:
 	il formato csv è un pochino più complesso e non ha problemi con le virgole
+    (ma ne ha con i dati strutturati!)
 	ma il secondo problema purtroppo è un problema reale.</p>
 
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="maven API json http richiestaHttp rispostaHttp" group="spring" coords="80,30" -->
+<!-- autoIndex requires="API json http richiestaHttp rispostaHttp architettureServizi maven" group="spring" coords="80,30" -->
 <!-- changelog 2023-04-11 inserito capitolo -->
 <!-- changelog 2023-04-15 trattati parallelo MySQL e H2 -->
 <!-- changelog 2023-04-15 messa definizione di microservizio -->
 <!-- changelog 2023-05-02 inserito "spring.datasource.url=" e pacchetto per CrossOrigin -->
 <!-- changelog 2024-03-21 piccole correzioni -->
 <!-- changelog 2024-03-22 lasciata in questo capitolo soltanto introduzione -->
+<!-- changelog 2025-08-10 rimossa tutta la parte prima di Springboot-->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -37,30 +38,6 @@
     <p>scrivere velocemente dei micro servizi REST</p>
 </header>
 <article>
-<h2>Architettura del sistema</h2>
-<p>Dovendo costruire un sistema articolato nel suo progetto possiamo prendere
-in considerazione due opposte soluzioni:
-una architettura monolitica o una basata su microservizi.</p>
-
-<p>Una <em>architettura monolitica</em> prevede che il sistema sia sviluppato come un unico
-programma: un sistema di questo tipo ha alcuni vantaggi come la facilità iniziale di sviluppo,
-la possibilità di ottimizzazione e la semplicità di fare test globali.
-Ci sono però anche degli svantaggi: quando crescono sono più difficili da mantenere,
-è difficile cambiare le tecnologie utilizzate e hanno bassa 
-<a href="https://it.wikipedia.org/wiki/Scalabilit%C3%A0">scalabilità</a>.</p>
-
-<p>In una <em>architettura a microservizi</em> non ho a che fare con una entità unica ma con più
-programmi che offrono singoli servizi, un po' seguendo l'idea "fai una sola cosa e falla bene".
-Fondamentalmente usando questa architettura gruppi più piccoli si sviluppatori
-possono lavorare su un singolo servizio che può essere rilasciato molto velocemente, i singoli
-gruppi sono liberi di scegliere la tecnologia da usare e di cambiarla e oltre questo
-gli errori che riaguardano un singolo servizio sono più facili da trovare.
-Ovviamente c'è un rovescio della medaglia, ad esempio: il sistema non ha caratteristiche comuni,
-ogni volta che si aggiunge un microservizio il gruppo di sviluppo si deve organizzare per suo conto.</p>
-
-<p style="text-align: center"><img style="width:6sssssssss0vw"
-src="immagini/monolitico_microservizi.png"
-alt="diagramma sistema monolitico e microservizi"/></p>
 
 <h2>Cosa è Spring Boot</h2>
 <p><a href="">Spring Boot</a>

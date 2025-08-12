@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <!-- autoIndex requires="elaborazioneJsonClient http richiestaHttp rispostaHttp" group="servizi" coords="70,45" -->
 <!-- changelog 2019-04-28 inserito capitolo -->
+<!-- changelog 2025-08-12 aggiunto Bruno per i test -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
        <title>API</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -25,7 +26,7 @@
 
 	<h2>REST</h2>
 	<p>Questo tipo di architettura si presta molto bene all'uso in sistemi
-	client/server come quelle WEB e ha le seguenti caratteristiche:</p>
+	client/server orientati ai servizi come quelle WEB e ha le seguenti caratteristiche:</p>
 	<ul>
 		<li>usa HTTP come protocollo per trasferire i dati</li>
 		<li>non usa le sessioni: ogni richiesta viene elaborata senza
@@ -41,11 +42,9 @@
 		utilizzando il solito sistema del GET di HTTP</li>
 		<li>normalmente la risposta può essere fornita in più formati
 		ma JSON è quello più usato</li>
-		<li>per provare e sufficiente avere un browser (nel qual caso
-		un plugin come
-		<a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">
-		RESTClient</a> per Firefox possono semplificare la vita)
+		<li>per fare i primi test è sufficiente usare un browser
 		oppure programmi dedicati come
+        <a href="https://www.usebruno.com/">Bruno</a> o
 		<a href="https://www.postman.com/downloads/">Postman</a>
 		che però richiede di registrarsi.</li>
 	</ul>
