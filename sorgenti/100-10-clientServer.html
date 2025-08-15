@@ -4,6 +4,7 @@
 <!-- changelog 2019-03-24 inserite definizioni minime -->
 <!-- changelog 2019-09-18 aggiornate definizioni -->
 <!-- changelog 2020-03-29 errore battitura -->
+<!-- changelog 2025-08-14 riscritto per intero il capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -18,12 +19,23 @@
 </header>
 <article>
     <p style="text-align: center"><img src="immagini/client-server.svg" width="40%"/></p>
-    <p>Questo tipo di architettura prevede due ruoli distinti:</p>
+    <p>L'architettura Client/Server è in uso ormai da moltissimi anni,
+    storicamente molte delle tecnologie informatiche sono nate con sistemi
+    che possono assomigliare a questi: un mainframe
+    (una macchina poiuttosto potente relativamente al periodo)
+    a cui sono collegati molti terminali (macchine che invece
+    facevano soltanto input/output).</p>
+    <p>L'idea di fondo non è cambiata poi molto "un computer che fa il lavoro
+    e altri che si collegano per chiedergli di lavorare", quel ch è cambiato
+    è che oggi i terminali hanno un elevato grado di autonomia e si collegano
+    al server soltanto per compiti secifici (se il server non funziona possono
+    magari fare altro).</p>
+    <p>Questa architettura prevede due ruoli distinti:</p>
     <dl>
     	<dt>server</dt>
     	<dd>Offre un qualche servizio, potrebbe trattarsi di una macchina o
     	più in generale di un programma come ad esempio un server web.
-    	Questa entità resta in attesa delle richieste da parte del client e
+    	Resta in attesa delle richieste da parte del client e
     	se possibile le soddisfa.</dd>
     	<dt>client</dt>
     	<dd>Consuma (usa) i servizi offerti dal server.
@@ -31,10 +43,59 @@
     	sia ad una macchina che ad un software specifico come ad esempio
     	un browser. Questa entità si collega al server per ottenere i servizi.</dd>
     </dl>
+    
+    <p>A questo punto possiamo dare una definizione il più possibile generale:</p>
+    <dfn>Una <em>architettura client/server</em> è caratterizzata
+    dalla presenza di due ruoli: il server è una entità che offre un qualche 
+    tipo di servizio, il client è una entità che usa il servizio offerto.</dfn>
 
-    <p>In generale quando si parla di software è possibile che un programma
-    sia contemporaneamente server e client, e che una singola macchina ospiti
-    una serie di server.</p>
+    <p>Proviamo a vedere un esempio per puntualizzare i ruoli: descriviamo
+    l'architettura C/S usata in ambito web quando si visualizzano sul proprio
+    personal computer le pagine web di un sito.
+    Il <em>server</em> è un processo attivo in ascolto su una determinata porta
+    su una macchina fisica o virtuale connessa ad internet
+    (ha quindi un indirizzo IP) e quando riceve una richiesta di una pagina
+    la invia a chi l'ha richiesta. Il <em>client</em> è un processo in esecuzione
+    sul personal computer dell'utente (un browser) che su indicazione
+    dell'utente chiede al server una determinata pagina.</p>
+
+    <p>Nella pratica i ruoli possono anche essere più articolati
+    (l'elenco non è esaustivo):</p>
+    <ul>
+        <li>Su una stessa macchina posso avere in esecuzione
+        molteplici server (processi).</li>
+        <li>Uno stesso processo può essere client di più server.</li>
+        <li>Su una stessa macchina posso avere in esecuzione più client.</li>
+        <li>Sia il server che il client possono essere in esecuzione
+        sulla stessa macchina.</li>
+        <li>Uno stesso programma può essere sia client che server nei confronti
+        di altri programmi diversi.</li>
+    </ul>
+    <p>A ben guardare i casi esposti però è sempre possibile isolare una coppia
+    di server e relavivo client e trattarla isolatamente.</p>
+    <p>In tutta la trattazione non si è mai parlato delle condizioni alle quali
+    le due entità possono scambiarsi informazioni, questo perché si cerca di tenere
+    i vincoli al minimo: a patto che i due scambino i dati su un canale comune
+    e usando un formato comune non ci sono altri vincoli.</p>
+
+    <div class="test">
+        <p>In un sistema client-server, quale delle seguenti affermazioni è corretta?</p>
+        <a onclick="sbagliata(this)">Il server è sempre una macchina fisica distinta dal client. 
+        <span class="spiegazione">non è detto che sia una macchina fisica e neanche che siano distine</span></a>
+        <a onclick="giusta(this)">Un programma può agire sia da client che da server.</a> 
+        <a onclick="sbagliata(this)">Il client si connette al server solo se entrambi usano lo stesso sistema operativo.
+        <span class="spiegazione">non è richiesto in alcun modo, è addirittura più comune il contrario</span></a> 
+        <a onclick="giusta(this)">Il server attende richieste e, se possibile, le soddisfa.</a>
+    </div>
+
+    <p>Una cosntatazione:
+    comunemente ci riferisce come al <em>server</em> sia per indicare
+    il processo server sia per indicare la macchina su cui è in esecuzione
+    (analogamente pe ril client). Frasi del tipo "ci sono problemi con il server"
+    stanno (purtroppo) ad indicare che il problemi sono dal lato server e che non
+    si sta precisando se il computer è rotto è il server (l'applicazione)
+    ha un bug.</p>
+
 </article>
 </body>
 </html>
