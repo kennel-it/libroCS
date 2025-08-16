@@ -135,7 +135,7 @@ code {
 }
 
 em {
-	font-style: normal; font-weight: bold; color: #9c0f16;
+	font-style: italic; font-weight: bold; color: #75151a;
 }
 
 body#titlepage {
@@ -167,6 +167,7 @@ dfn {
     background-color: var(--colore-primario); color: var(--colore-primario-testo);
     border-top: 0.5em solid var(--colore-primario-scuro)
 }
+dfn em { font-style: normal; color: #9c0f16; font-size: 115%; }
 
 /* esercizi e test */
 .test {

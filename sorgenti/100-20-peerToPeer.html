@@ -2,6 +2,7 @@
 <!-- autoIndex requires="architettura" group="base" coords="30,20" -->
 <!-- changelog 2019-09-18 inserito capitolo -->
 <!-- changelog 2020-09-20 riscritto capitolo -->
+<!-- changelog 2025-08-16 riscritto il capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -18,24 +19,88 @@
     <p style="text-align: center"><img src="immagini/p2p.svg" width="40%"/></p>
 
     <p>In questo tipo di architettura tutte le macchine svolgono gli stessi ruoli,
-    nel diagramma sopra è rappresentata la situazione in cui ogni processo dialoga con tutti gli altri,
-    questa ovviamente è una semplificazione: è possibile che un processo parli in ogni istante
-    con nessuno o più degli altri (anche con tutti) ma non è necessario che lo faccia sempre con tutti.</p>
+    nel diagramma sopra è rappresentata la situazione in cui ogni processo dialoga con tutti gli altri
+    ma questa ovviamente è una semplificazione: è possibile che un processo parli
+    con uno o più degli altri ma non è necessario che lo faccia sempre con tutti.</p>
 
-    <p>Una struttura come questa ha degli ovvi vantaggi:
-    non c'è una macchina che ha più carico di lavoro delle altre e
-    non ha un punto centrale di fragilità, è difficile però da implementare.</p>
+    <p>Una architettura di questo genere visto il ruolo paritario dei singoli elementi viene
+    chiamata <em>pair to pair</em> e spesso abbreviata in <em>p2p</em>.</p>
 
+    <dfn>In un sistema <em>p2p</em> tutte le entità hanno ruoli paritari e comunicano
+    direttamente tra di loro senza passare per un server centreale.</dfn>
+
+    <p>Strutture di questo tipo hanno alcuni vantaggi:</p>
+    <ul>
+        <li>non essendoci una macchina che deve gestire il tutto è possibile utilizzarne
+        di pià piccole</li>
+        <li>il carico di lavoro è distribuito tra i nodi</li>
+        <li>il sistema ha una più elevata tolleranza ai guasti</li>
+        <li>in genere ha una elevata scalabilità</li>
+    </ul>
+
+    <p>E ovviamente degli svantaggi:</p>
+    <ul>
+        <li>la gestione è più complessa</li>
+        <li>minor controllo in quanto avendo tutti pari livello
+        non si può intervenire facilmente per fare cambiamenti</li> 
+    </ul>
+
+    <h2>Conoscere i pari</h2>
     <p>In una architettura p2p "pura" ogni client ha il compito di scoprire gli altri "peer":
     questa cosa potrebbe essere facile da farsi in una piccola rete locale mandando un messaggio
     in broadcast ma non è affatto ovvia su una rete di grandi dimensioni che viene usata anche per
     altri scopi oltre al nostro.</p>
 
-    <p>Una soluzione per trovare i propri peer è quella dell'uso di un "Discovery Server":
-    quando mi connetto dico al server (di cui devo conoscere l'ubicazione) chi sono e lui mi da un elenco di miei peer
-    (questa è la soluzione usata da BitTorrent). Ci si riferisce a queste soluzioni comunque come
-    p2p perché l'architettura di tipo client/server viene utilizzata solo in una piccola fase del lavoro.</p>
+    <p>Una soluzione per trovare i propri peer è quella dell'uso di un <em>Discovery Server</em>:
+    quando mi connetto chiedo al server (di cui devo conoscere l'ubicazione) chi i miei peer
+    (questa soluzione, con diverse sfumature, è molto utilizzata).
+    Ci si riferisce a queste soluzioni comunque come p2p perché l'architettura di tipo
+    client/server dei discovery viene utilizzata solo in una piccola fase del lavoro.</p>
 
+    <h2>Esempio di sistemi p2p</h2>
+    <p>Esistono diversi sistemi che usano questo dipo di architetture per scopi anche moto diversi,
+    vediamo 3 esempi in tre diversi ambiti: condivisione di file, database distribuiti e
+    block chain. In tutti questi casi il fatto che un nodo si spenga non implica
+    l'inutilizzabilità del sistema.</p>
+
+    <h3><a href="https://it.wikipedia.org/wiki/BitTorrent">BitTorrent</a></h3>
+    <p>Questo protocollo permette di scaricare un file da più peer in modo da velocizzare di molto il 
+    download e non gravare troppo su una singola fonte centrale.</p>
+    <p>In pratica all'inizio dobbiamo avere un file <code>application/x-bittorrent</code> 
+    (solitamente un file con estensione .torrent)
+    in cui è specificato uno o più <em>tracker server</em>,in quanti blocchi è diviso il file
+    e un checksum di ogni blocco (un pezzo) del file. Una volta ottenuto questo file il peer
+    (un client bitTorrent come μTorrent ad esempio) contatta il tracker server (una specie di discovery)
+    che gli fornisce un elenco di pari (più sono e più il sistema è veloce e robusto)
+    che stanno condividendo quel file.</p>
+    <p>Ottenuto l'elenco dei pari il programma inizia a scaricare blocchi diversi da peer diversi
+    e una volta scaricato il blocco ne verifica l'integrità usando il checksum presente nel
+    file torrent che ha scaricato all'inizio, se la verifica è positiva mette a disposizione dei pari
+    il blocco appena scaricato e va avanti scaricando altri blocchi.</p>
+
+    <h3><a href="https://cassandra.apache.org/_/index.html">Apache Cassandra</a>️</h3>
+    <p>Cassandra è un database NoSQL distribuito open source ottimizzato per
+    gestire grandi quantità di dati, una sua installazione è formata da più
+    nodi che comunicano tra loro formando un gruppo che gestisce un
+    unico database.La comunicazione tra pari segue un protocollo definito
+    <a href="https://en.wikipedia.org/wiki/Gossip_protocol">gossip</a> usato
+    anche da altri sistemi come Bitcoin.</p>
+    <p>Nel caso di Cassandra in fase di installazione su un nodo va impostato in un file di configurazione
+    uno o più nodi con cui all'inizio il processo deve comunicare (nodi seed),
+    questi nodi fornisco informazioni su altri peer e poi la comunicazione procede
+    tra i diversi peer scambiandosi informazioni sullo stato dei nodi.</p>
+
+    <h3><a href="https://it.wikipedia.org/wiki/Bitcoin">Bitcoin</a></h3>
+    <p>Bitcoin è una criptovaluta e un sistema di pagamento che utilizza una architettura
+    p2p per mantenere tutte le informazioni evitando di doversi fidare di un singolo
+    nodo ma affidandosi al consenso della maggioranza.</p>
+    <p>All'accenzione un nodo non conosce chi sono
+    i suoi pari ma conosce l'indirizzo di uno o più DNS specializzati chiamati
+    "DNS seed" a cui invia una richiesta e in risposta riceve l'indirizzo di
+    uno o più "full node" del sistema di bitcoin a cui poi si connette avviando
+    la comunicazione p2p. Da questo punto in poi ogni nodo completo (ne esistono di altri tipi)
+    contiene l'intera catena di Bitcoin ed è in grado di verificare
+    se le informazioni sono valide, in caso le propaga agli sltri nodi.</p>
 
 </article>
 </body>

@@ -28,7 +28,7 @@ software o hardware che le relazioni che si possono instaurare tra di loro.</dfn
 
 <p>Una esempio di architettura semplice è quello dato da un programma
 desktop che esegue delle elaborazioni senza collegarsi a nessun altro sistema
-ne chiedendo informazioni ad altri programmi presenti nella stessa macchina:
+né chiedendo informazioni ad altri programmi presenti nella stessa macchina:
 questo è in molti casi quel che ci serve ma non sempre.
 Architetture di questo genere vengono dette <em>monolitiche</em>
 e prevedono che il sistema venga sviluppato come un unico programma: 
@@ -41,7 +41,8 @@ quando crescono sono più difficili da mantenere,
 non riescono a mantenere buone prestazione all'aumentare del carico di lavoro.</p>
 
 <p>Una misura che può essere utile nel valutare 
-la bontà di un sistema facendo riferimento alle sue prestaizoni è la scalabilità:</p>
+la bontà di un sistema facendo riferimento alle sue prestazioni è la 
+<em>scalabilità</em>:</p>
 
 <dfn>La <em>scalabilità</em> di un sistema è la capacità
 che ha il sistema stesso di mantenere le prestazioni stabili anche 
@@ -60,20 +61,20 @@ il sistema deve essere stato progettato dall'inizio per permettere di fare
 questo lavoro.</p>
 
 <p>Attenzione ai termini "migliorare" e "mantenere".
-Poniamo di avere un sistema web che ha circa 50 richieste al secondo e 
+Poniamo di avere un sistema web che riceve circa 20 richieste al secondo e 
 per soddisfare una richiesta impiega 100 millesimi di secondo.
-Ad un certo punto le richieste diventano 100 al secondo 
+Ad un certo punto le richieste diventano 40 al secondo 
 e per via dell'aumentato lavoro il tempo di servizio
 diventa di 200 ms. Se questo sistema "scala bene" devo poterlo
 "migliorare" in modo da "mantenere" il livello
 originale di servizio: devo cioè migliorare il sistema in modo che pur 
-avendo 100 richieste al secondo io possa servire ciascuna richiesta in 100ms.</p>
+avendo 40 richieste al secondo io possa servire ciascuna richiesta in 100ms.</p>
 
 <h2>Sistemi distribuiti</h2>
 <p>Spesso i programmi hanno bisogno di reperire informazioni
 che non possiedono o di svolgere operazioni complesse che non sono in grado
 di portare avanti da soli. In questi contesti (sempre più comuni)
-una architettura che viene in aiuto è quella detta distribuita,
+una architettura che viene in aiuto è quella detta <em>distribuita</em>,
 esistono diverse definizioni di sistema distribuito più o meno
 equivalenti, noi useremo quella di 
 <a href="https://www.cs.vu.nl/~ast/Publications/Papers/computing-2016.pdf">
@@ -81,8 +82,8 @@ van Steen e Tanenbaum</a>:</p>
 <dfn>Un <em>sistema distribuito</em> è un insieme di elementi di elaborazione autonomi
 che appare ai suoi utenti come un unico sistema coerente.</dfn>
 
-<p>Nella definizione rientrano tantissime architetture attuali e in
-"elementi di elaborazione" possiamo includere sia componenti hardware che software,
+<p>Nella definizione rientrano tantissime architetture attuali. In
+"elementi di elaborazione" possiamo includere sia componenti hardware che software;
 anche l'uso di una applicazione su un dispositivo mobile che accede a dati
 presenti su un sistema remoto ovviamente rientra nella definizione (es: Spotify).</p>
 
@@ -104,13 +105,13 @@ la comunicazione tra due computer ad esempio introduce complessità
 nella realizzazione del software.</li>
 <li>Dipendenza dalla rete: sia le prestazioni che l'affidabilità del sistema
 dipendono dall'infrastruttura di comunicazione su cui non è detto che
-si posssa intervenire e che spesso introduce dei costi economici.</li>
+si possa intervenire e che spesso introduce dei costi economici.</li>
 <li>Debugging e testing più difficili: individuare la causa
 di un problema è più complesso perché il bug potrebbe dipendere
 dall'interazione tra i componenti.</li>
 <li>Difficoltà di sincronizzazione: in caso i dati siano presenti in più
 elementi di elaborazione mantenerli sincronizzati non è ovvio.</li>
-<li>Problemi di sicurezza: avere più elementi di elebaorazione
+<li>Problemi di sicurezza: avere più elementi di eleborazione
 semplicemente significa ampliare le superfici di attacco.</li>
 </ul>
 
