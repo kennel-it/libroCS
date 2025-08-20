@@ -24,15 +24,15 @@
     con uno o più degli altri ma non è necessario che lo faccia sempre con tutti.</p>
 
     <p>Una architettura di questo genere visto il ruolo paritario dei singoli elementi viene
-    chiamata <em>pair to pair</em> e spesso abbreviata in <em>p2p</em>.</p>
+    chiamata <em>peer to peer</em> e spesso abbreviata in <em>p2p</em>.</p>
 
     <dfn>In un sistema <em>p2p</em> tutte le entità hanno ruoli paritari e comunicano
-    direttamente tra di loro senza passare per un server centreale.</dfn>
+    direttamente tra di loro senza passare per un server centrale.</dfn>
 
     <p>Strutture di questo tipo hanno alcuni vantaggi:</p>
     <ul>
         <li>non essendoci una macchina che deve gestire il tutto è possibile utilizzarne
-        di pià piccole</li>
+        di più piccole</li>
         <li>il carico di lavoro è distribuito tra i nodi</li>
         <li>il sistema ha una più elevata tolleranza ai guasti</li>
         <li>in genere ha una elevata scalabilità</li>
@@ -52,7 +52,7 @@
     altri scopi oltre al nostro.</p>
 
     <p>Una soluzione per trovare i propri peer è quella dell'uso di un <em>Discovery Server</em>:
-    quando mi connetto chiedo al server (di cui devo conoscere l'ubicazione) chi i miei peer
+    quando mi connetto chiedo al server (di cui devo conoscere l'ubicazione) chi sono i miei peer
     (questa soluzione, con diverse sfumature, è molto utilizzata).
     Ci si riferisce a queste soluzioni comunque come p2p perché l'architettura di tipo
     client/server dei discovery viene utilizzata solo in una piccola fase del lavoro.</p>
@@ -68,39 +68,40 @@
     download e non gravare troppo su una singola fonte centrale.</p>
     <p>In pratica all'inizio dobbiamo avere un file <code>application/x-bittorrent</code> 
     (solitamente un file con estensione .torrent)
-    in cui è specificato uno o più <em>tracker server</em>,in quanti blocchi è diviso il file
+    in cui è specificato uno o più <em>tracker server</em>, in quanti blocchi è diviso il file
     e un checksum di ogni blocco (un pezzo) del file. Una volta ottenuto questo file il peer
     (un client bitTorrent come μTorrent ad esempio) contatta il tracker server (una specie di discovery)
     che gli fornisce un elenco di pari (più sono e più il sistema è veloce e robusto)
     che stanno condividendo quel file.</p>
     <p>Ottenuto l'elenco dei pari il programma inizia a scaricare blocchi diversi da peer diversi
     e una volta scaricato il blocco ne verifica l'integrità usando il checksum presente nel
-    file torrent che ha scaricato all'inizio, se la verifica è positiva mette a disposizione dei pari
+    file torrent che ha scaricato all'inizio; se la verifica è positiva mette a disposizione dei pari
     il blocco appena scaricato e va avanti scaricando altri blocchi.</p>
 
     <h3><a href="https://cassandra.apache.org/_/index.html">Apache Cassandra</a>️</h3>
     <p>Cassandra è un database NoSQL distribuito open source ottimizzato per
     gestire grandi quantità di dati, una sua installazione è formata da più
     nodi che comunicano tra loro formando un gruppo che gestisce un
-    unico database.La comunicazione tra pari segue un protocollo definito
+    unico database. La comunicazione tra pari segue un protocollo definito
     <a href="https://en.wikipedia.org/wiki/Gossip_protocol">gossip</a> usato
     anche da altri sistemi come Bitcoin.</p>
-    <p>Nel caso di Cassandra in fase di installazione su un nodo va impostato in un file di configurazione
-    uno o più nodi con cui all'inizio il processo deve comunicare (nodi seed),
-    questi nodi fornisco informazioni su altri peer e poi la comunicazione procede
-    tra i diversi peer scambiandosi informazioni sullo stato dei nodi.</p>
+    <p>In fase di installazione su un nodo va impostato in un file di configurazione
+    con quali peer all'inizio il processo deve comunicare (nodi seed).
+    Il ruolo dei nodi seed è quello di punto di contatto iniziale con la rete dei peer
+    poi la comunicazione procede scambiandosi informazioni sullo stato del db 
+    tra i diversi nodi.</p>
 
     <h3><a href="https://it.wikipedia.org/wiki/Bitcoin">Bitcoin</a></h3>
     <p>Bitcoin è una criptovaluta e un sistema di pagamento che utilizza una architettura
     p2p per mantenere tutte le informazioni evitando di doversi fidare di un singolo
     nodo ma affidandosi al consenso della maggioranza.</p>
-    <p>All'accenzione un nodo non conosce chi sono
+    <p>All'accensione un nodo non conosce chi sono
     i suoi pari ma conosce l'indirizzo di uno o più DNS specializzati chiamati
     "DNS seed" a cui invia una richiesta e in risposta riceve l'indirizzo di
     uno o più "full node" del sistema di bitcoin a cui poi si connette avviando
     la comunicazione p2p. Da questo punto in poi ogni nodo completo (ne esistono di altri tipi)
     contiene l'intera catena di Bitcoin ed è in grado di verificare
-    se le informazioni sono valide, in caso le propaga agli sltri nodi.</p>
+    se le informazioni sono valide, in caso le propaga agli altri nodi.</p>
 
 </article>
 </body>

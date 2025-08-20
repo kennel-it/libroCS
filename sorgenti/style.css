@@ -7,6 +7,7 @@
 /* color spring #39fa42 */
 /* placeholder color map HTML */
 
+
 * {
     box-sizing:border-box;
     --colore-primario: #ffab40; /* orange A700 */
@@ -66,16 +67,61 @@ nav > * {
     text-align:center; text-decoration: none;
     margin:0em 1em; padding:0.5em;
 }
+
+
+
+
+
 /* ---------------------------- parti principali della pagina ---------------------------------- */
 article { margin:1em 5% ; padding-bottom:3em}
-
-h2 { text-align: left }
-
-p {
-    text-align: justify;
-    line-height: 1.5em;
-    text-indent: 2em;
+h2 { 
+    text-align: left;
+    margin-top:3rem;
+    border-bottom:1px dashed #444; 
 }
+h3 { 
+    text-align: left; 
+    margin-top:2rem;
+    border-bottom:1px dotted #999; 
+}
+p, dfn {
+    text-align: justify;
+    line-height: 1.5rem;
+}
+em {
+    font-style: normal; font-weight: bold; color: var(--colore-primario-scuro) ;
+}
+dfn {
+    display: block;
+    padding: 0.75em;
+    background-color: var(--colore-primario); color: var(--colore-primario-testo);
+    border-top: 0.5em solid var(--colore-primario-scuro) 
+}
+dfn em { color: var(--colore-primario-testo) }
+img.screen_shot { border:1px solid gray; margin: 0.5em }
+img.iconaIDE { height: 2ex; }
+.approfondimento { 
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    border-left: 0.2em dashed orange;
+    border-right: 0.2em dashed orange;
+    padding: 0em 1em;
+    margin-top: 2em;
+    color: #613515;
+}
+.approfondimento:before {
+    font-size:150%; content: "🔍 per saperne di più"; background-color:orange; padding:0.2em
+}
+li { margin-top:0.2em }
+strong { font-size:125% ; font-weight: normal; font-style: normal}
+dt { font-weight: bold ; margin-top:0.5em}
+table { border-collapse: collapse }
+td,th { border:1px solid #444 ; padding:0.25em}
+
+
+
+
+
 
 
 
@@ -278,4 +324,31 @@ nav#top > * {
 	margin:0em 1em;
 	text-decoration: none;
 	color: black;
+}
+
+.approfondimento { 
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    border-left: 0.2em dashed orange;
+    border-right: 0.2em dashed orange;
+    padding: 0em 1em;
+    margin-top: 2em;
+    color: #613515;
+}
+.approfondimento:before {
+    font-size:150%; content: "🔍 per saperne di più"; background-color:orange; padding:0.2em
+}
+
+
+.approfondimento { 
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    border-left: 0.2em dashed orange;
+    border-right: 0.2em dashed orange;
+    padding: 0em 1em;
+    margin-top: 2em;
+    color: #613515;
+}
+.approfondimento:before {
+    font-size:150%; content: "🔍 per saperne di più"; background-color:orange; padding:0.2em
 }
