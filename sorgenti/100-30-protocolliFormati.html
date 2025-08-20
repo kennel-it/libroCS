@@ -5,7 +5,8 @@
 <!-- changelog 2020-03-29 errore battitura -->
 <!-- changelog 2020-09-20 riscritto capitolo -->
 <!-- changelog 2024-09-18 rimosso FTP in favore di SFTP -->
-<!-- changelog 2025-08-12 piccole correzioni e cambiato nome al capitolo-->
+<!-- changelog 2025-08-12 piccole correzioni e cambiato nome al capitolo -->
+<!-- changelog 2025-08-20 inserito esempio per application/octet-stream -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -34,10 +35,10 @@
 	HTTP per trasferire ipertesti, SMTP per inviare la posta e IMAP e POP3 per leggerla.</p>
 
 	<p>Nel protocollo oltre alle regole per comunicare viene specificato anche quale (o quali)
-	formati vanno usati per rappresentare le informazioni che vogliamo scambiare, ci occuperemo di
-	quelli più diffusi che si usano in ambito informatico
+	formati vanno usati per rappresentare le informazioni che vogliamo scambiare.
+    Ci occuperemo dei protocolli più diffusi che si usano in ambito informatico
 	partendo proprio da come si identifica un formato dei dati presenti in un file
-	(che sia un file o un pacchetto di dati inviati in rete non cambia nulla): utilizzando
+	(che sia un file o un pacchetto di dati inviati in rete non cambia nulla) utilizzando
 	il suo tipo mime.</p>
 
 	<dfn>Un <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">
@@ -53,8 +54,8 @@
 	<p>Torniamo però allo scambio dei dati: 
     uno dei primi formati usati per lo scambio dei dati
 	è il formato CSV (text/csv): questo formato è molto comodo perché è un formato di testo e
-    è adatto a rappresentare i valori presenti in una tabela.<br/>
-	I dati presenti in una singola cella vengono rappresentati in formato testo,
+    è adatto a rappresentare i valori presenti in una tabella.<br/>
+	I dati presenti in una singola cella della tabella vengono rappresentati in formato testo,
 	ogni cella è separata dalla successiva da una virgola e ogni riga termina con
 	un "a capo". Questo formato è a tutt'oggi molto usato,
 	possiamo facilmente avere un esempio per una agenda:</p>
@@ -67,17 +68,44 @@ Luigi,Bianchi,374776749
 
 	<p>È anche possibile che un protocollo utilizzi dei file binari
 	(<code>application/octet-stream</code>), formati in cui si definisce byte per
-	byte cosa deve contere un file, erano abbastanza comuni formati come questo:</p>
+	byte cosa deve contere un file (o un blocco di byte più genericamente),
+    erano abbastanza comuni formati come questo:</p>
 	<ul>
-		<li>ogni informazione occupa 50 byte</li>
-		<li>i byte dallo 0 al 19 sono il nome</li>
-		<li>i byte dal 20 al 40 sono il cognome</li>
-		<li>i byte dal 41 al 49 sono il numero di telefono</li>
+		<li>ogni informazione occupa 30 byte</li>
+		<li>i byte dallo 0 al 9 sono il nome con spazi in fondo se necessario</li>
+		<li>i byte dal 10 al 22 sono il cognome cpn spazi in fondo se necessario</li>
+        <li>i byte dal 23 al 25 rappresentano il colore del cartellino in rgb</li>
+		<li>i byte dal 26 al 29 lo stipendio come numero intero senza segno</li>
 	</ul>
+    
+    <p>Vediamo ad esempio cosa conterrebbe un file in cui si vogliono registrare
+    i dati di due dipendenti: Mario Rossi che hai il badge rosso e guadagna 1500€,
+    Chiara Esposito che ha il badge giallo e guadagna 1792€.</p>
+
+<pre><samp>
+byte  0-15 <em>4d 61 72 69 6f 20 20 20  20 20 52 6f 73 73 69 20</em>
+byte 16-31 <em>20 20 20 20 20 20 20 ff  00 00 00 00 05 dc 43 68</em>
+byte 32-47 <em>69 61 72 61 20 20 20 20  45 73 70 6f 73 69 74 6f</em>
+byte 48-59 <em>20 20 20 20 20 ff ff 00  00 00 07 00</em>
+</samp></pre>
+
+    <p>Ovviamente un file di questo genere non può essere visualizzato come testo
+    perché alcune informazioni sono in formato binario.</p>
+
+    <div class="test">
+        <p>Per essere precisi nella specificadell'esempio sopra mancano delle informazioni: quali?</p>
+        <a onclick="giusta(this)">La codifica del testo 
+        <span class="spiegazione">potrebbe essere UTF-8 ma va specificato</span></a>
+        <a onclick="sbagliata(this)">Quanti elementi si possono registrare
+        <span class="spiegazione">non necessario, finché c'è spazio si inseriscono</span></a> 
+        <a onclick="giusta(this)">La codifica dei numeri
+        <span>ad esempio se con complemento a due o meno</span></a>
+    </div>
 
 	<p>Guardando questi due esempi possiamo trovare due punti deboli:
 	nel text/csv se ho una virgola nel nome o nel cognome sono nei guai...
-	nel application/octet-stream se ho un cognome molto lungo non posso scriverlo.<br/>
+	nel application/octet-stream se ho un cognome più lungo del previsto
+    non posso scriverlo per intero.<br/>
 	Il primo problema è falso in realtà:
 	il formato csv è un pochino più complesso e non ha problemi con le virgole
     (ma ne ha con i dati strutturati!)
