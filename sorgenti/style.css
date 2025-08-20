@@ -36,7 +36,7 @@ header    { margin:0 ; padding:0 }
 header h1 { margin:0 ; padding:2rem 3em 0.5rem 3em ; text-align: center }
 header p  { margin:0 ; padding: 0.5rem 1rem 2rem 1rem ; text-align: center ; text-indent: 0 }
 .legenda.noGroup             { background-color: var(--colore-sfondo-noGroup) }
-.legenda.base                { background-color: var(--colore-sfondo-noGroup) }
+.legenda.base                { background-color: var(--colore-sfondo-base) }
 .legenda.http                { background-color: var(--colore-sfondo-http) }
 .legenda.java                { background-color: var(--colore-sfondo-java) }
 .legenda.javascript          { background-color: var(--colore-sfondo-javascript) }
