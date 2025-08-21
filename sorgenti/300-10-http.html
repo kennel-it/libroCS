@@ -34,9 +34,9 @@
 	
 	<div class="test">
 	   	<p>Visto come è stato descritto il protocollo HTTP in quale livello dello stack TCP/IP viene utilizzato?</p>
-	    <a onclick="sbagliata(this)">Accesso alla rere (o host)<span class="spiegazione">no, qui si trovano protocolli come quelli di Ethernet</span></a>
+	    <a onclick="sbagliata(this)">Accesso alla rete (o host)<span class="spiegazione">no, qui si trovano protocolli come quelli di Ethernet</span></a>
 	    <a onclick="sbagliata(this)">Internet<span class="spiegazione">no, questo è il livello che si occupa del routing</span></a> 
-	    <a onclick="sbagliata(this)">Trasporto<span class="spiegazione">no, questo è il livello con contiene TCP e UDP, si occupa del trasporto di qualsiasi tipo di dato</span></a>
+	    <a onclick="sbagliata(this)">Trasporto<span class="spiegazione">no, questo è il livello che contiene TCP e UDP, si occupa del trasporto di qualsiasi tipo di dato</span></a>
 	    <a onclick="giusta(this)">Applicazione<span class="spiegazione">giusto, server web e browser (i client) sono applicazioni</span></a> 
 	</div>
 	
@@ -44,7 +44,7 @@
     e anche per questo trasmette i dati in formato binario, 
     non modifica sostanzialmente la modalità di interazione definite dalla versione 1.1 che è invece in
     formato testo quindi più facilmente analizzabile. In ogni caso gli strumenti a disposizione
-    oggi permettono di analizzase sia le richieste che le risposte di entrambe le versioni.
+    oggi permettono di analizzare sia le richieste che le risposte di entrambe le versioni.
     I concetti che tratteremo sono applicabili sia alla versione 1.1 che alla 2 del protocollo.</p>
 
     <dfn><em>HTTP</em> è un protocollo di comunicazione stateless che lavora al livello applicazione
@@ -56,7 +56,7 @@
     
     <p>HTTP permette di eseguire diverse azioni sulle risorse, non solo leggerle ma anche caricarle
     o cancellarle ad esempio. Cosa è una risorsa? Per quando ci riguarda tratteremo come risorsa
-    qualsiasi cosa identificabile tramite una URL (come di uso le cose tra parentesi quadre sono opzionali):
+    qualsiasi cosa identificabile tramite una URL (come di consuetudine le cose tra parentesi quadre sono opzionali):
     <code>protocollo://host[:porta][&lt;/percorso&gt;][?querystring][#fragment]</code></p>
 
     <dl>
@@ -74,7 +74,7 @@
         dati di input di uno script, scritti nella forma <code>nome=valore</code>
         e separati da &amp;</dd>
         <dt>fragment</dt>
-        <dd>serve lo browser per eventualmente saltare ad una parte specifica della pagina</dd>
+        <dd>serve al browser per eventualmente saltare ad una parte specifica della pagina</dd>
     </dl>
 
      <p>Magari è più chiaro vedendo alcuni esempi:</p>
@@ -88,7 +88,7 @@ http://ricerca.italia.it
 https://server.azienza.com:8881/script.php?nome=Mario&amp;cognome=Rossi
 </samp></pre>
 
-    <p>Nel caso la comunicazione debba avveniore in modalità riservata (la norma oggi) il protocollo
+    <p>Nel caso la comunicazione debba avvenire in modalità riservata (la norma oggi) il protocollo
     HTTP normalmente si appoggia a TLS: in questo caso il protocollo si chiama <em>HTTPS</em>.</p>
 
 </article>

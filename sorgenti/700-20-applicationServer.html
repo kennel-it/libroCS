@@ -34,17 +34,17 @@
 	quello che cambia è la configurazione del server che noi non tratteremo perché
 	Tomcat si avvia senza la necessità di particolari configurazioni, spostare la nostra applicazione
 	su un altro server di questa categoria come
-	<a hreF="https://javaee.github.io/glassfish/">GlassFish</a> o altri.</p>
+	<a hreF="https://javaee.github.io/glassfish/">GlassFish</a> o altri non comporta modifiche particolari.</p>
 
 	<p>Una volta scaricato il pacchetto
 	va scompattato e per avviarlo basta lanciare il programma
 	<code>startup.bat</code> in Windows o <code>startup.sh</code> su Unix
 	che si trova nella sottocartella <code>bin</code>.</p>
-	<p>Per poter avviare Tomcat ha bisogno di sapere dove si trova Java: questo lo possiamo indicare
+	<p>Per poter partire, Tomcat ha bisogno di sapere dove si trova Java: questo lo possiamo indicare
 	utilizzando una variabile di ambiente chiamata <code>JAVA_HOME</code>
-	nel file <code>setenv.sh</code> che si trova sempre nella cartella bin,
+	nel file <code>setenv.sh</code> (o onalogo per windows) che si trova sempre nella cartella bin,
 	il file conterrà semplicemente una riga:</p>
-	<pre>JAVA_HOME=/percorso/cartella/jdk-17</pre>
+	<pre>JAVA_HOME=/percorso/cartella/jdk-21</pre>
 
 	<h2>Hello World!</h2>
 	<p>Come esempio creiamo un oggetto che si chiama
@@ -55,10 +55,10 @@
 	<p>Se stiamo usando Eclipse fa comodo avere la versione <em>EE</em> (quella indicata
 	come Java Enterprise nella pagina di Download). Creiamo un nuovo progetto "Dynamic Web Project"
 	lasciando le impostazioni di default.</p>
-	<p>A questo punto creiamo una nuova classe <code>HelloWorld</code> (in qualsiasi pacchetto),
-	l'applicazione in se non è complessa (altrimenti perché usare un Application server?):</p>
+	<p>Realizzare una applicazione per un Application server non è complesso:
+    iniziamo creando una nuova classe <code>HelloWorld</code> (in qualsiasi pacchetto):</p>
 
-<pre>
+<pre><code>
 package servlet;
 
 import java.io.IOException;
@@ -84,7 +84,7 @@ public class HelloWorld extends HttpServlet {
         response.getWriter().append("richiesta POST");
     }
 }
-</pre>
+</code></pre>
 
 <p>Se abbiamo fatto tutto in ordine dovremmo avere tantissimi errori nella classe... questo perché
 stiamo utilizzando degli oggetti che non sono presenti nella libreria base di Java. In eclipse correggere il

@@ -25,7 +25,7 @@
 	tipo di informazioni, per capire meglio la situazione possiamo dire che XHTML è una
 	versione particolare di XML che consentre di descrivere pagine web.</p>
 	<p>La sintassi di un documento è molto semplice: inizia con
-	<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> (facendo la ragionevole supposzione
+	<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> (facendo la ragionevole supposizione
 	che il file sia codificato in UTF-8)
 	e poi prosegue con una serie di tag nidificati in maniera corretta (i parser
 	XML non sono tolleranti come i browser nel leggere un documento),
@@ -48,10 +48,10 @@
 	<ul>
 		<li>un qualsiasi contenuto va racchiuso in un tag</li>
 		<li>il nome di un tag non deve contenere spazi</li>
-		<li>per aprire un tag si racchiude tra <code>&lt;</code> e <code>&gt;</code></li>
+		<li>per aprire un tag il suo nome si racchiude tra <code>&lt;</code> e <code>&gt;</code></li>
 		<li>nell'apertura di un tag possono essere opzionalmente presenti uno o più attributi</li>
 		<li>ogni attributo è scritto come <code>nome="valore"</code></li>
-		<li>per chiudere un tag si racchgiude tra <code>&lt;/</code> e <code>&gt;</code></li>
+		<li>per chiudere un tag si racchiude il suo nome tra <code>&lt;/</code> e <code>&gt;</code></li>
 		<li>i tag vanno chiusi nidificandoli correttamente (si chiude per primo l'ultimo aperto)</li>
 	</ul>
 
@@ -66,11 +66,11 @@
 		<dt>DTD</dt><dd>un insieme di regole grammaticali che definiscono uno specifico linguaggio
 		(es: nella rubrica posso mettere quante persone voglio...)</dd>
 		<dt>XML Schema</dt><dd>di uso analogo ad DTD ma più recente</dd>
-    		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i foglli di stile,
+    		<dt>XSL</dt><dd>(eXtensible Stylesheet Language): è un linguaggio per definire i fogli di stile,
     		sarebbe a dire un modo per descrivere come va visualizzato il documento</dd>
     	</dl>
 
-	<p>Proviamo a vedere un oggetto on pochino più complicato: il menu di una pizzeria</p>
+	<p>Proviamo a vedere un oggetto un pochino più complicato: il menu di una pizzeria</p>
 
 <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -131,8 +131,8 @@
 
 	<p>Normalmente non ci sono obblighi per utilizzare un attibuto o un tag per contenere una
 	informazione, si evita però solitamente di usare gli attributi quando il contenuto è troppo esteso
-	come ad esempio la via di una citta ma i due esempi qui sotto son entrambe validi, ovviamente
-	va specificato quando si definisce l'XML usato se si usa un attributo o un tag per contenere
+	come ad esempio la via di una citta ma i due esempi qui sotto sono entrambi validi, ovviamente
+	va specificato quando si definisce una applicazione di l'XML se si usa un attributo o un tag per contenere
 	una determinata informazione.</p>
 
 <pre>&lt;persona&gt;&lt;eta&gt;17&lt;/eta&gt;&lt;nome&gt;piero&lt;/nome&gt;&lt;/persona&gt;</pre>

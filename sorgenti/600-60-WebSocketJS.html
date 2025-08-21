@@ -33,39 +33,39 @@
     <h2>Esempio</h2>
     <p>Partiamo subito con un esempio molto minimale in cui sono evidenziate le parti
     riguardanti la comunicazione con WebSocket:</p>
-<div class="prog">
+<pre><code>
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
-&lt;meta charset="UTF-8"&gt;
-&lt;title&gt;Comunicazione via Websocket&lt;/title&gt;
-&lt;script type="text/javascript"&gt;
-  "use strict";
-  function gestoreRicezione(messaggioRicevuto){
-    document.getElementById("ricezione").textContent += <span class="evidenza">messaggioRicevuto.data</span> + "\n"; // [1]
-  }
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Comunicazione via Websocket&lt;/title&gt;
+  &lt;script&gt;
+    "use strict";
+    function gestoreRicezione(messaggioRicevuto){
+    document.getElementById("ricezione").textContent += <em>messaggioRicevuto.data</em> + "\n"; // [1]
+    }
 
-  <span class="evidenza">let ws = new WebSocket("ws://esempio.org/wschat/chat"); // [2]</span>
-  <span class="evidenza">ws.onmessage = gestoreRicezione;</span>
+    <em>let ws = new WebSocket("ws://esempio.org/wschat/chat"); // [2]</em>
+    <em>ws.onmessage = gestoreRicezione;</em>
 
-  function inviaAlServer(){
+    function inviaAlServer(){
     let messaggioDaInviare = document.getElementById("msg").value;
-    <span class="evidenza">ws.send( messaggioDaInviare );</span>  // [3]
-  }
-  function chiudiLaConnessione(){
-    <span class="evidenza">ws.close();</span>  // [4]
-  }
+    <em>ws.send( messaggioDaInviare );</em>  // [3]
+    }
+    function chiudiLaConnessione(){
+    <em>ws.close();</em>  // [4]
+    }
 
-&lt;/script&gt;
+  &lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;textarea id="ricezione" readonly&gt;&lt;/textarea&gt;&lt;br/&gt;
-  &lt;input id="msg" type="text" /&gt;
+  &lt;textarea id="ricezione" readonly&gt;&lt;/textarea&gt;&lt;br&gt;
+  &lt;input id="msg" type="text"&gt;
   &lt;button onClick="inviaAlServer()"&gt;invia!&lt;/button&gt;
   &lt;button onClick="chiudiLaConnessione()"&gt;chiudi&lt;/button&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</div>
+</code></pre>
 	
 	
 	<p>La costruzione dell'oggetto [2] richiede un solo parametro: l'indirizzo del WebSocket sul sever,

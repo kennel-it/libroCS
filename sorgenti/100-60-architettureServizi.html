@@ -11,8 +11,9 @@
         <style>
             article table { border-collapsE: collapse }
             article td, article th {
-                border: 1px solid var(--colore-primario-scuro);
-                padding:0.5rem
+                border: 1px solid var( gray );
+                padding:0.5rem;
+                vertical-align: top;
             }
             article table th:first-child { text-align: left }
         </style>
@@ -38,18 +39,18 @@ offerti da altri e a sua volta può offrirne ad altri ancora.</p>
 ma alcuni principi basilari vengono normalmente seguiti:</p>
 
 <ul>
-    <li>Interoperabilità: ciascun servizio descrive le funzionalità
+    <li>interoperabilità: ciascun servizio descrive le funzionalità
     che implementa e le modalità di accesso. Questo implica che qualsiasi cliente
     del servizio può accedervi indipendentemente dal linguaggio in cui è
-    stato scritto.</li>
-    <li>Astrazione: i clienti del sistema non devono conoscere la logica
+    stato scritto</li>
+    <li>astrazione: i clienti del sistema non devono conoscere la logica
     o i dettagli di implementazione con cui è implementato un servizio.
-    Per loro i servizi devono apparire come una scatola nera.</li>
-    <li>Accoppiamento debole: di un servizio si conosce il minimo indispensabile
+    Per loro i servizi devono apparire come una scatola nera</li>
+    <li>accoppiamento debole: di un servizio si conosce il minimo indispensabile
     per poterlo utilizzare, in questo modo modificando l'implementazione
-    di un servizio non si devono modificare i suoi utilizzatori.</li>
-    <li>Granularità: ogni servizio dovrebbe avere delle dimensioni adeguate,
-    è poi possibile usare più servizi "di base" per crearne uno composto.</li>
+    di un servizio non si devono modificare i suoi utilizzatori</li>
+    <li>granularità: ogni servizio dovrebbe avere delle dimensioni adeguate,
+    è poi possibile usare più servizi "di base" per crearne uno composto</li>
 </ul>
 
 <p>Come in tutte le architetture ci sono dei pro e dei contro. Da tenere sempre in mente
@@ -58,7 +59,7 @@ tali problemi per quanto possibile e i pro funzionano per un sistema ben realizz
 
 <h3>Vantaggi delle architetture SOA</h3>
 <ul>
-    <li>riuso dei servizi: una volta scritto un sertvizio può essere usato da più
+    <li>riuso dei servizi: una volta scritto un servizio può essere usato da più
     applicazioni</li>
     <li>interoperabile: utilizza protocolli di comunicazione standard e non dipendenti
     da uno specifico linguaggio</li>
@@ -74,31 +75,34 @@ tali problemi per quanto possibile e i pro funzionano per un sistema ben realizz
     <li>complessità architetturale: richiede dei meccanismi che
     servono a far comunicare i servizi il che potrebbe creare 
     un collo di bottiglia o esporre il sistema a fragilità.</li>
-    <li>dipendenda dai sistemi di comunicazione:
+    <li>dipendenza dai sistemi di comunicazione:
     ogni chiamata di un servizio passa per la rete e questo
     (dipende anche dalle tecnologie utilizzate) implica rallentamenti</li>
     <li>test e debug complessi:
     essendo coinvolti più elementi distinti trovare gli erori è più complicato</li>
     <li>versioni e documentazione:
     serve mantenere documentazione per permettere l'usabilità dei servizi
-    e quando si fa una nuova versione bisogna mantenere anche la vecchia</li>
+    e quando si fa una nuova versione bisogna mantenere anche la vecchia
+    (il servizio A passa alla versione 2 ma il servizio B usa ancora
+    la versione 1 e quindi bisogna mantenerle attive entrambe)</li>
     <li>avvio più complesso: l'avvio iniziale dello sviluppo del sistema è più complesso rispetto
     ad un sistema monolitico (singolo programma)</li>
 </ul>
 
 <h2>Microservizi</h2>
-<p>In questi ultimi anni questaq architettura sta prendendo sempre più
+<p>In questi ultimi anni questa architettura sta prendendo sempre più
 spazio, pur partendo dall'idea di SEO la porta ancora più avanti:</p>
 <ul>
-<li>Ogni microservizio è indipendente:
-ha il proprio database e il proprio ciclo di rilascio.</li>
-<li>Comunicazione leggera: spesso i servizi SOA hanno una struttura centrale
+<li>ogni microservizio è indipendente:
+in genere non esiste un database unico e ogni microservizio ha 
+il proprio ciclo di rilascio</li>
+<li>comunicazione leggera: spesso i servizi SOA hanno una struttura centrale
 per smistare i messaggi che qui manca, i microservizi usano
 infrastrutture esistenti come HTTP</li>
-<li>Agilità nello sviluppo: ogni team può lavorare per suo conto
-e scegliere gli strumenti che preferisce.</li>
-<li>Orientata alla scalabilità orizzontale: è possibile replicare
-un singolo microservizio su più nodi.</li>
+<li>agilità nello sviluppo: ogni team può lavorare per suo conto
+e scegliere gli strumenti che preferisce</li>
+<li>orientata alla scalabilità orizzontale: è possibile replicare
+un singolo microservizio su più nodi</li>
 </ul>
 
 <p>Proviamo a riassumere la situazione confrontando i due estremi:
@@ -137,7 +141,7 @@ alt="diagramma sistema monolitico e microservizi"/></p>
     <tr>
         <th>Database</th>
         <td>Un unico database condiviso</td>
-        <td>Database separato per ogni microservizio</td>
+        <td>Più database separati</td>
     </tr>
     <tr>
         <th>Gestione del codice</th>
@@ -157,7 +161,7 @@ alt="diagramma sistema monolitico e microservizi"/></p>
     <tr>
         <th>Manutenzione a lungo termine</th>
         <td>Difficile per applicazioni grandi</td>
-        <td>Più semplice isolando responsabilità</td>
+        <td>Più semplice, si lavora su un microservizio isolatamente</td>
     </tr>
 </table>
 
