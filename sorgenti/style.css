@@ -91,6 +91,7 @@ em {
 }
 dfn {
     display: block;
+    font-style: normal;
     padding: 0.75em;
     background-color: var(--colore-box-evidenziati-sfondo);
     border-top: 0.5em solid var(--colore-box-evidenziati-bordo) 

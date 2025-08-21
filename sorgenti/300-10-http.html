@@ -3,12 +3,13 @@
 <!-- autoIndex requires="protocolliFormati clientServer" group="http" coords="40,30" -->
 <!-- changelog 2017-09-16 inserito contenuto del capitolo -->
 <!-- changelog 2017-09-20 corretti errori di battitura e di organizzazione delle frasi -->
+<!-- changelog 2025-08-20 inserite molte nuove parti al capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
        <title>http</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -16,21 +17,20 @@
 	<p>il protocollo http</p>
 </header>
 <article>
-	<p><em>H</em>yper<em>T</em>ext <em>T</em>ransfer <em>P</em>rotocol 
-	è (come dice la sigla) il protocollo che definisce come sono fatti i
-	messaggi che i server e i client web usano per scambiarsi le informazioni.</p>
-
-	<p>È un protocollo standard definito inizialmente 
-	dall'<a href="https://tools.ietf.org/html/rfc1945">RFC 1945</a>
-	nella versione 1 e nell'<a href="https://tools.ietf.org/html/rfc2616">RFC 2616</a> 
-	per la versione 1.1 attualmente in uso, oggi molti applicativi
-	stanno iniziando ad usare HTTP 2 definito in 
-	<a href="https://tools.ietf.org/html/rfc7540">RFC 7540</a>.</p>
+	<p><em>Hyper Text Transfer Protocol</em> 
+	è un protocollo nato per la trasmissione su internet
+    di ipertesti ma utilizzato oggi per trasferire qualsiasi tipo di file.
+    È un protocollo standard definito inizialmente 
+	dall'<a href="https://www.rfc-editor.org/rfc/rfc1945">RFC 1945</a>
+	nella versione 1 e nell'<a href="https://www.rfc-editor.org/rfc/rfc9112">RFC 9112</a> 
+	per la versione 1.1, oggi molti applicativi usano HTTP 2 definito in 
+	<a href="https://www.rfc-editor.org/rfc/rfc9113">RFC 9113</a>.</p>
 	
 	<p>Il protocollo è stato inizialmente sviluppato presso il CERN di Ginevra da 
 	Tim Berners-Lee nel 1989. Attualmente 
 	<a href="https://www.w3.org/">W3C</a> e 
-	<a href="http://ietf.org/">IETF</a> si occupano della coordinazione dello standard.</p> 
+	<a href="http://ietf.org/">IETF</a> si occupano della coordinazione dello standard
+    reperibile sul sito di <a href="https://httpwg.org/specs/">HTTP Working Group</a>.</p> 
 	
 	<div class="test">
 	   	<p>Visto come è stato descritto il protocollo HTTP in quale livello dello stack TCP/IP viene utilizzato?</p>
@@ -40,11 +40,56 @@
 	    <a onclick="giusta(this)">Applicazione<span class="spiegazione">giusto, server web e browser (i client) sono applicazioni</span></a> 
 	</div>
 	
-	<p>Uno degli aspetti comodi di HTTP (almeno fino alla versione 1.1) è che la richiesta e la
-	risposta sono in formato testo e quindi facilmente analizzabili.</p>
-	
-	<p>Questo protocollo è stato pensato per agire una risorsa disponibile in rete, risorsa che
-	viene individuata tramite una URL.</p>
+    <p>La versione 2.0 di HTTP apporta una serie di aggiornamenti riguardanti l'efficienza del sistema
+    e anche per questo trasmette i dati in formato binario, 
+    non modifica sostanzialmente la modalità di interazione definite dalla versione 1.1 che è invece in
+    formato testo quindi più facilmente analizzabile. In ogni caso gli strumenti a disposizione
+    oggi permettono di analizzase sia le richieste che le risposte di entrambe le versioni.
+    I concetti che tratteremo sono applicabili sia alla versione 1.1 che alla 2 del protocollo.</p>
+
+    <dfn><em>HTTP</em> è un protocollo di comunicazione stateless che lavora al livello applicazione
+    il cui scopo è di agire su risorse disponibili in rete.</dfn>
+    
+    <p>Andando in ordine la prima parola da capire è <em>stateless</em>: ogni coppia 
+    richiesta-risposta di HTTP fa storia a se; una successiva richiesta non va trattata
+    tenendo conto della precedente secondo il protocollo.</p>
+    
+    <p>HTTP permette di eseguire diverse azioni sulle risorse, non solo leggerle ma anche caricarle
+    o cancellarle ad esempio. Cosa è una risorsa? Per quando ci riguarda tratteremo come risorsa
+    qualsiasi cosa identificabile tramite una URL (come di uso le cose tra parentesi quadre sono opzionali):
+    <code>protocollo://host[:porta][&lt;/percorso&gt;][?querystring][#fragment]</code></p>
+
+    <dl>
+        <dt>protocollo</dt>
+        <dd>il protocollo, potrebbe ad esempio essere http o https</dd>
+        <dt>host</dt>
+        <dd>il nome completo di dominio dell'host a cui ci si vuol collegare</dd>
+        <dt>porta</dt>
+        <dd>la porta di TCP a cui sappiamo di trovare il server in ascolto
+        (usualmente 80 per i server http e 443 per https)</dd>
+        <dt>percorso</dt>
+        <dd>è il percorso della risorsa che vogliamo indicare all'interno del server</dd>
+        <dt>querystring</dt>
+        <dd>sono dei parametri che vengono passati al server che potrebbe usarli come
+        dati di input di uno script, scritti nella forma <code>nome=valore</code>
+        e separati da &amp;</dd>
+        <dt>fragment</dt>
+        <dd>serve lo browser per eventualmente saltare ad una parte specifica della pagina</dd>
+    </dl>
+
+     <p>Magari è più chiaro vedendo alcuni esempi:</p>
+
+<pre><samp>
+# tutte le parti
+http://www.pluto.com:80/animali/gatto.html?tipo=persiano#coda
+# minimo indispensabile
+http://ricerca.italia.it
+# server in ascolto su una porta non standard e script php a cui passo nome e cognome dell'utente
+https://server.azienza.com:8881/script.php?nome=Mario&amp;cognome=Rossi
+</samp></pre>
+
+    <p>Nel caso la comunicazione debba avveniore in modalità riservata (la norma oggi) il protocollo
+    HTTP normalmente si appoggia a TLS: in questo caso il protocollo si chiama <em>HTTPS</em>.</p>
 
 </article>
 </body>
