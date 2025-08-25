@@ -43,7 +43,8 @@ la rappresentazione dei dati completamente gestita da Spring in JSON sia in
 input che in output e un controllore delle operazioni!</p>
 
 <h3>Il modello dei dati</h3>
-<pre>package it.aspix.todolist;
+<pre><code>
+package it.aspix.todolist;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -62,7 +63,7 @@ public class ToDo {
 
     /* il metodi set/get vanno inseriti per esercizio, magari usando Eclipse */
 }
-</pre>
+</code></pre>
 <p>Un normalissimo oggetto Java con alcune accortezze. Concentriamoci adesso
 sulle annotazioni (quelle strane cose che iniziano con @) che permettono 
 a Spring di gestire l'intero progetto. Ogni annotazione è legata all'istruzione che la segue:
@@ -87,7 +88,8 @@ questo non sarebbe possibile con il tipo int, stesso discorso vale per
 <p>Questa è probabilmente la classe più strana... in effetti non è neanche
 una classe ma una interfaccia: poi tutto il lavoro lo fa Spring.</p>
 
-<pre>package it.aspix.todolist;
+<pre><code>
+package it.aspix.todolist;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -99,7 +101,8 @@ public interface ToDoRepository extends JpaRepository&lt;ToDo, Integer&gt;{
             "WHERE todo.cosa ILIKE :parte", 
        nativeQuery=true)
     List&lt;ToDo&gt; cerca(@Param("parte") String parteDelCosa);
-}</pre>
+}
+</code></pre>
 
 <p>L'unica parte davvero essenziale è la sola dichiarazione dell'interfaccia,
 va fatta sempre in questo modo per ogni oggetto che vogliamo recuperare/salvare
@@ -133,7 +136,8 @@ il tutto viene specificato tramite annotazioni prima delle funzioni Java.</p>
 in JSON sebbene non ci sia traccia di questo perché fa tutto
 Spring Boot senza nessun intervento da parte nostra.</p>
 
-<pre>package it.aspix.todolist;
+<pre><code>
+package it.aspix.todolist;
 
 import java.util.List;
 import java.util.Optional;
@@ -208,7 +212,8 @@ public class ToDoManager {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-}</pre>
+}
+</code></pre>
 
 <p>Al soilito tante cose vengono risolte dalle annotazioni: <code>@RestController</code>
 indica che questa classe offre servizi di tipo REST mentre <code>@Autowired</code>
@@ -222,11 +227,13 @@ istanza di ToDoRepository da poter utilizzare.</p>
 server andrà in esecuzione sulla macchina locale alla porta usuale (8080).</p>
 
 <h4>elenco()</h4>
-<pre>@GetMapping("/esempio1")
+<pre><code>
+@GetMapping("/esempio1")
 public List&lt;ToDo&gt; elenco() {
     List&lt;ToDo&gt; k = repoToDo.findAll();
     return k;
-}</pre>
+}
+</code></pre>
 <p><code>@GetMapping</code> indica due cose: che la funzione elenco() risponde al metodo
 GET di HTTTP e che risponde alla URL "/todolist"... più facile a farsi che a dirsi
 "http://localhost:8080/todolist" e otterremo un elenco di tutte le cose da fare.</p>
@@ -236,7 +243,8 @@ findAll() del nostro <code>repoToDo</code> (NB: che non abbiamo mai scritto,
 fa tutto Spring).</p>
 
 <h4>cerca1()</h4>
-<pre>@GetMapping("/todos")
+<pre><code>
+@GetMapping("/todos")
 public List&lt;ToDo&gt; cerca(
     @RequestParam(required = false) String lista,
     @RequestParam(required = false) Boolean fatto
@@ -246,7 +254,8 @@ public List&lt;ToDo&gt; cerca(
     t.setFatto(fatto);
     Example&lt;ToDo&gt; esempioDaCercare = Example.of(t);
     return repoToDo.findAll( esempioDaCercare );
-}</pre>
+}
+</code></pre>
 <p>Il <code>@GetMapping</code> è analogo al precedente ma questa volta la funzione cerca()
 ha due parametri: <code>lista</code> e <code>fatto</code>. 
 <code>@RequestParam</code> serve per indicare
@@ -262,21 +271,25 @@ erano presenti nella richiesta), poi con <code>Example.of(t)</code> creo un "Ese
 da fornire alla funzione di ricerca.</p>
 
 <h4>cerca2()</h4>
-<pre>@GetMapping("/esempio2")
+<pre><code>
+@GetMapping("/esempio2")
 public List&lt;ToDo&gt; cercaParte( @RequestParam String cosa ){
     return repoToDo.cerca("%"+cosa+"%");
-}</pre>
+}
+</code></pre>
 <p>Questa funzione risponde ad un richiesta GET alla url "/cerca2" che però
 deve avere obbligatoriamente il parametro "cosa" in quanto <code>@RequestParam</code>
 questa volta non ha il parametro <code>required = false</code>. Per svolgere la ricerca 
 usa la funzione <code>cerca()</code> che abbiamo dichiarato in ToDoManager.</p>
-<p>Un esempio di URL: "http://localhost:8080/cerca2?cosa=pulire"</p>
+<p>Un esempio di URL: <code>http://localhost:8080/cerca2?cosa=pulire"</code></p>
 
 <h4>prendiPerChiave()</h4>
-<pre>@GetMapping("todo/{id}")
+<pre><code>
+@GetMapping("todo/{id}")
 public Optional&lt;ToDo&gt; prendiPerChiave( @PathVariable int id ) {
     return repoToDo.findById(id);
-}</pre>
+}
+</code></pre>
 <p>Qui la particolarità è come viene passato il parametro di ricerca:
 tramite il percorso nella URL. 
 <code>@PathVariable</code> sta appunto ad indicare che "id" è una parte
@@ -285,10 +298,12 @@ scrivere "http://localhost:8080/todo/1", poi la funzione esegue la ricerca
 seguendo il solito schema.</p>
 
 <h4>inserisci()</h4>
-<pre>@PostMapping("/todo")
+<pre><code>
+@PostMapping("/todo")
 public void inserisci(@RequestBody ToDo td) {
     repoToDo.save( td );
-}</pre>
+}
+</code></pre>
 <p>A differenza dei precedenti l'annotazione della funzione è
 <code>@PostMapping</code> il che indica che l'azione HTTP richiesta
 deve essere POST e l'altra annotazione <code>@RequestBody</code>
@@ -302,10 +317,12 @@ in ogni caso va inserita una rappresentazione JSON di un ToDo
 nel corpo della richiesta.</p>
 
 <h4>cancellaPerChiave()</h4>
-<pre>@DeleteMapping("todo/{id}")
+<pre><code>
+@DeleteMapping("todo/{id}")
 public void cancellaPerChiave( @PathVariable int id ) {
     repoToDo.deleteById(id);
-}</pre>
+}
+</code></pre>
 <p>Questo metodo risponde ad una richiesta DELETE di HTTP e
 cancella l'elemento il cui id è stato inserito nel path della richiesta.</p>
 <p>"http://localhost:8080/todo/2" elimina l'elemento numero 2.
@@ -313,7 +330,7 @@ Anche per provare questo tipo di richiesta non si può usare la barra
 degli indirizzi del browser.</p>
 
 <h4>modifica()</h4>
-<pre>@PutMapping("todo/{id}")
+<pre><code>@PutMapping("todo/{id}")
 public void modifica( @PathVariable int id, @RequestBody ToDo td ) {
     Optional&lt;ToDo&gt; k = repoToDo.findById(id);
     if(k.isPresent()) {
@@ -325,7 +342,8 @@ public void modifica( @PathVariable int id, @RequestBody ToDo td ) {
     } else {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-}</pre>
+}
+</code></pre>
 <p>Sebbene la modalità di comunicazione dovrebbe ormai essere chiara
 (richiesta PUT: la funzione prima di tutto recupera l'oggetto presente nel db con l'id specificato,
 in caso che quell'oggetto esiste copia i dati forniti nell'oggetto
@@ -334,7 +352,8 @@ recuperato dal db e poi lo salva. Se l'oggetto non esiste ritorna una risposta 4
 <h3>main!</h3>
 <p>Anche un programma Spring Boot ha bisogno di un metodo main, noi lo metteremo
 in una classe separata:</p>
-<pre>package it.aspix.todolist;
+<pre><code>
+package it.aspix.todolist;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -346,7 +365,8 @@ public class TodolistApplication {
         SpringApplication.run(TodolistApplication.class, args);
     }
 
-}</pre>
+}
+</code></pre>
 
 <p>Molto breve, il metodo main lancia l'applicazione Spring e la classe stessa
 è marcata come <code>@SpringBootApplication</code> che indica a Spring di

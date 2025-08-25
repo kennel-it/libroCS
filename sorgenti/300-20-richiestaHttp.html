@@ -8,25 +8,26 @@
 <!-- changelog 2020-03-23 corretti due errori di battitura -->
 <!-- changelog 2021-10-19 eventuali parametri e corpo in GET e POST -->
 <html xmlns="http://www.w3.org/1999/xhtml">
-   <head>
-   	<meta charset="UTF-8"/>
-       <title>richiestaHttp</title>
-       <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
-   </head>
+<head>
+    <meta charset="UTF-8"/>
+    <title>richiestaHttp</title>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="script/test.js"></script>
+</head>
 <body>
 <header>
 	<h1>richiestaHttp</h1>
 	<p>cosa contiene e come è formattata una richiesta http</p>
 </header>
 <article>
-	<pre>GET /pagina1.html HTTP/1.1
+<pre><samp>
+GET /pagina1.html HTTP/1.1
 Host: www.w3.org
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/118.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:143.0) Gecko/20100101 Firefox/143.0
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language: it-IT,it;q=0.8,en;q=0.3
 Accept-Encoding: gzip, deflate
-</pre>
+</samp></pre>
 	<p>Quello qui sopra è un esempio di richiesta, guardando con un po' di attenzione
 	si può vedere che il formato è piuttosto ripetitivo... con una eccezione.</p>
 
@@ -46,21 +47,21 @@ Accept-Encoding: gzip, deflate
 	<h3>Metodo</h3>
 	<p>Potremmo dire che in qualche modo è l'azione da eseguire sull'oggetto riferito 
 	dalla URI,  
-	<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">i metodi</a>
+	<a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-methods">i metodi</a>
 	più comuni sono:</p>
 	<dl>
 		<dt>HEAD</dt>
 		<dd>ritorna soltanto la parte header della risposta HTTP</dd>
-		<dt><em>GET</em></dt>
+		<dt>GET</dt>
 		<dd>voglio recuperare il contenuto di una risorsa (ad esempio di un file),
 		se eseguo tante volte la stessa richiesta con questo metodo ottengo
-		sempre lo stesso risultato (si da per assunto che questa richiesta non implichi la
+		sempre lo stesso risultato (si dà per assunto che questa richiesta non implichi la
 		modifica dell'oggetto che viene richiesto), la richiesta non ha corpo ed eventuali parametri
 		vengono inseriti nella URL</dd>
-		<dt><em>POST</em></dt>
-		<dd>voglio creare una risorsa
-		oppure voglio inviare delle informazioni ad uno script
-		che plausibilmente modificheranno lo stato del server, 
+		<dt>POST</dt>
+		<dd>voglio creare una risorsa o voglio inviare delle informazioni al server che
+        modificheranno il suo stato (ad esempio invio i dati ad uno script che li usa
+        per modificare un archivio), 
 		se invio più volte la stessa richiesta potrei ottenere risultati diversi
 		come risposta, eventuali parametri vengono inseriti nel corpo della richiesta</dd>
 		<dt>PUT</dt>
@@ -79,11 +80,11 @@ Accept-Encoding: gzip, deflate
 	principale di servizio del server http con cui si dialoga.</p>
 	
 	<h3>versione</h3>
-	<p>Nel nostro caso è praticamente sempre <code>HTTP/1.1</code></p>
+	<p>Nel nostro caso è può essere <code>HTTP/1.1</code> o <code>HTTP/2</code></p>
 	
 	<h2>Headers</h2>
-	<p>Tutte le righe che seguono la prima fino alla prima riga vuota sono
-	scritte nello stesso formato <code>nome: valore</code> e contengono varie
+	<p>Tranne la prima riga, tutte le righe iniziali fino alla prima riga vuota
+    sono scritte nello stesso formato <code>nome: valore</code> e contengono varie
 	informazioni utili al server per gestire la richiesta.</p>
 	<p>Gli header possibili sono tantissimi 
 	(è possibile trovarne un elenco nelle pagine
@@ -95,7 +96,7 @@ Accept-Encoding: gzip, deflate
 	creati all'occorrenza ma alcuni di uso comune li vediamo in dettaglio.</p>
 	 
 	<h3>User-Agent</h3>
-	<p>Nel nostro caso è <code>Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0) Gecko/20100101 Firefox/56.0</code>
+	<p>Nel nostro caso è <code>Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:103.0) Gecko/20100101 Firefox/103.0</code>
 	e riporta delle informazioni sul programma con cui l'utente sta inviando 
 	le informazioni. Praticamente tutti i browser riportano "Mozilla/5.0" all'inizio
 	(e <a href="http://webaim.org/blog/user-agent-string-history/">WebAIM</a> riporta il perché),
@@ -105,7 +106,7 @@ Accept-Encoding: gzip, deflate
 	<h3>Accept</h3>
 	<p>Con questo header il client dice al server in che formato vuole avere la risorsa richiesta, 
 	la maniera che usa per farlo è piuttosto articolata: un elenco di possibilità separate da ",".</p>
-	<p>Ogni possibilità è fatta da due parti di cui la seconda è opzionale: la prima parte è
+	<p>Ogni possibilità è fatta da due parti separate da ";" di cui la seconda è opzionale: la prima parte è
 	il tipo mime (
 	<a href="https://it.wikipedia.org/wiki/Multipurpose_Internet_Mail_Extensions">su Wikipedia</a> o su
 	<a href="http://www.iana.org/assignments/media-types/media-types.xhtml">IANA</a>
@@ -120,7 +121,7 @@ Accept-Encoding: gzip, deflate
 	<h3>Accept-Language</h3>
 	<p>Il formato è lo stesso di accept soltanto che la prima parte di ogni coppia
 	è un <em>locale</em> (ce ne sono molti, questa ad esempio è la 
-	<a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html">lista di quelli supportati da java</a>)
+	<a href="https://www.oracle.com/java/technologies/javase/jdk21-suported-locales.html">lista di quelli supportati da java</a>)
 	anziché un tipo mime.</p>
 	
 	<div class="test">

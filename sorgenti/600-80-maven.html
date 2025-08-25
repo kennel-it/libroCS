@@ -125,7 +125,7 @@ si ottiene una cosa del genere:</p>
 può contenere tantissime informazioni, adesso ci concentriamo su quelle principali
 guardando un file di esempio:</p>
 
-<pre>
+<pre><code>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
@@ -154,7 +154,7 @@ guardando un file di esempio:</p>
   &lt;/dependencies&gt;
 
 &lt;/project&gt;
-</pre>
+</code></pre>
 <p>Vediamo qui sotto parte per parte quali informazioni stiamo fornendo a Maven 
 con questo file.</p>
 
@@ -245,27 +245,28 @@ consente di utilizzarla!</p>
 
 <p>Visto che ho trovato la libreria creo il progetto con Eclipse e tra le dipendenze
 presenti nel file pom.xml inserisco questa:</p>
-<pre>
+<pre><code>
   &lt;dependency&gt;
     &lt;groupId&gt;com.fathzer&lt;/groupId&gt;
     &lt;artifactId&gt;javaluator&lt;/artifactId&gt;
     &lt;version&gt;3.0.3&lt;/version&gt;
   &lt;/dependency&gt;
-</pre>
+</code></pre>
 <p>Dopo aver salvato chiedo ad eclipse di aggiornare il progetto (click destro sul pom.xml...)
 e creo una classe nel cui metodo main scrivo:</p>
-<pre>
+<pre><code>
 String espressione = "3+2*8/(2+2)";
 DoubleEvaluator valutatore = new DoubleEvaluator();
 double risultato = valutatore.evaluate(espressione);
-System.out.println(risultato);</pre>
+System.out.println(risultato);
+</code></pre>
 <p>Funziona! Potrei andare avanti scrivendo il mio programma che tratta sequenze
 di numeri non solo espressioni... devo spesso calcolare massimi/minimi e fare
 diverse operazioni di questo genere con i numeri: anziché riscrivere
 tutto da capo utilizzo un'altra libreria chiamata "Commons Lang" semplicemente
 aggiungedo una ulteriore dipendenza nella sezione <code>&lt;dependencies&gt;</code>
 del mio pom.xml che a questoi punto diventerà</p>
-<pre>
+<pre><code>
 &lt;dependencies&gt;
   &lt;dependency&gt;
     &lt;groupId&gt;com.fathzer&lt;/groupId&gt;
@@ -278,7 +279,7 @@ del mio pom.xml che a questoi punto diventerà</p>
     &lt;version&gt;RELEASE130&lt;/version&gt;
   &lt;/dependency&gt;
 &lt;/dependencies&gt;
-</pre>
+</code></pre>
 
 <p>Questa ultima ha un numero di versione un tantino strano ma pazienza.
 Posso inserire tutte le dipendenze che voglio, meno facile è trovare quale libreria
@@ -292,7 +293,7 @@ possiamo chiamarlo come vogliamo e salvarlo dove vogliamo.
 Soltanto per esempio poniamo di chiamarlo "maven-setting.xml"
 e di salvarlo sulla scrivania:</p>
 
-<pre>
+<pre><code>
 &lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
@@ -312,7 +313,8 @@ e di salvarlo sulla scrivania:</p>
       &lt;port&gt;3128&lt;/port&gt;
     &lt;/proxy&gt;
   &lt;/proxies&gt;
-&lt;/settings&gt;</pre>
+&lt;/settings&gt;
+</code></pre>
 
 <p>Ovviamente come host e come porta vanno inseriti quelli della nostra rete.</p>
 <p>Una volta salvato il file bisogna indicarlo ad Eclipse:</p>

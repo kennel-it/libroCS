@@ -52,7 +52,7 @@ ha più stanze. Non scriveremeo il sistema per intero ma soltanto le parti
 con altre proprietà.</p>
 <p>Il database va creato con queste due istruzioni (o con piccoli aggiustamenti
 dovuti al fatto che si usa h2 o MySQL o altro):</p>
-<div class="prog">
+<pre><code>
 create table hotel (
     id integer not null auto_increment,
     nome varchar(50),
@@ -67,8 +67,9 @@ create table stanza (
     <span class="evidenza">hotel_id integer references hotel(id)</span>,
     primary key (id)
 );
-</div>
-<p>Attenzione al campo chiamato <code>hotel_id</code>: il nome non è casuale ma
+</code></pre>
+
+<p>Attenzione al campo chiamato <var>hotel_id</var>: il nome non è casuale ma
 formato dal nome della tabella a cui punta e dal relativo campo chiave legati
 da un underscore (solito discorso "Convention over configuration",
 FIXME: serve riferimento).
@@ -76,7 +77,8 @@ Se si vogliono utilizzare nomi diversi è possibile usare l'annotazione
 <a href="https://www.baeldung.com/jpa-join-column"><code>@JoinColumn</code></a>
 nella classe che rappresenta il "molti" della relazione, Stanza nel nostro caso.</p>
 
-<div class="prog">package it.aspix.hotel;
+<pre><code>
+package it.aspix.hotel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -97,7 +99,7 @@ public class Hotel {
     private List&lt;Stanza&gt; stanze = new ArrayList&lt;Stanza&gt;();</span>
 
     /* si prosegue con usuali get/set */
-</div>
+</code></pre>
 <p>Risulta evidente che l'unica cosa di cui parlare è l'attributo <code>stanze</code>:
 questo attributo non risiede nel database e lo si capisce dalla annotazione
 <code>@OneToMany</code> che specifica tre cose: 
@@ -108,7 +110,8 @@ il fatto che nella classe Stanza è la proprietà hotel che la lega ad un hotel,
 un Hotel dal database le relative stanze vanno lette soltanto all'occorrenza
 (sarebbe a dire se qualcuno usa la proprietà stanze).</p>
 
-<div class="prog">package it.aspix.hotel;
+<pre><code>
+package it.aspix.hotel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -126,7 +129,7 @@ public class Stanza {
     private Hotel hotel;
 
     /* si prosegue con usuali get/set */
-</div>
+</code></pre>
 
 <p>Nella classe Stanza c'è soltanto una annotazione di cui parlare:
 <code>@ManyToOne</code> che indica semplicemente che molte istanze della classe Stanza
@@ -154,7 +157,8 @@ in Stanza (da Stanza non devo passare ad Hotel).</p>
 
 <p>Due righe in più in totale!</p>
 
-<div class="prog">package it.aspix.hotel;
+<pre><code>
+package it.aspix.hotel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -177,9 +181,10 @@ public class Hotel {
     private List&lt;Stanza&gt; stanze = new ArrayList&lt;Stanza&gt;();
 
     /* si prosegue con usuali get/set */
-</div>
+</code></pre>
 
-<div class="prog">package it.aspix.hotel;
+<pre><code>
+package it.aspix.hotel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -199,14 +204,14 @@ public class Stanza {
     private Hotel hotel;
 
     /* si prosegue con usuali get/set */
-</div>
+</code></pre>
 
 <p>Le annotazioni @JsonManagedReference/JsonBackReference hanno un attributo
-<code>value</code> che può essere omesso (come nell'esempio sopra) ma che diventa
+<var>value</var> che può essere omesso (come nell'esempio sopra) ma che diventa
 necessario ad esempio quando in una classe si trovano più <code>@JsonBackReference</code>,
 nel caso del nostro esempio l'attributo value va usato nel seguente modo:</p>
 
-<div class="prog">
+<pre><code>
 public class Hotel {
 
     ...
@@ -215,9 +220,9 @@ public class Hotel {
     private List&lt;Stanza&gt; stanze = new ArrayList&lt;Stanza&gt;();
 
     ...
-</div>
+</code></pre>
 
-<div class="prog">package it.aspix.hotel;
+<pre><code>package it.aspix.hotel;
 public class Stanza {
 
     ...
@@ -226,7 +231,7 @@ public class Stanza {
     private Hotel hotel;
 
     ...
-</div>
+</code></pre>
 
 <h2>Ancora sui nomi dei servizi</h2>
 <p>Nulla cambia rispetto a ciò che è scritto nel capitolo precedente,

@@ -22,31 +22,31 @@
 <article>
 	<p>Il server web che installeremo non è l'unico server disponibile,
 	ne esistono diversi largamente utilizzati e fortunatamente tutti gratis.
-	In pratica sono tre i più usati secondo <a href="https://news.netcraft.com/">Netcraft</a>:
+	In pratica due i più usati secondo <a href="https://news.netcraft.com/">Netcraft</a>:
 	<a href="http://httpd.apache.org/">httpd di Apache (free)</a>, 
-	<a href="https://nginx.org/en/">nginx (free)</a> e
-	<a href="https://www.iis.net/">IIS di Microsoft (proprietario)</a>.</p> 
-	<p>Quello che vedremo noi è il più conosciuto, il più usato, disponibile per molte piattaforme e free.</p>
+	<a href="https://nginx.org/en/">nginx (free)</a>.</p> 
+	<p>Quello che vedremo noi è il quello storicamente più conosciuto e tra i più usati,
+    disponibile per molte piattaforme e free.</p>
 	
 	<h2>httpd</h2>
 	<p>Intanto i nomi: quello del server è "httpd" ma è conosciuto come "Apache" che è il nome 
 	del gruppo che lo sviluppa (e che sviluppa molto altro software).</p>
 	<p>A seconda del tipo di installazione che vogliamo fare (su un server in produzione o per sviluppare)
-	e del sistema operativo in uso cambia cambia il percorso da seguire. Su Linux (qualsiasi distribuzione)
-	normalmente il pacchetto per l'installazione di apache httpd è disponibile nei repository della distribuzione, 
+	e del sistema operativo in uso cambia il percorso da seguire. Su Linux (qualsiasi distribuzione)
+	normalmente il pacchetto per l'installazione di Apache httpd è disponibile nei repository della distribuzione, 
 	su Windows è possibile 
 	<a href="http://httpd.apache.org/docs/current/platform/windows.html#down">scaricare diversi programmi</a> 
 	che installano httpd a volte insieme ad altri server.</p>
 	
 	<h3>Configurazione</h3>
-	<p>È possibile configurare moltissimi parametri di Apache e installare molti moduli aggiuntivi 
+	<p>È possibile configurare moltissimi parametri di Apache httpd e installare molti moduli aggiuntivi 
 	sul server, qui ci occupiamo soltanto di alcune opzioni.</p>
-	<p>Il file di configurazione di Apache è in verità piuttosto articolato, alcuni parametri valgono per 
+	<p>Il file di configurazione di Apache httpd è in verità piuttosto articolato, alcuni parametri valgono per 
 	l'intero server, altri per determinati server virtuali (una singola macchina fisica può
 	fornire più siti) e altri ancora per singole cartelle, dipende dove vengono scritti.
 	In alcune installazioni il file stesso di configurazione è diviso in più file.</p>
 	<p>In buona sostanza quello che però dovremo fare è impostare alcune proprietà come ad esempio
-	la porta su cui il server si mette in ascolto o l'email dell'amministratore!</p>
+	la porta su cui il server si mette in ascolto!</p>
 	<p>Attenzione ad una cosa: cambiando alcune impostazioni potrebbe succedere che il server non sia più 
 	in grado di avviarsi e in questo caso sarà necessario intervenire sul file di configurazione e
 	sistemare le cose, per facilitare questa operazione è bene inserire commenti (righe che iniziano con "#")
@@ -55,7 +55,7 @@
 	<p>La configurazione che prendiamo in considerazione è quella di un singiolo server (senza server virtuali)
 	con un solo file di configurazione.</p>
 
-	<p>Il file di configurazione di apache è un file di testo usualmente chiamato
+	<p>Il file di configurazione di Apache httpd è un file di testo usualmente chiamato
 	<code>apache.conf</code> o <code>httpd.conf</code> situato nella cartella <code>/etc/apache</code>
 	o simile nel caso di un sistema Unix o nella sottocartella <code>\apache\conf\</code> di XAMPP ad esempio,
 	utilizzando il pannello di controllo di XAMPP è possibile aprirlo anche utilizzando il pulsante "config".</p>
@@ -64,22 +64,22 @@
 	raggruppate all'interno di marcatori che assomigliano a tag dell'html.</p>
 	<h2>Configurazioni globali</h2>
 	<dl>
-		<dt><a href="https://httpd.apache.org/docs/2.4/en/urlmapping.html">DocumentRoot</a></dt>
+		<dt><a href="https://httpd.apache.org/docs/2.4/en/urlmapping.html#documentroot">DocumentRoot</a></dt>
 		<dd>Dice in quale cartella sono contenuti i file che dobbiamo fornire ai client.
 		Poniamo caso che il nostro server sia <code>www.esempio.org</code> e che l'URL richiesta
-		sia <code>http://eee.esempio.org/immagini/peperone.jpg</code> e che il valore di
-		<code>DocumentRoot</code> sia <code>c:\cane\pluto\</code> il file che verrà
+		sia <code>http://www.esempio.org/immagini/peperone.jpg</code> e che il valore di
+		<var>DocumentRoot</var> sia <code>c:\cane\pluto\</code> il file che verrà
 		inviato al client è <code>c:\cane\pluto\immagini\peperone.jpg</code>.</dd>
 
 		<dt><a href="https://httpd.apache.org/docs/2.4/mod/mod_dir.html">DirectoryIndex</a></dt>
 		<dd>Specifica un elenco di risorse da cercare (fornisce la prima che trova)
 		quando il client richiede una cartella. Questa direttiva si troverà
-		probabilmentre all'interno di un blocco &lt;IfModule&gt; per indicare che va eseguita
+		probabilmentre all'interno di un blocco <code>&lt;IfModule&gt;</code> per indicare che va eseguita
 		soltanto se il modulo specificato (dir_module in questo caso) è stato caricato.</dd>
 
 		<dt><a href="https://httpd.apache.org/docs/2.4/mod/mod_so.html#loadmodule">LoadModule</a></dt>
 		<dd>Apache httpd ha la possibilità di attivare funzionalità aggiuntive utilizzando dei moduli
-		(possiamo pensarle comeestensioni) che vanno esplicitamente caricati.<br/>
+		(possiamo pensarle come estensioni) che vanno esplicitamente caricati.<br/>
 		Nella configurazione base di XAMPP ad esempio c'è un lungo elenco di moduli che possono essere
 		caricati o meno, in pratica tutte le linee che iniziano con "#" sono dei commenti quindi il 
 		modulo lì descritto non verrà caricato.</dd>
@@ -97,18 +97,14 @@
 	<h2>Configurazioni per cartelle</h2>
 	<p>È possibile configurare anche opzioni per singole cartelle, in questo caso la configurazione va racchiusa 
 	in un blocco </p>
-<pre>
-&lt;Directory _nome_cartella&gt;
+<pre><code>
+&lt;Directory "nome_cartella"&gt;
     # configurazione
 &lt;/Directory&gt;
-</pre>
-	<p>che imposterà ciò che viene richiesto par la cartella specificata e tutte le sottocartelle.</p>
-
-	<dl>
-		<dt><a href="https://httpd.apache.org/docs/2.4/mod/core.html">Options</a></dt>
-	
-	</dl>
-		
+</code></pre>
+	<p>che imposterà ciò che viene richiesto par la cartella specificata e tutte le sottocartelle,
+    ad esempio <a href="https://httpd.apache.org/docs/2.4/mod/core.html#options">Options</a>
+    consente dio visualizzare l'elenco dei file se l'utente specifica soltanto la cartella.</p>
 
 
 	<h3>File di log</h3>

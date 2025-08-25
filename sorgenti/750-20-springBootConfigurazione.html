@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="springBoot" group="spring" coords="90,30" -->
+<!-- autoIndex requires="API json http richiestaHttp rispostaHttp architettureServizi maven" group="spring" coords="90,30" -->
 <!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot -->
 <!-- changelog 2024-03-23 sezione con spiegazioni su output dell'avvio di applicazione Spring Boot-->
 <!-- changelog 2025-03-26 messo MariaDB al posto di MySQL -->
+<!-- changelog 2025-08-25 QUesto capitolo è il primo della sequenza spring -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -38,10 +39,27 @@
    </head>
 <body>
 <header>
-    <h1>springBootConfigurazione</h1>
-    <p>setup iniziale del sistema</p>
+    <h1>springBoot</h1>
+    <p>scrivere velocemente dei micro servizi REST</p>
 </header>
 <article>
+
+<h2>Cosa è Spring Boot</h2>
+<p><a href="https://spring.io/projects/spring-boot">Spring Boot</a>
+è una estensione del 
+<a href="https://spring.io/">framework Spring</a> il cui scopo 
+è di mettere facilmente in esecuzione micro servizi web scritti in Java.</p>
+
+<h2>Perché Spring Boot</h2>
+<p>Non è certo l'unico framework per scrivere applicazioni web ma:</p>
+<ul>
+    <li>riduce di molto il tempo di sviluppo aumentando la produttività</li>
+    <li>evita la scrittura parti di codice ripetitive e file di configurazione</li>
+    <li>è molto facile accedere ai database e salvare oggetti Java</li> 
+    <li>adotta una strategia "Opinionated Defaults Configuration", in pratica in base alle dipendenze decide
+    delle configurazioni di default</li>
+    <li>fornisce un server web integrato per sviluppare le applicazioni (tomcat o altri)</li>
+</ul>
 
 <p>Trattandosi di un framework faremo la sua conoscenza direttamente utilizzandolo!
 Per evitare di confonderli con quelli di HTTP i "metodi" degli oggetti Java verranno
@@ -163,7 +181,8 @@ i commenti sono inseriti utilizzando il simbolo <em>#</em>.</p>
 <section class="h2">
 <p>Il file di configurazione qui sotto è per H2, ridotto al minimo:</p>
 
-<pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db</em>
+<pre><code>
+<em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db</em>
 spring.datasource.url=jdbc:h2:mem:todolist
 
 <em># serve soltanto per H2 o per gli altri database "in memory"
@@ -178,7 +197,7 @@ spring.jpa.hibernate.ddl-auto=none
 # (una cosa tipo phpmyadmin) all'indirizzo del server
 # ad esempio: "http://localhost:8080/h2-console"</em>
 spring.h2.console.enabled=true
-</pre>
+</code></pre>
 
 <h3>database</h3>
 <p>Siccome utilizziamo H2 con un database in memoria
@@ -188,24 +207,26 @@ nella cartella <code>src/main/resources</code>, i file sono quelli qui sotto.</p
 
 <h4>schema.sql</h4> 
 <p>La creazione delle tabelle</p>
-<pre>CREATE TABLE todo(
+<pre><code>
+CREATE TABLE todo(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     lista VARCHAR(20),
     cosa VARCHAR(200),
     fatto BOOLEAN
-);</pre>
+);</code></pre>
 
 <h4>data.sql</h4>
 <p>Per poter testare l'applicazioni farebbe comodo avere anche dei dati caricati nel db,
 facile: mettiamo le insert in questo file</p>
-<pre>INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'pulire', false);
+<pre><code>
+INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'pulire', false);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'comperare fagioli', false);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pagare palestra', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pulire scarpe', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', false);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
-</pre>
+</code></pre>
 
 </section>
 
@@ -220,7 +241,8 @@ un modo per collegarci con lui. In particolare dobbiamo aver creato
     <li>il database deve avere la tabella <code>todo</code> con dei dati preinseriti,
     per comodità sono riportate sotto le istruzioni per crearlo e inserire i dati.</li>
 </ul>
-<pre>CREATE TABLE todo(
+<pre><code>
+CREATE TABLE todo(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     lista VARCHAR(20),
     cosa VARCHAR(200),
@@ -233,18 +255,19 @@ INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pulire scarpe', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', false);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
-</pre>
+</code></pre>
 
 <p>Le impostazioni da inserire in <code>application.properties</code> sono queste:</p>
 
-<pre><em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
+<pre><code>
+<em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
 # in questo caso supponiamo che il server MySQL sia in esecuzione sullo stesso host
 # dell'applicazione Spring</em>
 spring.datasource.url=jdbc:mariadb://localhost:3306/todo
 <em># soliti username e password per la connessione al db</em>
 spring.datasource.username=utente
 spring.datasource.password=chiave
-</pre>
+</code></pre>
 </section>
 
 <h2>Avviare il server</h2>
@@ -256,7 +279,7 @@ bisogna entrare nella cartella del progetto e poi usare il comando
 <code>mvn spring-boot:run</code> (per fermarlo bisogna premere CTRL+c).</p>
 <p>All'avvio Spring Boot stamperà diversi messaggi, quello sotto è un esempio
 leggermente formattato per evidenziare le cose che più ci interessano:</p>
-<pre id="output">
+<pre><samp>
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -286,7 +309,7 @@ leggermente formattato per evidenziare le cose che più ci interessano:</p>
 <span>2024-03-23T19:02:13.117+01:00  WARN 35563 --- [demo] [           main]</span> JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 <span>2024-03-23T19:02:13.269+01:00  INFO 35563 --- [demo] [           main]</span> o.s.b.w.embedded.tomcat.TomcatWebServer  : <em>Tomcat started on port 8080 (http)</em> with context path ''
 <span>2024-03-23T19:02:13.273+01:00  INFO 35563 --- [demo] [           main]</span> com.example.demo.DemoApplication         : Started DemoApplication in 1.06 seconds (process running for 1.201)
-</pre>
+</samp></pre>
 
 <div class="suggerimento">ATTENZIONE: potrebbero esserci anche dei messaggi di errore, vanno letti e non ignorati!</div>
 
@@ -305,9 +328,9 @@ limitiamoci a leggere le due righe con la parte evidenziata.</p>
 
 <section class="h2">
 <p>Nel caso sia stato correttamente configurato H2 tra i messaggi si troverà una riga particolare simile a questa:</p>
-<pre id="output">
+<pre><samp>
 <span>2024-03-23T19:20:11.243+01:00  INFO 35819 --- [demo] [           main]</span> o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:todolist'
-</pre>
+</samp></pre>
 
 <p>In questo caso potremmo connetterci a <code>http://localhost:8080/h2-console</code> per poter ispezionare il database,
 nel form ci verrà richiesto un "JDBC URL" e dovremmo specificare <code>jdbc:h2:mem:todolist</code>,
