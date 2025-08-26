@@ -18,7 +18,7 @@
 	<p>Avanzato nel senso di... un pochino più di quelle base!</p>
 	
 	<h2>Autenticazione</h2>
-	<p>Apache htpd può proteggere alcune cartelle in modo che soltanto 
+	<p>Apache httpd può proteggere alcune cartelle in modo che soltanto 
 	le persone autorizzate possano accedervi, il sistema è molto elementare
 	e non consente di fare molte cose ma è semplicissimo da usare e 
 	implementa lo standard <a href="https://tools.ietf.org/html/rfc7235">RFC 7235</a>.</p>
@@ -26,7 +26,7 @@
 	<p>In pratica serve di fare queste cose:</p>
 	<ul>
     <li>abilitare il modulo <a href="https://httpd.apache.org/docs/2.4/mod/mod_auth_basic.html">auth_basic</a></li>
-    <li>creare un file con le password</li>
+    <li>creare un file con le coppie <em>utente,password</em></li>
     <li>dire al server quale cartella proteggere</li>
 	</ul>
 	<p>Il risultato sarà che il server quando l'utente accede ad alcune cartelle 
@@ -34,12 +34,13 @@
 	
 	<div class="test">
     <p>Basic authentication invia i dati in chiaro quindi...</p>
-    <a onclick="sbagliata(this)">non va usato<span class="spiegazione">sei stao un pochino drastico!</span></a> 
+    <a onclick="sbagliata(this)">non va usato<span class="spiegazione">sei stato un pochino drastico!</span></a> 
     <a onclick="sbagliata(this)">sarebbe meglio non usarlo<span class="spiegazione">perché?</span></a>
-    <a onclick="giusta(this)">va usato insieme a ssl</a> 
+    <a onclick="giusta(this)">va usato insieme a ssl</a>
   </div>
   
-  <p>La creazione del file con le password è semplice:
+  <p>La creazione del file con le password è semplice: da linea di comando è possibile utilizzare
+  <code>htpasswd</code> che viene installato insieme ad Apache httpd:
   <code>htpasswd -c nomeDelFile nomeUtente</code>
   e poi il comando stesso chiede la password,
   il flag <code>-c</code> serve a creare il file quindi va usato la prima volta soltanto.</p>
@@ -61,7 +62,7 @@
 &lt;/Location&gt;  
 </code></pre>
   
-  <p>Una ultima considerazione: mettere il file in una cartella accessibile
+  <p>Una ultima considerazione: mettere il file delle password in una cartella accessibile
   dal web non è una grande idea... capire il perché è lasciato per esercizio.</p>
   
 </article>

@@ -61,15 +61,13 @@
 	<p>Mettendo insieme le parti, una semplice funzione che recupera un oggetto
     memorizzato su un server remoto potrebbe essere:</p>
 
-<div class="prog">
-
-<span class="evidenza ">async</span> function recuperaInformazioni() {
-    <span class="evidenza ">let risposta = await fetch("https://x.y.z/risorsa.json");</span>
-    <span class="evidenza ">let libro = await risposta.json();</span>
+<pre><code>
+<em>async</em> function recuperaInformazioni() {
+    <em>let risposta = await fetch("https://x.y.z/risorsa.json");</em>
+    <em>let libro = await risposta.json();</em>
     console.log(libro.titolo);
 }
-
-</div>
+</code></pre>
 
     <h2>Invio dei dati al server</h2>
     <p>Il metodo
@@ -96,21 +94,19 @@
     si chiama la funzione fetch specificando sia la url del servizio che i parametri
     appena definiti.</p>
 
-<div class="prog">
-
+<pre><code>
 async function recuperaInformazioni() {
-    <span class="evidenza">let parametriRichiesta = {
+    <em>let parametriRichiesta = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(oggettoDaInviare)
-    };</span>
-    let risposta = await fetch("https://x.y.z/inserisci",<span class="evidenza">parametriRichiesta</span>);
+    };</em>
+    let risposta = await fetch("https://x.y.z/inserisci",<em>parametriRichiesta</em>);
     /* ... */
 }
-
-</div>
+</code></pre>
 
     <h2>Gestione degli errori</h2>
     <p>Finora abbiamo gestito la comunicazione con fetch API considerando
@@ -122,19 +118,18 @@ async function recuperaInformazioni() {
     potrebbero essere utili per capire la natura del problema stesso:
     <code>name</code> e <code>message</code>.</p>
 
-<div class="prog">
-
+<pre><code>
 async function richiestaRealista(){
-    <span class="evidenza">try{</span>
+    <em>try{</em>
         let risposta = await fetch(URL_ORARI);
         let oggetto = await risposta.json();
         /* ... */
-    <span class="evidenza">}catch(e){</span>
-        console.log(<span class="evidenza">e.name</span>);
-        console.log(<span class="evidenza">e.message</span>);
-    <span class="evidenza">}</span>
+    <em>}catch(e){</em>
+        console.log(<em>e.name</em>);
+        console.log(<em>e.message</em>);
+    <em>}</em>
 }
-</div>
+</code></pre>
 </article>
 </body>
 </html>

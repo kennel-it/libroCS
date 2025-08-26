@@ -14,11 +14,6 @@
        <title>XMLHttpRequest</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
        <script type="text/javascript" src="script/test.js"></script>
-       <style>
-       		div.prog {
-       			line-height: inherit;
-       		}
-       </style>
    </head>
 <body>
 <header>
@@ -73,7 +68,7 @@
 	</dl>
 	<h2>Un esempio</h2>
 
-<div class="prog">
+<pre><code>
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -82,22 +77,22 @@
 &lt;script type="text/javascript"&gt;
 "use strict";
 
-<span class="evidenza">// conterrà la richiesta, deve essere globale perché</span>
-<span class="evidenza">// viene usata in due diverse funzioni</span>
+<span class="evidenza">// conterrà la richiesta, deve essere globale perché</em>
+<span class="evidenza">// viene usata in due diverse funzioni</em>
 let httpRequest;
 
 function statoCambiato(){
 
-  <span class="evidenza">// lo stato è cambiato ma non è detto che sia già arrivata</span>
-  <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</span>
-  <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</span>
+  <span class="evidenza">// lo stato è cambiato ma non è detto che sia già arrivata</em>
+  <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</em>
+  <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</em>
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
 
     if(httpRequest.status == 200){
-      <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</span>
+      <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</em>
       document.getElementById("risposta").innerHTML = httpRequest.responseText;
     }else{
-      <span class="evidenza">// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</span>
+      <span class="evidenza">// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</em>
       document.getElementById("risposta").innerHTML = "errore "+httpRequest.status;
     }
 
@@ -107,17 +102,17 @@ function statoCambiato(){
 
 function premuto(){
 
-  <span class="evidenza ">// creo l'oggetto</span>
+  <em>// creo l'oggetto</em>
   httpRequest = new XMLHttpRequest();
 
-  <span class="evidenza ">// imposto la funzione da chiamare ogni volta che ci sarà</span>
-  <span class="evidenza ">// un cambiamento di stato</span>
+  <em>// imposto la funzione da chiamare ogni volta che ci sarà</em>
+  <em>// un cambiamento di stato</em>
   httpRequest.onreadystatechange = statoCambiato;
 
-  <span class="evidenza ">// inizializzo la richiesta </span>
+  <em>// inizializzo la richiesta </em>
   httpRequest.open('GET', 'info.txt');
 
-  <span class="evidenza ">// invio la richiesta al server </span>
+  <em>// invio la richiesta al server </em>
   httpRequest.send();
 }
 
@@ -131,7 +126,7 @@ function premuto(){
 &lt;/body&gt;
 &lt;/html&gt;
 
-</div>
+</code></pre>
 
 	<h2>Invio dei dati al server</h2>
 	<h3>Nella URL</h3>
@@ -152,8 +147,11 @@ function premuto(){
 	<p>Spesso capita di dover però inviare molti dati ad un metodo POST e in questo caso dobbiamo inserirli nel body.
 	Questa cosa non è difficile da fare usando XMLHttpRequest: basta specificare POST come metodo e
 	passarli come parametro a <code>send()</code>, in poche parole:</p>
-<pre><code>httpRequest.open('POST', 'script.php');</code>
-<code>httpRequest.send(corpoDelMessaggio);</code></pre>
+
+<pre><code>
+httpRequest.open('POST', 'script.php');
+httpRequest.send(corpoDelMessaggio);
+</code></pre>
 
 
 </article>

@@ -24,12 +24,12 @@
     per il controllo del flusso (if e for ad esempio) ma che con i metodi dell'oggetto
     <code>Array</code> si possono fare diversamente.
     Qui vedemo sono alcuni modi per utilizzare i metodi più comuni,
-    per moltissime ulteriori informazioni è possibile viosualizzare la
+    per moltissime ulteriori informazioni è possibile visualizzare la
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">
     pagina di <code>Array</code> su MDN</a>.</p>
     <p>Per semplificare la trattazione definiamo subito tre variabili che utilizzeremo
     in tutti gli esempi:</p>
-<div class="prog">
+<pre><code>
 let numeri = [1,12,7,4,3,10];
 let oggetti = [
     {testo:"hello",valore:4},
@@ -37,7 +37,8 @@ let oggetti = [
     {testo:"reduce",valore:8}
 ];
 let contenitore = document.getElementById("selectNomi");
-    </div>
+</code></pre>
+
     <p>un vettore di numeri, uno di oggetti e un oggetto del DOM (un select nella pagina!).</p>
 
     <h2>Elaborarare tutti gli elementi di un vettore</h2>
@@ -45,18 +46,19 @@ let contenitore = document.getElementById("selectNomi");
     <h3>Stampare tutti i numeri contenuti in un vettore sulla console</h3>
     <p>Iniziamo da una cosa che capita di fare spesso: voglio fare una qualche operazione
     su tutti gli elementi di un vettore uno per uno, ad esempio stamparli sulla console:</p>
-<div class="prog vecchio">
+<pre><code>
 for(let i=0 ; i&lt;numeri.length ; i++){
     console.log(numeri[i]);
 }
-    </div>
+</code></pre>
+
     <p>La parte di codice precedente fa il suo lavoro, però molti linguaggi attuali offrono la possibilità di lavorare sugli stream cioè di immaginare
     non un vettore di cui si guarda una casella alla volta ma un flusso di elementi
     che arrivano uno dietro l'altro (alla fine l'indice dove stanno nel vettore importa poco),
     in pratica lo stesso lavoro possiamo farlo così:</p>
-<div class="prog nuovo">
+<pre><code class="nuovo">
 numeri.forEach( (x) =&gt; { console.log(x); });
-</div>
+</code></pre>
     <p>Parafrasi: <em>Per ogni elemento <code>x</code> che sta nell'Array <code>numeri</code>
     esegui <code>console.log(x)</code></em>.</p>
     <p>Forse è il caso di richiamare la sintassi di "=&gt;", quella che viene specificata
@@ -65,32 +67,32 @@ numeri.forEach( (x) =&gt; { console.log(x); });
     cioè la parte nelle graffe viene eseguita una volta per il numero 1, una volta per il 12,
     una volta per il 7 e così via.</p>
     <p>È una versione contratta (e magari anche più leggibile) di:</p>
-<div class="prog nuovo">
+<pre><code>
 function elabora(x){
     console.log(x);
 }
 numeri.forEach( elabora );
-</div>
+</code></pre>
 
     <h3>Creare gli option per il select</h3>
     <p>I dati li prendiamo dal vettore di oggetti chiamato <code>oggetti</code>.</p>
-<div class="prog vecchio">
+<pre><code>
 for(let i=0 ; i&lt;oggetti.length ; i++){
     let elemento = document.createElement("option");
     elemento.innerText = oggetti[i].testo;
     elemento.value = oggetti[i].valore;
     contenitore.appendChild(elemento);
 }
-</div>
+</code></pre>
     <p>Usando il forEach viene così:</p>
-<div class="prog nuovo">
+<pre><code class="nuovo">
 oggetti.forEach( e => {
     let elemento = document.createElement("option");
     elemento.innerText = e.testo;
     elemento.value = e.valore;
     contenitore.appendChild(elemento);
 });
-</div>
+</code></pre>
 
 
     <h2>Filtri</h2>
@@ -100,20 +102,20 @@ oggetti.forEach( e => {
     approcci e lavorando al solito su numeri e oggetti</p>
 
     <h3>Stampare i soli numeri pari</h3>
-<div class="prog vecchio">
+<pre><code>
 for(let i=0 ; i&lt;numeri.length; i++){
     if(numeri[i]%2==0){
         console.log(numeri[i]);
     }
 }
-</div>
+</code></pre>
 
     <p>Oppure posso usare il metodo filter che prende come parametro una funzione
     che usa appunto da filtro: gli viene passato un elemento alla volta e
     se il risultato della funzione (un test solitamente) è true prende l'elemento altrimenti lo scarta</p>
-<div class="prog nuovo">
+<pre><code class="nuovo">
 numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
-</div>
+</code></pre>
 
     <h2>Trasformare qualcosa in qualcos'altro</h2>
     <p>Questa strategia (parte del pattern conosciuto come map/reduce)
@@ -121,14 +123,14 @@ numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
     forse più facile da capire con un paio di esempi come al solito.</p>
 
     <h3>Il doppio di ciascun elemento di un vettore</h3>
-<div class="prog vecchio">
+<pre><code>
 let risultato = [];
 for(let i=0;i &lt; numeri.length;i++){
     risultato.push(numeri[i]*2);
 }
-</div>
+</code></pre>
     <p>Quella che segue è la versione che usa <code>map()</code>.</p>
-<div class="prog nuovo">let risultato = numeri.map( n => n*2 );</div>
+<pre><code class="nuovo">let risultato = numeri.map( n => n*2 );</code></pre>
 
     <h3>Creare degli option</h3>
     <p>Con lo stesso schema possiamo creare gli elementi <code>option</code>
@@ -136,30 +138,31 @@ for(let i=0;i &lt; numeri.length;i++){
     del codice è minore, ragiona così: da ogni elemento del vettore
     <code>oggetti</code> creo il corrispondente <code>Node</code> (un elemento della pagina HTML)
     poi un elemento alla volta lo aggiungo al select.</p>
-<div class="prog nuovo">
+<pre><code class="nuovo">
 oggetti.map( elemento => {
     let n = document.createElement("option");
     n.innerText = elemento.testo;
     n.value = elemento.valore;
     return n;
 }).forEach( x => contenitore.appendChild(x));
-</div>
+</code></pre>
 
 
 
     <h2>Creare dei riassunti</h2>
     <p>L'altra parte del pattern map/reduce prevede di creare un
     unico oggetto alla fine del lavoro, proviamo a vedere ad esempio come sommare un vettore:</p>
-<div class="prog vecchio">
+<pre><code>
 let somma = 0;
 for(let i=0 ; i&lt;numeri.length ; i++){
     somma = somma+numeri[i];
 }
-</div>
+</code></pre>
     <p>E la versione aggiornata:</p>
-<div class="prog nuovo">
+<pre><code class="nuovo">
 let somma = numeri.reduce( (somma, v) => somma+v, 0);
-</div>
+</code></pre>
+
     <p>Il metodo <code>reduce</code> prende due parametri:</p>
     <dl>
         <dt>(somma, v) => somma+v</dt>
@@ -177,7 +180,7 @@ let somma = numeri.reduce( (somma, v) => somma+v, 0);
     creare una select utilizzandone soltanto alcuni (quelli che hanno un valore inferiore
     a cinque). Questa volta però creiamo una stringa da inserire nel select con <code>innerHTML</code></p>
 
-<div class="prog vecchio">
+<pre><code>
 let stringa = "";
 for(let i=0 ; i&lt;oggetti.length ; i++){
     if(oggetti[i].valore&lt;5){
@@ -185,12 +188,13 @@ for(let i=0 ; i&lt;oggetti.length ; i++){
     }
 }
 contenitore.innerHTML = stringa;
-</div>
-<div class="prog nuovo">
+</code></pre>
+
+<pre><code class="nuovo">
 contenitore.innerHTML = oggetti.filter( elemento =&gt; elemento.valore&lt;5 )
 .map(elemento =&gt; `&lt;option value=${elemento.valore}&gt;${elemento.testo}&lt;/option&gt;`)
 .join();
-</div>
+</code></pre>
 
     <p>il join() congiunge tutte le stringhe in una sola stringa
     (un modo sbrigativo per fare un reduce).</p>

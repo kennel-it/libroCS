@@ -35,8 +35,8 @@ per condividere file
 <h2>A cosa serve</h2>
 <p>In breve a semplificare il lavoro di un gruppo di sviluppatori software consentendo di:</p>
 <ul>
-    <li>eseguire i test del progetto automaticamente</li>
     <li>compilare tutte le classi del programma</li>
+    <li>eseguire i test del progetto automaticamente</li>
     <li>scaricare le <em>dipendenze</em> di un progetto (cioè delle librerie scritte
     da altri sviluppatori che servono per i compiti più disparati come ad esempio trasformare
     un oggetto Java in JSON e viceversa, queste librerie possono avere dipendenze a loro volta...
@@ -55,13 +55,14 @@ il file <em>pom.xml</em> presente nella cartella principale del progetto stesso.
 <p>In un sistema attuale esistono molte opzioni per utilizzare Maven, ne vediamo due come esempio:
 installarlo nel sistema o utilizzare un IDE che gestisce i progetti Maven.
 Non è detto però che serva creare un nuovo progetto per usarlo:
-magari è possibile che il progetto venga fornito già fatto</p>
+magari è possibile che il progetto venga fornito completo del file <code>pom.xml</code>.</p>
 
 <h3>Installarlo</h3>
 <p>La via più ovvia è di <a href="https://maven.apache.org/download.cgi">scaricarlo</a>
 prima e poi scompattarlo e mettendo la sua cartella "bin" nel path. In alternativa se si ha a disposizione
 un ambiente tipo Unix (Linux, macOS, gitBash ...) si può installare
-<a href="https://sdkman.io/">SdkMan</a> e poi far installare a lui Maven.</p>
+<a href="https://sdkman.io/">SdkMan</a> e poi farlo installare a lui 
+digitando il comando: <code>sdk install maven</code>.</p>
 <p>Una volta installato maven un comando tipo 
 <code>mvn archetype:generate -DgroupId=it.edu.esempi -DartifactId=hello -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false</code>
 provvederà a creare una nuova cartella contenente il progetto.</p>
@@ -72,8 +73,25 @@ Dal pannello che si apre dal menu /File/new/Other selezionare "Maven project" ne
 al primo tentativo per semplicità conviene spuntare "Create a simple project (skip archetype selection)",
 altrimenti al passo successivo Eclipse chiederà di selezionare un modello (Archetipo)
 in base al quale creare il progetto.</p>
-<p>Se si dovesse modificare in futuro il file pom.xml poi bisogna farci clik con il tasto destro e
+<p>Nel secondo pannello vengono richieste alcune informazioni utili a descrivere
+(e identificare) il progetto che si sta creando:</p>
+<dl>
+    <dt>goupId</dt>
+    <dd>segue le regole dei pacchetti di java, identifica il progetto</dd>
+    <dt>artifactId</dt>
+    <dd>è il nome del singolo file jar, del pacchetto che stiamo creando</dd>
+    <dt>version</dt>
+    <dd>la versione attuale del progetto, il tipico 
+    <a href="https://semver.org/spec/v1.0.0.html">numero di versione</a>
+    che usa il punto</dd>
+    <dt>name</dt>
+    <dd>il nome del progetto (solitamente uuguale all'artifactId)</dd>
+</dl>
+
+<p>Tutte queste informazioni vengono inserite nel file pom.xml che è possibile poi
+modificare manualmente; in questo caso poi bisogna farci clik con il tasto destro e
 selezionare "Maven/Update project..."</p>
+
 
 <h2>Cartelle</h2>
 <p>Un progetto viene generato a partire da un modello chiamato da Maven 
@@ -107,7 +125,7 @@ si ottiene una cosa del genere:</p>
     <dt>src/test/resources</dt>
     <dd>tutto ciò che serve per i test e non è una classe java</dd>
     <dt>JRE System Library</dt>
-    <dd>questa non è una cartella (non esiste su disco)mma la versione di java che stiamo utilizzando
+    <dd>questa non è una cartella (non esiste su disco)ma è la versione di java che stiamo utilizzando
     nel progetto... purtroppo una vecchissima ma la modificheremo</dd>
     <dt>src</dt>
     <dd>questa è la cartella che contiene in realtà le prime 4 cartelle elencate sopra</dd> 
@@ -158,23 +176,6 @@ guardando un file di esempio:</p>
 <p>Vediamo qui sotto parte per parte quali informazioni stiamo fornendo a Maven 
 con questo file.</p>
 
-<h2>Informazioni sul progetto</h2>
-<p>Sono in pratica quelle che descrivono il progetto al resto del mondo:</p>
-<dl>
-    <dt>goupId</dt>
-    <dd>segue le regole dei pacchetti di java, identifica il progetto</dd>
-    <dt>artifactId</dt>
-    <dd>è il nome del singolo file jar, del pacchetto che stiamo creando</dd>
-    <dt>version</dt>
-    <dd>la vesrione attuale del progetto, il tipico 
-    <a href="https://semver.org/spec/v1.0.0.html">numero di versione</a>
-    che usa il punto</dd>
-    <dt>name</dt>
-    <dd>il nome del progetto</dd>
-    <dt>url</dt>
-    <dd>il sito web del progetto</dd>
-</dl>
-
 <h2>Proprietà</h2>
 <p>Niente di più di proprietà generali... le due che sono presenti
 nell'esempio sono molto importanti.</p>
@@ -195,7 +196,7 @@ la stessa versione del server sul client piuttosto che viceversa.</p>
 <h2><a href="https://maven.apache.org/pom.html#dependencies">Dipendenze</a></h2>
 <p>In questa sezione si specificano tutti i componenti software 
 di cui il progetto ha bisogno: sarà poi compito di maven gestirli.
-Per soddidfare le dipendenze di un progetto Maven cerca i componenti nel repository locale,
+Per soddisfare le dipendenze di un progetto, Maven cerca i componenti nel repository locale,
 cioè una cartella nel nostro computer
 (<code>.m2</code> nella home dell'utente) e se non li trova lì li scarica
 dal suo <a href="https://repo.maven.apache.org/maven2/">repository centrale</a>.</p> 
@@ -222,7 +223,8 @@ su <a href="https://central.sonatype.com/?smo=true">Maven Central Repository</a>
 se non si hanno i dati a disposizione.</p>
 
 <h2>Gestire un progetto maven</h2>
-<p>Per gestire da linea di comando un progetto Maven si usa la solita sintassi
+<p>Dopo essersi portati nella cartella principale del progetto,
+per gestire da linea di comando un progetto Maven si usa la solita sintassi
 <code>mvn &lt;comando&gt; [eventuali parametri]</code>, il bello è che i comandi sono
 spesso dei plugin che se non abbiamo scaricato localmente vengono scaricati al volo
 (ovviamente con tutte le dipendenze del caso) senza che si faccia nulla.</p>
@@ -261,11 +263,11 @@ double risultato = valutatore.evaluate(espressione);
 System.out.println(risultato);
 </code></pre>
 <p>Funziona! Potrei andare avanti scrivendo il mio programma che tratta sequenze
-di numeri non solo espressioni... devo spesso calcolare massimi/minimi e fare
-diverse operazioni di questo genere con i numeri: anziché riscrivere
-tutto da capo utilizzo un'altra libreria chiamata "Commons Lang" semplicemente
+di numeri non solo espressioni... devo spesso calcolare massimi o media 
+o altre funzioni statistiche: anziché riscrivere
+tutto da capo utilizzo un'altra libreria chiamata "Commons Math" semplicemente
 aggiungedo una ulteriore dipendenza nella sezione <code>&lt;dependencies&gt;</code>
-del mio pom.xml che a questoi punto diventerà</p>
+del mio pom.xml che a questo punto diventerà</p>
 <pre><code>
 &lt;dependencies&gt;
   &lt;dependency&gt;
@@ -274,15 +276,14 @@ del mio pom.xml che a questoi punto diventerà</p>
     &lt;version&gt;3.0.3&lt;/version&gt;
   &lt;/dependency&gt;
   &lt;dependency&gt;
-    &lt;groupId&gt;org.netbeans.external&lt;/groupId&gt;
-    &lt;artifactId&gt;org-apache-commons-lang3&lt;/artifactId&gt;
-    &lt;version&gt;RELEASE130&lt;/version&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-math3&lt;/artifactId&gt;
+    &lt;version&gt;3.6.1&lt;/version&gt;
   &lt;/dependency&gt;
 &lt;/dependencies&gt;
 </code></pre>
 
-<p>Questa ultima ha un numero di versione un tantino strano ma pazienza.
-Posso inserire tutte le dipendenze che voglio, meno facile è trovare quale libreria
+<p>Posso inserire tutte le dipendenze che voglio, meno facile è trovare quale libreria
 fa al caso nostro: bisogna informarsi!</p>
 
 <h2>In caso di proxy</h2>
@@ -324,6 +325,9 @@ e di salvarlo sulla scrivania:</p>
     <li>fare click su "User settings"</li>
     <li>fare click sul pulsante "browse" alla destra della casella "User Settings"</li>
 </ol>
+
+<p>Se si usa Maven da linea di comando il file deve chiamarsi <code>settings.xml</code>
+e trovarsi nella cartella <code>.m2</code> nella home dell'utente.</p>
 
 </article>
 </body>

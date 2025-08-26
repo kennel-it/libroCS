@@ -37,52 +37,64 @@
 	<p>Normalmente il messaggio JSON viene da un server o da un sistema di archiviazione
 	ma nella sostanza il modo di lavorarci è quello qui sotto:</p>
 
-<div class="prog">
+<pre><code>
 // invento un messaggio
 let messaggioDalServer = '{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
 // trasformo il testo in un oggetto
 let oggetto = JSON.parse(messaggioDalServer);
 console.log(oggetto.telefoni[1]);
-</div>
+</code></pre>
 	<div class="test">
 	   	<p>Cosa stampa il precedente frammento di programma nella console?</p>
-	    <a onclick="sbagliata(this)">Pluto 555-2222<span class="spiegazione">no, il nome non viene stampatohernet</span></a>
+	    <a onclick="sbagliata(this)">Pluto 555-2222<span class="spiegazione">no, il nome non viene stampato</span></a>
 	    <a onclick="sbagliata(this)">555-1111<span class="spiegazione">questo sarebbe l'indice zero</span></a> 
 	    <a onclick="giusta(this)">555-2222</a> 
 	</div>
-	
+
+<pre><code>
+// invento un messaggio
+let messaggioDalServer = '{ "nome":"Pluto", "telefoni": ["555-1111","555-2222"] }';
+// trasformo il testo in un oggetto
+let oggetto = JSON.parse(messaggioDalServer);
+console.log(oggetto.cognome);
+</code></pre>	
 	<div class="test">
 	   	<p>Cosa stampa il precedente frammento di programma nella console?</p>
-	    <a onclick="sbagliata(this)">nome<span class="spiegazione">no, la proprietà "Pluto" non esiste</span></a>
-	    <a onclick="sbagliata(this)">stringa vuota<span class="spiegazione">no, c'è un valore specifico</span></a> 
+	    <a onclick="sbagliata(this)">nome<span class="spiegazione">no, la proprietà cognome non esiste</span></a>
+	    <a onclick="sbagliata(this)">cognome<span class="spiegazione">no, dovrebbe stampare il suo valore</span></a> 
 	    <a onclick="giusta(this)">undefined</a> 
 	</div>
 	
 	
 	<h2>Oggetto JS → JSON</h2>
-	<p>Anche in questo caso piuttosto facile: <code>JSON.stringify(oggetto)</code>
+	<p>Anche in questo caso è piuttosto facile: <code>JSON.stringify(oggetto)</code>
 	restituisce una stringa che è la rappresentazione delle proprietà di <code>oggetto</code>.
 	Vediamo subito come funziona con un frammento di programma</p>
 	
-<div class="prog">
+<pre><code>
 let oggetto = {nome: "Batman"};
 oggetto.citta = "Gotham";
 oggetto.attori = ["Christian Bale","Val Kilmer"];
-let testo = JSON.stringify(oggetto);</div>
+let testo = JSON.stringify(oggetto);
+</code></pre>
 
     <p>la variabile testo conterrà:</p>
-<pre>{
+<pre><code>
+{
   "nome": "Batman",
   "citta": "Gotham",
   "attori": [
     "Christian Bale",
     "Val Kilmer"
   ]
-}</pre>
+}
+</code></pre>
 
-    <p>In effetto il frammento di programma sopra si potrebbe anche scrivere:</p>
-    <div class="prog">let oggetto = {nome: "Batman", citta: "Gotham", attori : ["Christian Bale","Val Kilmer"]};
-let testo = JSON.stringify(oggetto);</div>
+    <p>In effetti il frammento di programma sopra si potrebbe anche scrivere:</p>
+<pre><code>
+let oggetto = {nome: "Batman", citta: "Gotham", attori : ["Christian Bale","Val Kilmer"]};
+let testo = JSON.stringify(oggetto);
+</code></pre>
 
 </article>
 </body>

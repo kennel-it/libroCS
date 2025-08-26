@@ -32,7 +32,7 @@ Content-Type	: text/html; charset=UTF-8
 </samp></pre>
 <p>A meno della prima riga (riga di stato)
 la risposta ha lo stesso formato della richiesta.</p>
-<p>Nel caso delle risposta ri vede meglio la distinzione tra intestazione
+<p>Nel caso della risposta si vede meglio la distinzione tra intestazione
 (la parte prima della riga vuota) e il corpo (la parte dopo la riga vuota)
 di cui in questo esempio si vedono soltanto le prime due righe.</p>
 
@@ -44,7 +44,7 @@ protocollo, codice e descrizione dell'esito.</p>
 è invece una doppia descrizione della risposta: in formato numerico e come testo.</p>
 <p>In realtà la descrizione è ridondante perché dipende dal codice direttamente
 (ad esempio il codice 200 corrisponde alla descrizione "ok").
-Ci sonono <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">molti codici</a> di risposta
+Ci sonono <a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes">molti codici</a> di risposta
 (<a href="https://httpstatuses.com/">qui</a> una lista di più veloce consultazione): ognuno è
 formato da tre cifre in cui la prima dice l'esito generale. I gruppi sono questi:</p>
 <dl>
@@ -79,7 +79,7 @@ è stato indicato in modo incorretto, oppure è stato rimosso il contenuto dal
 <p>Analoga a quella del client nel formato, vediamo alcuni header di esempio.</p>
 <h3>Server</h3>
 <p>La controparte di <code>User-Agent</code> nella richiesta, il server 
-descrive se stesso!</p>
+descrive sé stesso!</p>
 <h3>Cache-Control</h3>
 <p>Sono indicazioni di come gestire il contenuto fornito in relazione alla cache del
 programma che lo riceve. Ad esempio il valore <code>public</code> indica che il contenuto può
@@ -88,9 +88,9 @@ deve essere validato dal server prima di essere usato.
 Il valore <code>no-store</code> indica che il contenuto non va memorizzato in cache.</p>
 
 <h3>Expires</h3>
-<p>Indica in pratica una data di scadenza dell'oggetto fornito, il formato è quello
+<p>Indica l'istante in cui loggetto fornito scade, il formato è quello
 delle marche temporali (timestamp) di HTTP, ad esempio: 
-<code>Expires: Wed, 21 Oct 2015 07:28:00 GMT</code></p>
+<code>Expires: Wed, 21 Oct 2025 07:28:00 GMT</code></p>
 
 <h3>Content-Type</h3>
 <p>È in pratica la risposta all'header <code>Accept</code> della richiesta,
