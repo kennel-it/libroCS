@@ -38,7 +38,7 @@
 	<h2>classe principale</h2>
 	<p>Il programma che scriviamo è ridotto ai minimi termini: una sola lista per contenere ciò 
 	che ci invia il server e una casella per inviare le informazioni al server.</p> 
-<pre>
+<pre><code>
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -99,14 +99,14 @@ public class Finestra extends Application {
     }
   }
 }
-</pre>
+</code></pre>
 
 <p>Il programma è davvero molto breve... troppo... per esercizio va sistemato chiudendo tutte le
 risorse magari aggiungendo un pulsante chiudi che si occupa di ciò.</p>
 
 	<h2>thread che ascolta</h2>
 	
-<pre>
+<pre><code>
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -141,7 +141,7 @@ public class ThreadRicevitore extends Thread {
     }while( letto!=null ); 
   }
 }
-</pre>
+</code></pre>
 	<p>Il thread non fa altro che attendere un messaggio dal server e aggiungerlo alla lista, usa 
 	<a href="https://openjfx.io/javadoc/11/javafx.graphics/javafx/application/Platform.html">
 	<code>Platform.runLater</code></a> per eseguire modifiche sull'interfaccia

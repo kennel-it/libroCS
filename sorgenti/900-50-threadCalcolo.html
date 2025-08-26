@@ -32,7 +32,7 @@ minimo = minimo tra m1 e m2
     <p>Ci ricordiamo tutti come si calcola il minimo valore presente in un vettore vero?
     Ci aiuterà nella successiva trattazione scrivere una funzione per calcolare il minimo:</p>
 
-<pre>
+<pre><code>
 public int minimo(int v[]){
     int min = v[0];
     for(int i=1; i&lt;v.length; i++){
@@ -42,11 +42,11 @@ public int minimo(int v[]){
     }
     return min;
 }
-</pre>    
+</code></pre>
     
     <p>In effetti a noi fa comodo una sua (poco significativa dal punto di vista algoritmico) 
     variazione:</p>
-<pre>
+<pre><code>
 public int minimo(int v[], int primo, int ultimo){
     int min = v[primo];
     for(int i=primo+1; i&lt;=ultimo; i++){
@@ -56,7 +56,7 @@ public int minimo(int v[], int primo, int ultimo){
     }
     return min;
 }
-</pre>
+</code></pre>
     <p>In pratica abbiamo solo reso esplicito quale parte del vettore va considerata,
     questo ci farà comodo per <em>dividere il problema</em> in due parti.</p> 
     
@@ -81,7 +81,7 @@ public int minimo(int v[], int primo, int ultimo){
         thread ha finito il suo lavoro, chiamarlo prima non avrebbe senso e produrrebbe
         un risultato sbagliato.</dd>
     </dl>    
-<pre>
+<pre><code>
 public class Cercatore <em>extends Thread</em> {
     private int inizio, fine;
     private int[] sequenza;
@@ -107,14 +107,14 @@ public class Cercatore <em>extends Thread</em> {
         return minimo;
     }
 }
-</pre>
+</code></pre>
 
     <h3>Gestore dei thread</h3>
     <p>Bene, adesso abbiamo un lavoratore che cerca il minimo... e magari abbiamo un processore
     con più di un nucleo di elaborazione: come sfruttiamo la situazione?
     Costruendo un programma che usa il Cercatore!</p>
 
-<pre>
+<pre><code>
 public class MinimoNumero {
 
     public static void main(String[] args) throws InterruptedException{
@@ -152,7 +152,7 @@ public class MinimoNumero {
         }
     }
 }
-</pre>
+</code></pre>
 
     <p>Per chiarezza dobbiamo precisare che: questo programma potrebbe essere scritto in maniera più 
     furba! (magari senza bloccarsi) e che un processore attuale lo esegue in tempi brevissimi.

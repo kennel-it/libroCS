@@ -50,14 +50,15 @@
     quando si avvia il thread e che una volta terminato fa passare il thread stesso
     nello stato di "died" (sarebbe a dire "terminato").</p>
 
- <pre>
+<pre><code>
 public class Esecutore extends Thread {
 
   @Override
   public void run(){
     // codice da eseguire nel thread
   }
-}</pre>
+}
+</code></pre>
 
     <p>Per quanto riguarda il problema dell'accesso concorrente alle strutture dati mensionato sopra
     la libreria di Java esplicita chiaramente se un oggetto è utilizzabile senza problemi e senza

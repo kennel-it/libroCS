@@ -52,14 +52,14 @@
   <code>DocumentRoot</code>.</p>
   <p>Quello qui sotto è un esempio plausibile:</p>
   
-  <pre>
+<pre><code>
 &lt;Location /protetta&gt;
   AuthType Basic
   AuthName "Fatti riconoscere"
   AuthUserFile "/var/server/basic-passwords"
   Require valid-user
 &lt;/Location&gt;  
-  </pre>
+</code></pre>
   
   <p>Una ultima considerazione: mettere il file in una cartella accessibile
   dal web non è una grande idea... capire il perché è lasciato per esercizio.</p>

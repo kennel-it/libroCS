@@ -62,7 +62,7 @@
 	
 	<p>Un frammento di programma come quello qui sotto serve ad inviare una semplice
 	stringa di testo al server:</p>
-<pre>
+<pre><code>
 Socket connessione = new Socket("snoopy.quercia.org",876);
 OutputStream flussoByte = connessione.getOutputStream();
 OutputStreamWriter flussoCaratteri = new OutputStreamWriter(flussoByte);
@@ -71,20 +71,20 @@ flussoCaratteri.write("saluti!\n");
 flussoCaratteri.close();
 flussoByte.close();
 connessione.close();
-</pre>
-	 
+</code></pre>
+
 	 <h2><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/ServerSocket.html">ServerSocket</a></h2>
 
     <p>Questa classe è in grado di bloccare l'esecuzione del programma attendendo che qualcuno 
     si connetta via TCP/IP, una volta avvenuta la connessione quesllo che si ottiene 
     è di nuovo un oggetto Socket da cui è possibile ottenere dei flussi in ingresso/uscita.</p>
-	 
-<pre>
+
+<pre><code>
 ServerSocket ss = new ServerSocket(7777)
 // il metodo accept serve per mettersi in ascolto
 Socket s = ss.accept();
 // da questo punto posso usare il socket come in un client
-</pre>
+</code></pre>
 
     <div class="test">
         <p>considerando il frammento di programma precedente cosa succede se dopo il primo client se ne connette

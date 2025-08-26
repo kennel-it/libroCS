@@ -29,7 +29,7 @@
     
     <p>Prima di tutto creo la classe che fa i conti:</p>
     
-<pre>
+<pre><code>
 import javafx.application.Platform;
 import javafx.scene.control.TextField;
 
@@ -54,7 +54,8 @@ public class ContatoreDivisori <em>extends Thread</em> {
             output.setText(""+numeroDivisori);
         });
     }
-}</pre> 
+}
+</code></pre> 
 
     <p>Da notare in questo programma ci sono alcune cose: il costruttore vuole sapere 
     su quale numero lavorare e la casella di testo su cui comunicare la risposta.
@@ -71,7 +72,7 @@ public class ContatoreDivisori <em>extends Thread</em> {
     
     <p>Il programma che realizza l'interfaccia grafica è il seguente:</p>
     
-<pre>
+<pre><code>
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -111,8 +112,8 @@ public class InterfacciaParallelaPrimi extends Application {
         <em>cd.start();</em>
     }
 }
-</pre>
-    
+</code></pre>
+
     <p>In questo caso non 'è molto da notare oltre la creazione del thread e il suo avvio 
     tramite il metodo <code>start()</code>.</p>
     
