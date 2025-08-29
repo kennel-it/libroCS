@@ -84,7 +84,7 @@ for(let i=0 ; i&lt;oggetti.length ; i++){
     contenitore.appendChild(elemento);
 }
 </code></pre>
-    <p>Usando il forEach viene così:</p>
+    <p>Usando il <code>forEach()</code> viene così:</p>
 <pre><code class="nuovo">
 oggetti.forEach( e => {
     let elemento = document.createElement("option");
@@ -97,8 +97,8 @@ oggetti.forEach( e => {
 
     <h2>Filtri</h2>
     <p>Può capitare che dei dati che ci arrivano non ci serva di utilizzarli tutti
-    ma soltanto una parte, parte che possiamo selezionare utilizzando opportuni citeri,
-    vediamo come si può procedere seguendo i due diversi
+    ma soltanto una parte, parte che possiamo selezionare utilizzando opportuni criteri.
+    Vediamo come si può procedere seguendo i due diversi
     approcci e lavorando al solito su numeri e oggetti</p>
 
     <h3>Stampare i soli numeri pari</h3>
@@ -110,12 +110,14 @@ for(let i=0 ; i&lt;numeri.length; i++){
 }
 </code></pre>
 
-    <p>Oppure posso usare il metodo filter che prende come parametro una funzione
+    <p>Oppure posso usare il metodo <code>filter()</code> che prende come parametro una funzione
     che usa appunto da filtro: gli viene passato un elemento alla volta e
     se il risultato della funzione (un test solitamente) è true prende l'elemento altrimenti lo scarta</p>
 <pre><code class="nuovo">
 numeri.filter(n => n%2==0 ).forEach( x =&gt; { console.log(x); });
 </code></pre>
+    <p>Qui sopra <code>filter()</code> prende gli elementi pari che vengono poi
+    stampati con il <code>forEach</code>.</p>
 
     <h2>Trasformare qualcosa in qualcos'altro</h2>
     <p>Questa strategia (parte del pattern conosciuto come map/reduce)
@@ -163,7 +165,7 @@ for(let i=0 ; i&lt;numeri.length ; i++){
 let somma = numeri.reduce( (somma, v) => somma+v, 0);
 </code></pre>
 
-    <p>Il metodo <code>reduce</code> prende due parametri:</p>
+    <p>Il metodo <code>reduce()</code> prende due parametri:</p>
     <dl>
         <dt>(somma, v) => somma+v</dt>
         <dd>una funzione a cui passa due valori: una variabile detta accumulatore
@@ -191,12 +193,13 @@ contenitore.innerHTML = stringa;
 </code></pre>
 
 <pre><code class="nuovo">
-contenitore.innerHTML = oggetti.filter( elemento =&gt; elemento.valore&lt;5 )
+contenitore.innerHTML = oggetti
+.filter( elemento =&gt; elemento.valore&lt;5 )
 .map(elemento =&gt; `&lt;option value=${elemento.valore}&gt;${elemento.testo}&lt;/option&gt;`)
 .join();
 </code></pre>
 
-    <p>il join() congiunge tutte le stringhe in una sola stringa
+    <p>Il <code>join()</code> congiunge tutte le stringhe in una sola stringa
     (un modo sbrigativo per fare un reduce).</p>
 </article>
 </body>

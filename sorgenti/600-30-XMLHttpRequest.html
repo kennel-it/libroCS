@@ -21,7 +21,7 @@
 	<p>richieste asincrone via javascript</p>
 </header>
 <article>
-	<p>ci sono diversi modi per comunicare con un server da parte di una applicazione
+	<p>Ci sono diversi modi per comunicare con un server da parte di una applicazione
 	che gira in un browser e che ha bisogno di aver risposta per una singola richiesta: uno è
 	<a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
 	e l'altro sono le classiche
@@ -36,7 +36,7 @@
 	prima del 2000, successivamente nel 2006 ne è stata publicata una bozza di
 	<a href="https://www.w3.org/TR/XMLHttpRequest/">standard dal World Wide Web Consortium</a>.
 	Come il nome suggerisce è stato inventato per trasferire contenuto XML
-	ma attualmente viene usato per diversi formati di file.</p>
+	ma attualmente viene usato per diversi dati in diversi formati.</p>
 
 	<p>Lo scopo per cui viene usato è solitamente quello di trasferire informazioni senza cambiare
 	l'intera pagina e senza bloccare l'utente in attesa di una risposta: viene inviata la richiesta
@@ -74,34 +74,30 @@
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
 &lt;title&gt;Richiesta via http&lt;/title&gt;
-&lt;script type="text/javascript"&gt;
+&lt;script&gt;
 "use strict";
 
-<span class="evidenza">// conterrà la richiesta, deve essere globale perché</em>
-<span class="evidenza">// viene usata in due diverse funzioni</em>
+<em>// conterrà la richiesta, deve essere globale perché</em>
+<em>// viene usata in due diverse funzioni</em>
 let httpRequest;
 
 function statoCambiato(){
-
-  <span class="evidenza">// lo stato è cambiato ma non è detto che sia già arrivata</em>
-  <span class="evidenza">// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</em>
-  <span class="evidenza">// sarebbe necessario anche controllare il valore contenuto in status</em>
+  <em>// lo stato è cambiato ma non è detto che sia già arrivata</em>
+  <em>// la risposta (potrebbe ad esempio essere lo stato HEADERS_RECEIVED): controllo</em>
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
 
-    if(httpRequest.status == 200){
-      <span class="evidenza">// scrivo la risposta nel paragrafo identificato da "risposta"</em>
+    <em>// controllo lo stato della risposta ricevuta</em>
+    if(httpRequest.status === 200){
+      <em>// scrivo la risposta nel paragrafo identificato da "risposta"</em>
       document.getElementById("risposta").innerHTML = httpRequest.responseText;
     }else{
-      <span class="evidenza">// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</em>
+      <em>// scrivo il codice dell'errore nel paragrafo identificato da "risposta"</em>
       document.getElementById("risposta").innerHTML = "errore "+httpRequest.status;
     }
-
   }
-
 }
 
 function premuto(){
-
   <em>// creo l'oggetto</em>
   httpRequest = new XMLHttpRequest();
 
@@ -120,7 +116,7 @@ function premuto(){
 &lt;/head&gt;
 &lt;body&gt;
 <span class="evidenza ">
-&lt;!-- l'attributo <code>onclick</code> indica al browser il codice javascript da eseguire quando
+&lt;!-- l'attributo <em>onclick</em> indica al browser il codice javascript da eseguire quando
      l'utente fa click sull'elemento (un paragrafo in questo caso)  --&gt;</span>
 &lt;p onclick="premuto()" id="risposta"&gt;premi qui&lt;/p&gt;
 &lt;/body&gt;

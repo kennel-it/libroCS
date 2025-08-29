@@ -3,6 +3,7 @@
 <!-- autoIndex requires="elaborazioneJsonClient richiestaHttp rispostaHttp architettureServizi" group="javascript" coords="70,60" -->
 <!-- changelog 2024-04-22 inserita prima parte dei contenuti -->
 <!-- changelog 2024-04-28 completato capitolo -->
+<!-- changelog 2025-08-29 aggiunta parte di approfondimento su Promise -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -16,6 +17,7 @@
     <p>recuperare risorse remote con javascript</p>
 </header>
 <article>
+    <h2>fetch &amp; async</h2>
     <p><a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
     è una modalità per accedere a risorse remote usando dei meccanismi
     asincroni anche in maniera semplificata.
@@ -33,7 +35,7 @@
     o fallirà.</p>
 
     <p>È possibile utilizzare l'oggetto Promise ottenuto per indicare cosa va fatto una volta
-    che l'operazione (la comunicaizone in rete nel nostro caso)
+    che l'operazione (la comunicazione in rete nel nostro caso)
     è terminata ma è più semplice utilizzare l'istruzione <code>await</code>.</p>
 
     <p><code>let risposta = await fetch("https://x.y.x/risorsa");</code></p>
@@ -51,12 +53,11 @@
     quindi nell'esempio sopra <code>risposta</code> è un oggetto <code>Response</code>
     che tra gli altri ha un comodo metodo <code>json()</code> per convertire
     il corpo della risposta da JSON ad oggetto.</p>
-
-    <p><code>let oggetto = await risposta.json();</code></p>
-
     <p>A sua volta il metodo <code>json()</code> restituisce un oggetto Promise che in assenza
     di errori si risolve in un oggetto javascript che viene costruito in base
     al testo JSON presente nel corpo della risposta.</p>
+
+    <p><code>let oggetto = await risposta.json();</code></p>
 
 	<p>Mettendo insieme le parti, una semplice funzione che recupera un oggetto
     memorizzato su un server remoto potrebbe essere:</p>
@@ -87,15 +88,20 @@
     </dl>
 
     <p>Un caso comune è quello in cui si vuole inviare un oggetto al server
-    per poterlo archiviare
+    (ad esempio per poterlo archiviare)
     rappresentandolo come JSON nel corpo della richiesta. Una possibile soluzione
-    è quella di creare un oggetto specificando il metodo (POST), un header
-    che descrive il media type del corpo (che è in JSON) e il corpo stesso, successivamente
-    si chiama la funzione fetch specificando sia la url del servizio che i parametri
-    appena definiti.</p>
+    è quella di creare un oggetto che descrive la richiesta specificando:</p>
+    <ul>
+        <li>il metodo, POST nel nostro caso</li>
+        <li>gli headers, soltanto il tipo mime nell'esempio</li>
+        <li>il corpo del messaggio che qui sotto otteniamo rappresentando
+        in JSON un oggetto che già abbiamo</li>
+    </ul>
+    <p>Nel chiamare <code>fetch()</code> fornisco come parametri la URL del servizio 
+    e i parametri della richiesta appena definiti.</p>
 
 <pre><code>
-async function recuperaInformazioni() {
+async function inviaDati(oggettoDaInviare) {
     <em>let parametriRichiesta = {
         method: 'POST',
         headers: {
@@ -130,6 +136,112 @@ async function richiestaRealista(){
     <em>}</em>
 }
 </code></pre>
+
+<div class="approfondimento">
+    <h3>Promise</h3>
+    <p>In questo capitolo abbiamo usato <code>async/await</code> in pratica per non usare
+    gli oggetti <em>Promise</em>, vediamo però come si potrebbero usare direttamente.
+    Quel che cambia è come si gestisce il fatto che la gestione deve
+    essere asincrona.</p>
+    
+    <p>Un oggetto Promise rappresenta un compito che impiega
+    tempo per essere completato e che può finir bene o meno, può trovarsi in tre stati:</p>
+    <dl>
+        <dt>pending</dt>
+        <dd>lo stato iniziale, è ancora al lavoro/in attesa</dd>
+        <dt>fulfilled</dt>
+        <dd>operazioni completate con successo</dd>
+        <dt>rejected</dt>
+        <dd>operazioni finite perché ci sono stati problemi</dd>
+    </dl>
+    
+    <p>Una volta che abbiamo l'oggetto <code>Promise</code> con il metodo <code>then()</code> possiamo
+    passare due funzioni (la seconda è opzionale) che verranno chiamate se le
+    cose sono andate bene (la prima) o se le cose sono andate male (la seconda).
+    Vediamo la sola richiesta di una risorsa remota usando <code>fetch()</code>
+    </p>
+    
+<pre><code>
+fetch("https://server.sito.it/risorsa")
+  .<em>then(</em>
+    <span style="color:green">// questa funzione viene chiamata se la richiesta è andata a buon fine
+    risposta => {
+      if (risposta.ok) {
+        // elaboro la risposta
+        console.log(risposta.body);
+      } else {
+        console.log('stato:', risposta.status, risposta.statusText);
+      }
+    }</span>,
+    <span style="color:red">// questa funzione viene chiamata in caso di errore
+    errore => {
+      console.log('errore nella comunicazione:', errore);
+    }</span>
+  );
+</code></pre>
+    <p>Attenzione ad una cosa: per quanto riguarda <code>fetch()</code>
+    se il server risponde (anche un 404) si considera comunque <em>fullfilled</em>.</p>
+
+    <p>Spesso lo scopo è quello di avere l'oggetto Javascrit che il server ci ha mandato
+    come JSON, in questo caso il lavoro non è ancora finito. Dobbiamo convertire il corpo
+    in un oggetto: di nuovo una operazione asincrona (del resto l'altro modo di farlo
+    che abbiamo visto usavaa <code>await</code>). Siccome stiamo lavorando con
+    Primise basta aggiungere ancora un <code>then()</code>:</p>
+    
+<pre><code>
+fetch(URL)
+  .then(
+    risposta => {
+      if (risposta.ok) {
+        // elaboro la risposta: converto da json
+        <em>return risposta.json(); // che è di nuovo Promise</em>
+      } else {
+        console.log('stato:', risposta.status, risposta.statusText);
+      }
+    },
+    errore => {
+      console.log('err comunicazione:', errore);
+    }
+  )
+  <em>.then(
+    oggetto => {
+      console.log(oggetto.lunghezza);
+    },
+    errore => {
+      console.log('err JSON:', errore);
+    }
+  )</em>;
+</code></pre>
+
+    <p>Complicato? però possiamo semplificare usando <code>catch()</code>
+    in fondo alla catena per intercettare tutti gli errori,
+    sia che vengono dal primo then che dal secondo
+    se non sono stati gestiti cioè se non è stata
+    fornita la seconda funzione al <code>then()</code>.</p>
+
+<pre><code>
+fetch(URL)
+  .then(
+    risposta => {
+      if (risposta.ok) {
+        // elaboro la risposta: converto da json
+        return risposta.json(); // che è di nuovo Promise
+      } else {
+        <em>// visto che ci siamo considero anche questo un errore
+        throw new Error('Risposta non OK');</em>
+      }
+    }
+  )
+  .then(
+    oggetto => {
+      console.log(oggetto.lunghezza);
+    }
+  )
+  <em>.catch(errore => {
+    console.log('err generale:', errore);
+  })</em>;
+</code></pre>
+</div>
 </article>
 </body>
 </html>
