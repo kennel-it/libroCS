@@ -18,9 +18,21 @@
 </header>
 <article>
     <h2>fetch &amp; async</h2>
+    <p>Parlando di comunicazione (e in genere di operazioni onerose dal punto di vista
+    del tempo di completamento) spesso si usano delle tecniche asincrone.
+    In questo contesto quello che vogliamo evitare è che il programma si
+    blocchi in attesa che l'operazione venga completata.
+    Per ovviare a questo problema
+    una possibile via di uscita è fare in modo che la parte di programma
+    che ha bisogno del risultato del lavoro lento venga sospesa
+    e riprenda quando l'operazione è stata completata, in alternativa
+    si può fornire una funzione da chiamare una volta che il risultato
+    è disponibile. A ben guardare le differenze sono più di tipo sintattico
+    che altro.</p>
+
     <p><a href="https://developer.mozilla.org/it/docs/Web/API/Fetch_API">Fetch API</a>
     è una modalità per accedere a risorse remote usando dei meccanismi
-    asincroni anche in maniera semplificata.
+    asincroni in maniera semplificata.
     In questo capitolo faremo uso sia di fetch API che delle istruzioni
     <code>async</code> <code>await</code> di Javascript.
     Non è necessario usare async await ma ci
@@ -30,7 +42,7 @@
     che ha come parametro l'indirizzo della risorsa che vogliamo
     e ritorna come risultato un oggetto di tipo
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>
-    che di per se indica una operazione che prima o poi verrà completata
+    che di per sé indica una operazione che prima o poi verrà completata
     (è pur sempre una richiesta in rete... ha bisogno di qualche millesimo di secondo!)
     o fallirà.</p>
 
@@ -44,7 +56,7 @@
     e riprenda soltanto quando la Promise viene completata
     (sarebbe a dire che la risorsa è arrivata nel caso della fetch). La gestione asincrona
     in pratica la fa il browser. Da tener presente però che
-    se usiamo await la funzione che contiene questa istruzione
+    se usiamo <code>await</code> la funzione che contiene questa istruzione
     va dichiarata come <code>async</code> per marcarla come asincrona.</p>
 
     <p>L'oggetto Promise restituito da <code>fetch()</code> se tutto va bene
@@ -52,8 +64,9 @@
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">Response</a>
     quindi nell'esempio sopra <code>risposta</code> è un oggetto <code>Response</code>
     che tra gli altri ha un comodo metodo <code>json()</code> per convertire
-    il corpo della risposta da JSON ad oggetto.</p>
-    <p>A sua volta il metodo <code>json()</code> restituisce un oggetto Promise che in assenza
+    il corpo della risposta da JSON ad oggetto.
+    Il metodo <code>json()</code> in effetti restituisce un oggetto Promise 
+    (asincrono perché il decoding potrebbe richiedere tempo) che in assenza
     di errori si risolve in un oggetto javascript che viene costruito in base
     al testo JSON presente nel corpo della risposta.</p>
 
@@ -141,8 +154,7 @@ async function richiestaRealista(){
     <h3>Promise</h3>
     <p>In questo capitolo abbiamo usato <code>async/await</code> in pratica per non usare
     gli oggetti <em>Promise</em>, vediamo però come si potrebbero usare direttamente.
-    Quel che cambia è come si gestisce il fatto che la gestione deve
-    essere asincrona.</p>
+    La differenza sta nel come gestisce il fatto che le operazioni sono asincrone.</p>
     
     <p>Un oggetto Promise rappresenta un compito che impiega
     tempo per essere completato e che può finir bene o meno, può trovarsi in tre stati:</p>
@@ -182,12 +194,12 @@ fetch("https://server.sito.it/risorsa")
     <p>Attenzione ad una cosa: per quanto riguarda <code>fetch()</code>
     se il server risponde (anche un 404) si considera comunque <em>fullfilled</em>.</p>
 
-    <p>Spesso lo scopo è quello di avere l'oggetto Javascrit che il server ci ha mandato
+    <p>Spesso lo scopo è quello di avere l'oggetto Javascript che il server ci ha mandato
     come JSON, in questo caso il lavoro non è ancora finito. Dobbiamo convertire il corpo
     in un oggetto: di nuovo una operazione asincrona (del resto l'altro modo di farlo
     che abbiamo visto usavaa <code>await</code>). Siccome stiamo lavorando con
-    Primise basta aggiungere ancora un <code>then()</code>:</p>
-    
+    Promise basta aggiungere ancora un <code>then()</code>:</p>
+
 <pre><code>
 fetch(URL)
   .then(

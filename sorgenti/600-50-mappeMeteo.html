@@ -29,7 +29,7 @@
 
     <p>Per avere una mappa visualizzata all'interno di un elemento HTML
     ce la possiamo cavare con una manciata di righe di codice:></p>
-<div class="prog">
+<pre><code>
 &lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -56,7 +56,7 @@
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-    </div> 
+</code></pre>
 
     <p>I tag <code>link</code> e <code>script</code> servono per importare la libreria
     vera e propria (script) e il suo fogli di stile (link).</p>
@@ -68,7 +68,9 @@
     geografiche del centro della mappa e il livello di zoom (più è alto e più la mappa sarà dettagliata)</p>
 
     <p>Praticamente sempre quelle due righe vengono scritte in una soltanto:</p>
-<div class="prog">const map = <em>L.map("map").setView([lat, lng], zoom);</em></div>
+<pre><code>
+const map = <em>L.map("map").setView([lat, lng], zoom);</em><
+</code></pre>
 
     <p>Nelle due righe successive usiamo un meccanismo analogo per creare un layer
     ad aggiungerlo ad una mappa già creata. Una mappa può essere formata da tanti layer
@@ -78,27 +80,27 @@
     <p>Anche queste due istruzioni vengono solitamente raggruppate in una sola,
     eliminando anche la variabile "layer" che in questa caso non è utile nel resto del programma:</p>
 
-<div class="prog">
+<pre><code>
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
      attribution: '© OpenStreetMap contributors'
 })<em>.addTo(map)</em>;
-</div>
+</code></pre>
 
     <p>Un ulteriore passo spesso utile è di aggiungere un segnalino (marker) alla mappa,
     visto che ci siamo facciamo anche in modo che al click sul segnalino compaia un popup!</p>
 
-<div class="prog">
+<pre><code>
 const segnalino = L.marker([43.35160018000546, 12.565156706685794]);
 segnalino.addTo(map);
 segnalino.bindPopup("IIS Cassata Gattapone,&lt;br/&gt;sede Cassata"); 
-</div>
+</code></pre>
 
     <p>Anche questo di solito viene scritto in una forma più compatta:</p>
-<div class="prog">
+<pre><code>
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
-</div>
+</code></pre>
 
     <h3>🚧OpenLayers🚧</h3>
 
