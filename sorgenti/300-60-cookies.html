@@ -16,9 +16,10 @@
 	<p>archiviare informazioni nel client</p>
 </header>
 <article>
-    <p>Un cookie HTTP è un piccolo pezzo di informazione che il server invia al client che può
-    memorizzarlo e che lo re-invia con le successive richieste fatte allo stesso server.
-    Tipicamente vengono usati per capire se due richieste vengono dallo stesso 
+    <p>Un cookie HTTP è un piccolo pezzo di informazione testuale che il server invia
+    al client insieme ad un data di scadenza, il client lo mantiene per il tempo indicato
+    e che lo re-invia con le successive richieste fatte allo stesso server.
+    Il server può usarli ad esempio per capire se due richieste vengono dallo stesso 
     browser (per ovviare così all'assenza di stato nelle comunicazioni HTTP)
     e quindi per implementare meccanismi tipo login o carrelli della spesa.</p>
     
@@ -40,11 +41,12 @@ Set-Cookie: altra_info=lunedì</pre>
 	Continuando con l'esempio precedente il browser imposterebbe questo header:</p>
 
 <pre>Cookie: informazione_utile=cioccolato; altra_info=lunedì</pre>
+
 	 
 	<h2>Validità dei cookie</h2>
 	<p>Se non diversamente specificato il browser cancellerà il cookie quando verrà chiuso
 	(sarebbe a dire dopo la sessione di lavoro), è possibile però specificare
-	Una scadenza per il cookie in due modi diversi</p>
+	una scadenza per il cookie in due modi diversi</p>
 	<dl>
 		<dt>Expires</dt>
 		<dd>imposta una data di scadenza</dd>
@@ -52,7 +54,18 @@ Set-Cookie: altra_info=lunedì</pre>
 		<dd>imposta il numero di secondi di validità</dd>
 	</dl>
 	
-<pre>Set-Cookie: id=a3fWa; <em>Expires=Wed, 21 Oct 2021 07:28:00 GMT;</em></pre>	
+<pre><samp>
+Set-Cookie: id=a3fWa; <em>Expires=Wed, 21 Oct 2021 07:28:00 GMT;</em>
+Set-Cookie: cookie_sette_giorni=abcdefg; <em>Max-Age=604800</em>
+</samp></pre>
+
+    <p>In questo caso il browser re-invierebbe al server nelle richieste
+    successive questo header:</p>
+
+<pre><samp>
+Cookie: cookie_sessione=valore_sessione; cookie_sette_giorni=abcdefg
+</samp></pre>
+
 	
 </article>
 </body>
