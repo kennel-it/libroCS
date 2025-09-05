@@ -29,12 +29,13 @@
 	chiedere all'utente, esistono diversi dati che possono essere chiesti con diverse modalità e con
 	<a href="https://caniuse.com">diverso supporto</a> da parte dei browser.</p>
 
-	<h2>input</h2>
-	<p>Di <code>input</code> di interessano in particolare tre attributi: 
+	<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input">input</a></h2>
+	<p>Di <code>input</code> ci interessano in particolare tre attributi: 
 	<code>name</code>, <code>value</code> e <code>type</code>.</p>
 	<dl>
 		<dt>name</dt>
-		<dd>è il nome che verrà associato al dato immesso dal'utente</dd>
+		<dd>è il nome che verrà associato al dato immesso dal'utente,
+        ad esempio lato server viene usato per recuperare il valore immesso dall'utente</dd>
 		<dt>value</dt>
 		<dd>il valore predefinito del dato</dd>
 		<dt>type</dt>
@@ -48,7 +49,7 @@
 				<dt>password</dt>
 				<dd>come "text" ma i dati immessi non sono visibili</dd>
 				<dt>hidden</dt>
-				<dd>campo non visibile all'utente... serve l'attributo <code>value</code></dd>
+				<dd>campo non visibile all'utente, serve l'attributo <code>value</code></dd>
 			</dl>
 		</dd>
 	</dl>
@@ -58,23 +59,30 @@
 	L'attributo <code>name</code> indica quale sarà il nome associato al dato inviato al
 	server mentre il suo valore va specificato nei tag <code>option</code> in esso contenuti.
 	A sua volta il tag option ha un attributo <code>value</code> che indica il valore
-	che sarà inviato al server, questo valore non viene però mostrato all'utente che vedrà invece
-	il contenuto di option.</p>
+	che sarà inviato al server se tale voce viene selezionata, questo valore non viene però mostrato
+    all'utente che vedrà invece il contenuto di option.</p>
 	
 	<h2>esempio</h2>
-<div class="prog">&lt;form action="script.php" method="post"&gt;
-	&lt;p&gt;nome:&lt;input type="text" name="nome"&gt;&lt;/p&gt;
-	&lt;p&gt;cognome:&lt;input type="text" name="cognome"&gt;&lt;/p&gt;
-	&lt;p&gt;continente: &lt;select name="continente"&gt;
-		&lt;option value="eu"&gt;Europa&lt;/option&gt;
-		&lt;option value="as"&gt;Asia&lt;/option&gt;
-		&lt;option value="oc"&gt;Oceania&lt;/option&gt;
-		&lt;option value="af"&gt;Africa&lt;/option&gt;
-		&lt;option value="am"&gt;America&lt;/option&gt;
-	&lt;/select&gt;&lt;/p&gt;
-	&lt;input type="submit"&gt;
+<pre><code>
+&lt;form action="script.php" method="post"&gt;
+  &lt;p&gt;&lt;label for="nome"&gt;nome:&lt;/label&gt;&lt;input id="nome" type="text" name="nome"&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;label for="nome"&gt;cognome:&lt;/label&gt;&lt;input type="text" name="cognome"&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;label for="nome"&gt;continente:&lt;/label&gt;
+    &lt;select id="continente" name="continente"&gt;
+      &lt;option value="eu"&gt;Europa&lt;/option&gt;
+      &lt;option value="as"&gt;Asia&lt;/option&gt;
+      &lt;option value="oc"&gt;Oceania&lt;/option&gt;
+      &lt;option value="af"&gt;Africa&lt;/option&gt;
+      &lt;option value="am"&gt;America&lt;/option&gt;
+    &lt;/select&gt;&lt;/p&gt;
+  &lt;input type="submit"&gt;
 &lt;/form&gt;
-</div>
+</code></pre>
+
+    <p>Il tag <code>label</code> serve per indicare la descrizione di un elemento di input,
+    è utilizzato per semplificare la navigazione degli utenti in un form (ad esempio
+    dagli screen reader), l'attributo <code>for</code> fa riferimento all'id dell'elemento
+    a cui associare la label.</p>
 	
 </article>
 </body>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<!-- autoIndex requires="richiestaHttp rispostaHttp cookies" group="servizi" coords="80,20" -->
+<!-- autoIndex requires="richiestaHttp rispostaHttp cookies form" group="servizi" coords="80,20" -->
 <!-- changelog 2018-02-21 inseriti contenuti -->
 <!-- changelog 2020-03-03 maggior dettaglio nelle informazioni -->
 <!-- changelog 2021-02-22 inserito json_parse -->
@@ -28,17 +28,19 @@
 	<dl>
 		<dt>$_GET</dt>
 		<dd>è un vettore che contiene le variabili passate tramite una richiesta get di http
-		es: <code>$_GET['nome']</code></dd>
+		es: <code>$_GET['nome']</code>, se il dato viene da un form "nome" è quello
+        specificato dall'attributo <code>name</code> del tag <code>input</code> ad esempio</dd>
 		<dt>$_POST</dt>
 		<dd>è un vettore che contiene le variabili passate tramite una richiesta post di http
-		es: <code>$_POST['password']</code></dd>
+		es: <code>$_POST['password']</code>, anche qui "nome" in caso i dati vengano
+        da un form è quello specificato nei tag per inserire i dati</dd>
 	</dl>
 	
 	<p>Poniamo per esempio che l'URL richiesta <code>http://pluto.server.org/script.php?nome=Godzilla</code>:
 	lo scipt PHP potrà leggere il valore <code>Godzilla</code> nella variabile <code>$_GET['nome']</code>.</p>
 		
 	<h2>Body</h2>
-	<p>Recuperre informaizoni dal body è decisamente semplice:
+	<p>Recuperare informazioni dal body è decisamente semplice:
 	<code>$testo=file_get_contents('php://input')</code>, nella variabile
 	<var>$testo</var> troveremo tutto il contenuto del corpo del messaggio</p>
 	
@@ -81,22 +83,22 @@
 	il seguente frammento di programma imposta un cookie chiamato <var>pigreco</var>
 	e ne legge uno chiamato <var>nomeUtente</var>.</p>
 	
-<pre>
+<pre><code>
 setcookie("pigreco", "3.14");
 
 echo $_COOKIE['nomeUtente']."\n";
-</pre>
+</code></pre>
 
 	<p>Attualmente (2021) i browser hanno incrementato il livello di sicurezza e per questo motivo
 	impostando i cookie come sopra viene stampato un messaggio di attenzione nella console.
 	Questo è dovuto al fatto che i cookie vengono utilizzati per profilare gli utenti,
 	attualmente una impostazione più conforme alle specifiche è questa:</p>
-<pre>
+<pre><code>
 setcookie("t2", "116.28", [
     'expires' => time() + 86400,
     'samesite' => 'Lax',
 ]);
-</pre>
+</code></pre>
 	<p>Come riportato su 
 	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie">MDN</a>,
 	"samesite:Lax" fa si che il cookie venga inviato esclusivamente al sito

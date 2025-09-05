@@ -60,14 +60,14 @@ quale è il formato che il mio client vorrebbe avere? Guardando l'header <code>A
 di HTTP, PHP ci mette a disposizone una funzione per questo: 
 <code><a href="https://www.php.net/manual/en/function.getallheaders.php">getallheaders()</a></code>
 che ritorna un array di headers. In pratica:</p>
-<pre>
+<pre><code>
 $intestazioni = getallheaders();
 if( strpos($intestazioni['Accept'],"application/json") === false ){
     echo "JSON non ti va bene\n";
 }else{
     echo "JSON ti va bene\n";
 }
-</pre>
+</code></pre>
 
 <h3>Come è andata</h3>
 <p>L'esigenza successiva è quella di comunicare come è andata l'operazione richiesta
@@ -84,16 +84,17 @@ Nello specifico visto che rappresenteremo i dati utilizzando
 JSON sarà <code>header('Content-type: application/json')</code>.</p>
 
 <h3>Esempio</h3>
-<pre>&lt;?php
-http_response_code(200);
-header('Content-type: application/json');
-echo "azione richiesta:${_SERVER['REQUEST_METHOD']}\n";
+<pre><code>
+&lt;?php
+<em>http_response_code(200);
+header('Content-type: application/json');</em>
+echo "azione richiesta:<em>${_SERVER['REQUEST_METHOD']}</em>\n";
 echo "risorsa:".$_SERVER['REQUEST_URI']."\n";
 echo "senza parametri:".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)."\n";
 echo "valore del parametro nome:".$_GET['nome']."\n";
 
-$intestazioni = getallheaders();
-echo "vorresti la risposta nel formato:".$intestazioni['Accept']."\n";
+$intestazioni = <em>getallheaders()</em>;
+echo "vorresti la risposta nel formato:".<em>$intestazioni['Accept']</em>."\n";
 
 if( strpos($intestazioni['Accept'],"json") > 0 ){
     echo "JSON ti va bene\n";
@@ -105,7 +106,7 @@ if( strpos($intestazioni['Accept'],"xml") > 0 ){
 }else{
     echo "XML non ti va bene\n";
 }
-</pre>
+</code></pre>
 
 <div class="test">
    	<p>L'esempio sopra ha un errore... quale?</p>
@@ -122,14 +123,14 @@ non bisogna cambiare lo script PHP... basta istruire il web server.</p>
 la configurazione sotto nel file <code>.htaccess</code> o nel file di
 configurazione al livello di sistema.</p>
 
-<pre>
+<pre><code>
 RewriteEngine  on
 # RewriteRule cosa_vai_cercando come_devo_riscriverlo flag
 # flag: https://httpd.apache.org/docs/2.4/rewrite/flags.html
 # [L] sta per "ultima regola" (ovviamente se combacia)
 # tutte le robe che sono un elemento di servizio e finiscono per qualche_numero
 RewriteRule "^servizio/([0-9]+)$" "servizio.php?p1=$1" [L]
-</pre>
+</code></pre>
 
 <p>nota: il parametro p1 se presente nell'URL originale (prima di fare rewrite) viene comunque passato allo script</p>
 
@@ -139,7 +140,9 @@ Può essere di aiuto la configurazione sotto come riportato in
 <a href=" https://serverfault.com/questions/372733/apache-file-negotiation-failed">
 post su serverfault</a>.</p>
 
-<pre>AddType application/x-httpd-php .php</pre> 
+<pre><code>
+AddType application/x-httpd-php .php
+</code></pre> 
 
 </article>
 </body>
