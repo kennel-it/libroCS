@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu interattivo</title>
+    <style>
+table { border-collapse: collapse}
+td { border: 1px solid gray ; padding: 0.5em }
+#errore { color:red }
+    </style>
+    <script>
+"use strict";
+
+async function caricaMenu(){
+    let risposta = await fetch("http://localhost:8180/universalfood/menu");
+    let elencoMenu = await risposta.json();
+    console.log(elencoMenu);
+    for(let i=0;i<elencoMenu.length; i++){
+        let elemento = document.createElement("option");
+        elemento.value=elencoMenu[i].id;
+        elemento.innerText=elencoMenu[i].nome;
+        menu.appendChild(elemento);
+    }
+}
+async function scelto(){
+
+    try{
+        let id=menu.value;
+        // id=75;  da mettere per causare un errore
+        let risposta = await fetch("http://localhost:8180/universalfood/menu/"+id);
+        if(risposta.ok){
+            let menuScelto = await risposta.json();
+            nazione.innerText = menuScelto.nome;
+            descrizione.innerText = menuScelto.descrizione;
+            let tabella="<table>";
+            for(let i=0; i<menuScelto.piatti.length; i++){
+                let piatto = menuScelto.piatti[i];
+                if(piatto.disponibile){
+                    tabella += `<tr><td>${piatto.nome}</td><td>${piatto.descrizione}</td></tr>`;
+                }
+            }
+            tabella += "</table>";
+            dettagli.innerHTML = tabella;
+        }else{
+            errore.innerText='stato:'+risposta.status+" "+risposta.statusText;
+        }
+    }catch(e){
+        errore.innerText = e.message;
+    }
+}
+    </script>
+</head>
+<body onload="caricaMenu()">
+    <h1>Universal Food</h1>
+    <p>Menù interattivo</p>
+    <p>Scegli un menu: <select id="menu" onchange="scelto()"></select></p>
+
+    <p>Nazione: <span id="nazione"></span></p>
+    <p>Descrizione: <span id="descrizione"></span></p>
+    <div id="dettagli"></div>
+    <p id="errore"></p>
+</body>
+</html>

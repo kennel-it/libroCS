@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu interattivo</title>
+    <style>
+table { border-collapse: collapse}
+td { border: 1px solid gray ; padding: 0.5em }
+    </style>
+    <script>
+"use strict";
+
+const URL_SERVER = "http://localhost:8180/universalfood";
+
+async function caricaMenu(){
+    let risposta = await fetch(URL_SERVER+"/menu");
+    let elencoMenu = await risposta.json();
+    console.log(elencoMenu);
+    for(let i=0;i<elencoMenu.length; i++){
+        let elemento = document.createElement("option");
+        elemento.value=elencoMenu[i].id;
+        elemento.innerText=elencoMenu[i].nome;
+        menu.appendChild(elemento);
+    }
+}
+async function inviaNuovoPiatto(){
+    let nuovoPiatto = {
+        menu: {id: menu.value},
+        nome: document.getElementById("nome").value,
+        costo: document.getElementById("costo").value,
+        descrizione: document.getElementById("descrizione").value,
+        disponibile: true
+    };
+    let piattoJson = JSON.stringify(nuovoPiatto);
+    console.log(piattoJson);
+
+    try{
+        let parametriRichiesta = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: piattoJson
+        };
+        let risposta = await fetch(URL_SERVER+"/piatto",parametriRichiesta);
+        if(risposta.ok){
+            esito.innerText = "piatto inserito";
+            esito.style.color = "green";
+        } else {
+            esito.innerText = 'stato:'+risposta.status+" "+risposta.statusText;
+            esito.style.color = "red";
+        }
+    }catch(e){
+        esito.innerText = e.message;
+        esito.style.color = "red";
+    }
+}
+    </script>
+</head>
+<body onload="caricaMenu()">
+    <h1>Universal Food</h1>
+    <p>Inserimento piatto</p>
+    <p>Scegli il menu per il nuovo piatto: <select id="menu" onchange="scelto()"></select></p>
+
+    <p>Nome: <input type="text" id="nome"></p>
+    <p>Costo: <input type="text" id="costo"></p>
+    <p>Descrizione: <input type="text" id="descrizione"></p>
+    <p><button type="button" onclick="inviaNuovoPiatto()">invia nuovo piatto</button></p>
+    <p id="esito"></p>
+</body>
+</html>

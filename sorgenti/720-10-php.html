@@ -42,7 +42,9 @@
 	<h2>Body</h2>
 	<p>Recuperare informazioni dal body è decisamente semplice:
 	<code>$testo=file_get_contents('php://input')</code>, nella variabile
-	<var>$testo</var> troveremo tutto il contenuto del corpo del messaggio</p>
+	<var>$testo</var> troveremo tutto il contenuto del corpo del messaggio.
+    Questo meccanismo è utile per recuperare informazioni passate nel body
+    ad esempio dai metodi POST e PUT.</p>
 	
 	<h2>Headers</h2>
 	<p>Impostare un header HTTP è molto semplice ma bisogna tenere in mente che va fatto
@@ -63,17 +65,26 @@
 	serve appunto a questo.
 	Vediamo un esempio che la variabile <var>$var</var> contenga il seguente testo JSON:</p>
 	
-	<pre>$var='{"chi":{"nome":"mario","cognome":"rossi"},"altezza":180}';</pre>
+<pre><code>
+$var='{"chi":{"nome":"mario","cognome":"rossi"},"altezza":180}';
+</code></pre>
 	
 	<p>Possiamo costruire l'hash corrispondente scrivendo:</p>
 	
-	<pre>$x = json_decode($var,true);</pre>
+<pre><code>
+$x = json_decode($var,true);
+</code></pre>
 	
 	<p>In questo caso il <code>true</code> finale dice di costruire un hash, in caso contrario
 	json_decode costruirebbe un oggetto PHP.</p>
 	
 	<p>Per avere il nome basta scrivere <code>$x['chi']['nome']</code></p>
 
+
+    <p>In maniera analoga a quanto fa json_decode la funzione
+    <em><code>json_encode()</code></em> serve per trasformare
+    un oggetto (o vettore, o hash) passato come parametro in un
+    testo JSON.</p>
 
 	<h2>Cookies</h2>
 	<p>In PHP è possibile impostare i cookie utilizzando l'istruzione 
@@ -101,7 +112,7 @@ setcookie("t2", "116.28", [
 </code></pre>
 	<p>Come riportato su 
 	<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie">MDN</a>,
-	"samesite:Lax" fa si che il cookie venga inviato esclusivamente al sito
+	"samesite:Lax" fa sì che il cookie venga inviato esclusivamente al sito
 	che lo ha impostato ma che venga inviato anche quando da un sito esterno si segue un link
 	verso il sito stesso. La parte "expires" serve invece ad impostare la scadenza del cookie.</p>
 
@@ -115,7 +126,7 @@ setcookie("t2", "116.28", [
 		prima di produrre output</dd>
 		<dt>$_SESSION</dt>
 		<dd>è un vettore che contiene dei dati che vengono mantenuti (per lo stesso utente)
-		da una richiesta all'altra, va usata dopo <code>session_start()</code></dd>
+		da una richiesta all'altra, va usato dopo <code>session_start()</code></dd>
 	</dl>
 
 </article>
