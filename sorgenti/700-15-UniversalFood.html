@@ -15,8 +15,81 @@
     <p>Esempio di uso di web API</p>
 </header>
 <article>
-    <h2>Utilizzare API su un server remoto</h2>
-    
+    <h2>Utilizzare API di un server remoto</h2>
+    <!-- WIP -->
+    <img src="immagini/wip.png" alt="lavori in corso">
+
+    <p>Come esempio di applicazione lato client creiamo un gestore di un menu
+    per un ristorante che serve piatti di diverse parti del mondo.
+    Il ristorante ha diversi menù che si caratterizzano per la nazione che
+    rappresentano, ogni menù contiene diversi piatti.</p>
+
+    <h2></h2>
+<pre><code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="it"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Menu interattivo&lt;/title&gt;
+  &lt;style&gt;
+table { border-collapse: collapse}
+td { border: 1px solid gray ; padding: 0.5em }
+#errore { color:red }
+  &lt;/style&gt;
+  &lt;script&gt;
+"use strict";
+
+async function caricaMenu(){
+  let risposta = await fetch("http://localhost:8180/universalfood/menu");
+  let elencoMenu = await risposta.json();
+  console.log(elencoMenu);
+  for(let i=0;i&lt;elencoMenu.length; i++){
+    let elemento = document.createElement("option");
+    elemento.value=elencoMenu[i].id;
+    elemento.innerText=elencoMenu[i].nome;
+    menu.appendChild(elemento);
+  }
+}
+async function scelto(){
+
+  try{
+    let id=menu.value;
+    // id=75; da mettere per causare un errore
+    let risposta = await fetch("http://localhost:8180/universalfood/menu/"+id);
+    if(risposta.ok){
+      let menuScelto = await risposta.json();
+      nazione.innerText = menuScelto.nome;
+      descrizione.innerText = menuScelto.descrizione;
+      let tabella="&lt;table&gt;";
+      for(let i=0; i&lt;menuScelto.piatti.length; i++){
+        let piatto = menuScelto.piatti[i];
+        if(piatto.disponibile){
+          tabella += `&lt;tr&gt;&lt;td&gt;${piatto.nome}&lt;/td&gt;&lt;td&gt;${piatto.descrizione}&lt;/td&gt;&lt;/tr&gt;`;
+        }
+      }
+      tabella += "&lt;/table&gt;";
+      dettagli.innerHTML = tabella;
+    }else{
+      errore.innerText='stato:'+risposta.status+" "+risposta.statusText;
+    }
+  }catch(e){
+    errore.innerText = e.message;
+  }
+}
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="caricaMenu()"&gt;
+  &lt;h1&gt;Universal Food&lt;/h1&gt;
+  &lt;p&gt;Menù interattivo&lt;/p&gt;
+  &lt;p&gt;Scegli un menu: &lt;select id="menu" onchange="scelto()"&gt;&lt;/select&gt;&lt;/p&gt;
+
+  &lt;p&gt;Nazione: &lt;span id="nazione"&gt;&lt;/span&gt;&lt;/p&gt;
+  &lt;p&gt;Descrizione: &lt;span id="descrizione"&gt;&lt;/span&gt;&lt;/p&gt;
+  &lt;div id="dettagli"&gt;&lt;/div&gt;
+  &lt;p id="errore"&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 </article>
 </body>
 </html>

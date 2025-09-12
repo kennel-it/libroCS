@@ -4,6 +4,7 @@
 <!-- changelog 2024-04-22 inserita prima parte dei contenuti -->
 <!-- changelog 2024-04-28 completato capitolo -->
 <!-- changelog 2025-08-29 aggiunta parte di approfondimento su Promise -->
+<!-- changelog 2025-09-12 messa parte su campi ok e status della risposta -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -149,6 +150,15 @@ async function richiestaRealista(){
     <em>}</em>
 }
 </code></pre>
+
+    <p>Attenzione ad una cosa: se il server risposnde con un <code>404</code>
+    questo non solleva eccezioni: la comunicazione si è conclusa e quello che abbiamo
+    ottenuto è una risposta che magari indica un errore.
+    Per testare la risposta del server possiamo usare il campo <code>ok</code>
+    dell'oggetto <code>Response</code> restituito da fetch(). <code>ok</code>
+    sarà <code>true</code> se la risposta ha come codice un numero nel range 200-299.</p>
+    <p>Per evere maggior dettaglio è possibile usare le proprietà
+    <code>status</code> e <code>statusText</code> sempre della risposta.</p>
 
 <div class="approfondimento">
     <h3>Promise</h3>
