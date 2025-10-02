@@ -37,6 +37,7 @@ public class MenuManager {
     @Autowired
     MenuRepository repoMenu;
 
+    @Operation(summary = "Elenco di tutti i menu disponibili")
     @GetMapping("/menu")
     public List<Menu> menu() {
         List<Menu> k = repoMenu.findAll();
@@ -50,6 +51,7 @@ public class MenuManager {
         return k;
     }
 
+    @Operation(summary = "Informazioni su uno specifico menù")
     @ApiResponses({
     @ApiResponse(responseCode = "200",
         content = @Content),

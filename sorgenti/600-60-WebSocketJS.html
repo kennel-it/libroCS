@@ -19,17 +19,17 @@
 </header>
 <article>
 
-	<p><a href="https://it.wikipedia.org/wiki/WebSocket">WebSocket</a> 
+	<p><a href="https://it.wikipedia.org/wiki/WebSocket">WebSocket</a>
 	è un protocollo che permette la comunicazione full-duplex su una connessione TCP.
 	Lo standard originale è l'<a href="https://datatracker.ietf.org/doc/html/rfc6455">RFC 6464</a>
 	ed è attualemente mantenuto da <a href="https://websockets.spec.whatwg.org/">WHATWG</a>.</p>
-	
-	<p>Quella illustrata di seguito è l'implementazione del protocollo fornita dall'oggetto 
+
+	<p>Quella illustrata di seguito è l'implementazione del protocollo fornita dall'oggetto
 	<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket">WebSocket</a>
 	utilizzabile all'interno dei browser. Questo oggetto permette di inviare e ricevere i dati
 	da e verso un server remoto in maniera asincrona, non si è limitati allo schema domanda-risposta
 	usato da altri oggetti come XmlHttpRequest.</p>
-	
+
     <h2>Esempio</h2>
     <p>Partiamo subito con un esempio molto minimale in cui sono evidenziate le parti
     riguardanti la comunicazione con WebSocket:</p>
@@ -42,18 +42,18 @@
   &lt;script&gt;
     "use strict";
     function gestoreRicezione(messaggioRicevuto){
-    document.getElementById("ricezione").textContent += <em>messaggioRicevuto.data</em> + "\n"; // [1]
+        document.getElementById("ricezione").textContent += <em>messaggioRicevuto.data</em> + "\n"; // [1]
     }
 
     <em>let ws = new WebSocket("ws://esempio.org/wschat/chat"); // [2]</em>
     <em>ws.onmessage = gestoreRicezione;</em>
 
     function inviaAlServer(){
-    let messaggioDaInviare = document.getElementById("msg").value;
-    <em>ws.send( messaggioDaInviare );</em>  // [3]
+        let messaggioDaInviare = document.getElementById("msg").value;
+        <em>ws.send( messaggioDaInviare );</em>  // [3]
     }
     function chiudiLaConnessione(){
-    <em>ws.close();</em>  // [4]
+        <em>ws.close();</em>  // [4]
     }
 
   &lt;/script&gt;
@@ -66,18 +66,18 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-	
-	
+
+
 	<p>La costruzione dell'oggetto [2] richiede un solo parametro: l'indirizzo del WebSocket sul sever,
-	al momento della costruzione viene anche aperta la connessione.</p> 
-	
+	al momento della costruzione viene anche aperta la connessione.</p>
+
 	<p>Una volta creato l'oggetto è possibile impostare la proprietà <code>onmessage</code>
 	che è la funzione che verrà chiamata quando arriva un messaggio,
-	alla funzione verrà passato come parametro un oggetto di 
+	alla funzione verrà passato come parametro un oggetto di
 	tipo <a href="https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent">MessageEvent</a>
 	di cui a noi interessa il campo <code>data</code> [1] che contiene le informazioni ricevute.</p>
-	
-	<p>Nell'esempio dell'oggetto WebSocket si usano anche due metodi: 
+
+	<p>Nell'esempio dell'oggetto WebSocket si usano anche due metodi:
 	[3]<code>send()</code> che invia i dati al server e [4] <code>close()</code>
 	che chiude la connessione.</p>
 
