@@ -3,6 +3,7 @@
 <!-- autoIndex requires="springBootConfigurazione" group="spring" coords="100,20" -->
 <!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot -->
 <!-- changelog 2024-04-25 inserite in fondo al capitolo indicazioni per nomi servizi -->
+<!-- changelog 2026-04-14 sistemati nomi end point -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -52,11 +53,11 @@ import jakarta.persistence.Id;
 
 @Entity(name = "todo")
 public class ToDo {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    
+
     String lista;
     String cosa;
     Boolean fatto;
@@ -161,7 +162,7 @@ public class ToDoManager {
     @Autowired
     ToDoRepository repoToDo;
 
-    @GetMapping("/esempio1")
+    @GetMapping("/todos")
     public List&lt;ToDo&gt; elenco() {
         List&lt;ToDo&gt; k = repoToDo.findAll();
         return k;
@@ -179,12 +180,12 @@ public class ToDoManager {
         return repoToDo.findAll( example );
     }
 
-    @GetMapping("/esempio2")
+    @GetMapping("/esempio1")
     public List&lt;ToDo&gt; cercaParte( @RequestParam String cosa){
         return repoToDo.cerca("%"+cosa+"%");
     }
 
-    @GetMapping("todo/{id}")
+    @GetMapping("/todo/{id}")
     public Optional&lt;ToDo&gt; prendiPerChiave( @PathVariable int id ) {
         return repoToDo.findById(id);
     }
@@ -194,12 +195,12 @@ public class ToDoManager {
         repoToDo.save( td );
     }
 
-    @DeleteMapping("todo/{id}")
+    @DeleteMapping("/todo/{id}")
     public void cancellaPerChiave( @PathVariable int id ) {
         repoToDo.deleteById(id);
     }
 
-    @PutMapping("todo/{id}")
+    @PutMapping("/todo/{id}")
     public void modifica( @PathVariable int id, @RequestBody ToDo td ) {
         Optional&lt;ToDo&gt; k = repoToDo.findById(id);
         if(k.isPresent()) {
@@ -228,15 +229,15 @@ server andrà in esecuzione sulla macchina locale alla porta usuale (8080).</p>
 
 <h4>elenco()</h4>
 <pre><code>
-@GetMapping("/esempio1")
+@GetMapping("/todos")
 public List&lt;ToDo&gt; elenco() {
     List&lt;ToDo&gt; k = repoToDo.findAll();
     return k;
 }
 </code></pre>
 <p><code>@GetMapping</code> indica due cose: che la funzione elenco() risponde al metodo
-GET di HTTTP e che risponde alla URL "/todolist"... più facile a farsi che a dirsi
-"http://localhost:8080/todolist" e otterremo un elenco di tutte le cose da fare.</p>
+GET di HTTTP e che risponde alla URL "/todos"... più facile a farsi che a dirsi
+"http://localhost:8080/todos" e otterremo un elenco di tutte le cose da fare.</p>
 <p>Il metodo in questione ritorna una lista di oggetti di tipo ToDo poi ci penserà
 Spring a rappresentarli come JSON. Per recuperare gli oggetti dal DB usa il metodo
 findAll() del nostro <code>repoToDo</code> (NB: che non abbiamo mai scritto,
@@ -261,8 +262,8 @@ ha due parametri: <code>lista</code> e <code>fatto</code>.
 <code>@RequestParam</code> serve per indicare
 che ciascuno dei due parametri è opzionalmente presente come parametro della URL,
 di nuovo alcuni esempi saranno chiarificatori: potremmo usare
-"http://localhost:8080/cerca1?lista=casa" oppure "http://localhost:8080/cerca1" o anche
-"http://localhost:8080/cerca1?lista=casa&amp;fatto=false".</p>
+"http://localhost:8080/todos?lista=casa" oppure "http://localhost:8080/todos" o anche
+"http://localhost:8080/todos?lista=casa&amp;fatto=false".</p>
 <p>Quello che fa la funzione è di chiedere a <code>repoToDo</code> di fare
 una ricerca fornendo un esempio di quello che vogliamo cercare, le prime 4 linee del
 metodo servono appunto a creare l'esempio!
@@ -272,16 +273,16 @@ da fornire alla funzione di ricerca.</p>
 
 <h4>cerca2()</h4>
 <pre><code>
-@GetMapping("/esempio2")
+@GetMapping("/esempio1")
 public List&lt;ToDo&gt; cercaParte( @RequestParam String cosa ){
     return repoToDo.cerca("%"+cosa+"%");
 }
 </code></pre>
-<p>Questa funzione risponde ad un richiesta GET alla url "/cerca2" che però
+<p>Questa funzione risponde ad un richiesta GET alla url "/esempio1" che però
 deve avere obbligatoriamente il parametro "cosa" in quanto <code>@RequestParam</code>
 questa volta non ha il parametro <code>required = false</code>. Per svolgere la ricerca 
 usa la funzione <code>cerca()</code> che abbiamo dichiarato in ToDoManager.</p>
-<p>Un esempio di URL: <code>http://localhost:8080/cerca2?cosa=pulire"</code></p>
+<p>Un esempio di URL: <code>http://localhost:8080/esempio1?cosa=pulire</code></p>
 
 <h4>prendiPerChiave()</h4>
 <pre><code>
@@ -294,7 +295,7 @@ public Optional&lt;ToDo&gt; prendiPerChiave( @PathVariable int id ) {
 tramite il percorso nella URL. 
 <code>@PathVariable</code> sta appunto ad indicare che "id" è una parte
 della URL. Per cercare l'elemento con id=4 dovremo
-scrivere "http://localhost:8080/todo/1", poi la funzione esegue la ricerca
+scrivere "http://localhost:8080/todo/4", poi la funzione esegue la ricerca
 seguendo il solito schema.</p>
 
 <h4>inserisci()</h4>
