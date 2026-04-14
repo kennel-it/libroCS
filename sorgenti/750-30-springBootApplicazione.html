@@ -5,6 +5,7 @@
 <!-- changelog 2024-04-25 inserite in fondo al capitolo indicazioni per nomi servizi -->
 <!-- changelog 2026-04-14 sistemati nomi end point -->
 <!-- changelog 2026-04-14 aggiunte alcune convenzioni -->
+<!-- changelog 2026-04-14 #patch-optional aggiunto un approfondimento sul tipo Optional -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -328,6 +329,28 @@ tramite il percorso nella URL.
 della URL. Per cercare l'elemento con id=4 dovremo
 scrivere "http://localhost:8080/todo/4", poi la funzione esegue la ricerca
 seguendo il solito schema.</p>
+
+<div class="approfondimento" id="patch-optional">
+    <h3>Optional</h3>
+    <p>Per essere corretti la classe di cui parliamo è 
+    <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html">
+    <code>java.util.Optional</code></a>. Se un metodo ritorna un valore di questo tipo
+    l'intenzione è quella di dichiarare che il risultato può esserci o meno in situazioni in cui 
+    <code>null</code> potrebbe causare degli errori. Se un metodo ritorna un <code>Optional</code>
+    quel valore non può essere null, è possibile però che l'optional stesso non contenga nulla.</p>
+    <p>Facciamo un esempio</p>
+    <pre><code>
+    Optional&lt;String&gt; metodoDubbio(){
+        // fa un qualche lavoro;
+    }
+    
+    public void altroMetodo(){
+        x = metodoDubbio();
+        // x non è null, è possibile però che x.isPresent() sia false e quindi
+        // x non contiene nulla
+    }
+    </code></pre>
+</div>
 
 <h4>inserisci()</h4>
 <pre><code>
