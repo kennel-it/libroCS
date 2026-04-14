@@ -4,7 +4,7 @@
 <!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot -->
 <!-- changelog 2024-03-23 sezione con spiegazioni su output dell'avvio di applicazione Spring Boot-->
 <!-- changelog 2025-03-26 messo MariaDB al posto di MySQL -->
-<!-- changelog 2025-08-25 QUesto capitolo è il primo della sequenza spring -->
+<!-- changelog 2025-08-25 Questo capitolo è il primo della sequenza spring -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -80,10 +80,11 @@ che rappresenta una cosa da fare con le seguenti proprietà:</p>
     <li>cosa: è la cosa che deve essere fatta, es: "completare la presentazione"</li>
     <li>fatto: un booleano per dire se la cosa è stata fatta o meno</li>
 </ul>
-<p>In questo elenco manca qualcosa per essere una tabella utile: cosa?</p>
+<p>In questo elenco manca qualcosa per essere una tabella utile: cosa?
+(pensa al modello relazionale: ogni elemento ha bisogno di essere identificato...)</p>
 <p>Le richieste verso il server verranno fatte tutte via HTTP utilizzando i vari metodi possibili
 in riferimento alle nostre cose da fare: ad esempio potremmo mandare una richiesta per cancellare
-una specifica cossa da fare indicandone il suo id e utilizzando il metodo <code>DELETE</code>
+una specifica cosa da fare indicandone il suo id e utilizzando il metodo <code>DELETE</code>
 di HTTP. Le singole "cose da fare" saranno mappate da delle URL, un esempio chiarirà il tutto:
 <code>http://localhost:8080/<em>todo/4</em></code> è la "cosa da fare" che ha come id 4.
 Se la richiesta HTTP verso la URL in esempio
@@ -107,7 +108,7 @@ resettato ad ogni avvio del server. In questo caso non c'è un server da configu
 <p class="mariadb">Questo percorso riguarda l'uso del server <a href="https://mariadb.org/download/">MariaDB</a>
 (o volendo <a href="https://www.mysql.com/">MySQL</a>) che però deve essere già
 stato installato e configurato, è la strata che normalmente si segue in un progetto funzionante
-ma biosogna avere in esecuzione un server MariaDB/MySQL e saperlo configurare.</p>
+ma bisogna avere in esecuzione un server MariaDB/MySQL e saperlo configurare.</p>
 
 <h3>Il progetto</h3>
 <p>Creare un progetto Spring boot è davvero molto facile: si crea on-line
@@ -232,7 +233,7 @@ INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', fal
 
 <section class="mariadb">
 <p>Il database è un server esterno (che magari qualcuno ha già configurato per noi), 
-quel che abbiamo nei nel progetto Spring è semplicemente
+quel che abbiamo nel progetto Spring è semplicemente
 un modo per collegarci con lui. In particolare dobbiamo aver creato
 (usando phpMyAdmin o altro strumento):</p>
 <ul>
@@ -253,7 +254,7 @@ INSERT INTO todo (lista, cosa, fatto) VALUES ('casa', 'comperare fagioli', false
 INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pagare palestra', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('hobby', 'pulire scarpe', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'studiare Napoleone', false);
-INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'sconsegnare relazione', true);
+INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'consegnare relazione', true);
 INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', false);
 </code></pre>
 
@@ -261,7 +262,7 @@ INSERT INTO todo (lista, cosa, fatto) VALUES ('lavoro', 'pulire armadietto', fal
 
 <pre><code>
 <em># l'indirizzo del database a cui connettersi, il modo di scriverlo cambia da db a db,
-# in questo caso supponiamo che il server MySQL sia in esecuzione sullo stesso host
+# in questo caso supponiamo che il server MariaDB sia in esecuzione sullo stesso host
 # dell'applicazione Spring</em>
 spring.datasource.url=jdbc:mariadb://localhost:3306/todo
 <em># soliti username e password per la connessione al db</em>
@@ -324,6 +325,13 @@ limitiamoci a leggere le due righe con la parte evidenziata.</p>
     <dd>il server è Tomcat e sta in ascolto sulla porta 8080 (detto in altri termini
     se vogliamo far delle prove la url da usare dalla nostra macchina è 
     <code>http://localhost:8080</code>)</dd>
+    <dt>spring.jpa.open-in-view is enabled by default.</dt>
+    <dd>Questo warning ci comunica che Spring Boot mantiene la connessione
+    al database aperta per tutta la durata della richiesta HTTP. 
+    Questo è necessario perché alcuni dati (come ad esempio le stanze di un hotel)
+    vengono caricati dal database solo nel momento in cui servono — 
+    e quel momento può arrivare anche durante la produzione dell'output JSON.
+    Per ora lasciamo questa impostazione così com'è.</dd>
 </dl>
 
 <section class="h2">

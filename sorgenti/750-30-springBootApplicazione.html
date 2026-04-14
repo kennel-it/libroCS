@@ -4,6 +4,7 @@
 <!-- changelog 2024-03-22 inserito capitolo separandolo da springBoot -->
 <!-- changelog 2024-04-25 inserite in fondo al capitolo indicazioni per nomi servizi -->
 <!-- changelog 2026-04-14 sistemati nomi end point -->
+<!-- changelog 2026-04-14 aggiunte alcune convenzioni -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -22,8 +23,8 @@
             }
             .h2 { background-color: #b9cafa}
             .h2::before { background-image: url('immagini/H2_logo.png') }
-            .mysql {background-color: #ffc869}
-            .mysql::before { background-image: url('immagini/mysql_logo.png') }
+            .mariadb {background-color: #ffc869}
+            .mariadb::before { background-image: url('immagini/MariaDB_logo.png') }
             section { padding:1em ; margin:1em 0}
             section.h2::before, section.mysql::before { height: 3em; width: 6em;}
         </style>
@@ -36,7 +37,7 @@
 <article>
 
 <h2>Programma</h2>
-<p>Il programma vero e proprio è composto da 4 classi, 
+<p>Il programma vero e proprio è composto da 4 file sorgente, 
 la struttura è ovviamente semplificata (tutti i dati gestiti dal programma
 sono rappresentati da un solo oggetto) ma ci sono tutti i ruoli presenti
 in applicazioni più grandi: il modello dei dati (cioè gli oggetti da gestire),
@@ -50,28 +51,36 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity(name = "todo")
+@Entity
+@Table(name = "todo")
 public class ToDo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
-    String lista;
-    String cosa;
-    Boolean fatto;
+    private String lista;
+    private String cosa;
+    private Boolean fatto;
 
-    /* il metodi set/get vanno inseriti per esercizio, magari usando Eclipse */
+    /* i metodi set/get vanno inseriti per esercizio, magari usando Eclipse */
 }
 </code></pre>
+<p>Piccola annotazione: nel resto del capitolo per leggere l'attributo "fatto"
+si utilizzerà "isFatto()" perché rappresenta un valore di verità, siccome però
+<code>Boolean</code> non la stessa cosa di <code>boolean</code> Eclipse in automatico
+genererà un "get" piuttosto che un "is", basta correggere il nome.</p>
+
 <p>Un normalissimo oggetto Java con alcune accortezze. Concentriamoci adesso
 sulle annotazioni (quelle strane cose che iniziano con @) che permettono 
 a Spring di gestire l'intero progetto. Ogni annotazione è legata all'istruzione che la segue:
 <code>@Entity</code> è relativa alla definizione della classe e in questo caso sta
 a marcare che <code>ToDo</code> è un oggetto che JPA dovrà gestire in relazione 
 al database relazionale che stiamo usando (H2 nel nostro caso, ma se fosse un altro
-non cambierebbe nulla), l'atrributo <code>name</code> indica il nome della tabella nel database,
+non cambierebbe nulla), <code>@Table(name = "todo")</code>
+indica che sul db l'oggetto <code>ToDo</code> corrisponde alla tablla <code>todo</code>
 in genere non è necessario ma in questo caso si. Per default un oggetto "ToDo"
 dovrebbe trovarsi nel db in una tabella chiamata "to_do" siccome così non è dobbiamo
 specificare il nome della tabella, altrimenti non sarebbe stato necessario
@@ -84,6 +93,28 @@ e non <code>int</code>, questo perché vogliamo che l'attributo possa essere nul
 (fa comodo quando si fanno le ricerche),
 questo non sarebbe possibile con il tipo int, stesso discorso vale per
 <code>Boolean fatto</code>.</p>
+
+<h3>Convenzioni</h3>
+<p>Nell'esempio sopra abbiamo visto che è stato necessario inserire <code>@Table</code>
+perché volevamo dare un nome particolare3 ad una tabella, in genere questo non è necessario
+purché si seguano le convenzioni, qui sotto alcune da tenere ben presente.</p>
+
+<dl>
+    <dt>nomi variabili</dt>
+    <dd>Java camelCase → SQL snake_case: JPA converte in automatico, 
+    quindi <code>nomeHotel</code> diventa <code>nome_hotel</code>, 
+    <code>ToDo</code> diventa <code>to_do</code></dd>
+    <dt>nome tabella</dt>
+    <dd>il nome della classe Java in snake_case minuscolo, quindi 
+    <code>Hotel</code> → <code>hotel</code>, <code>ToDo</code> → <code>to_do</code></dd>
+    <dt>chiave primaria</dt>
+    <dd>Hibernate (è la libreria che Spring usa internamente per implementare la persistenza dei dati su DB)
+    si aspetta un campo chiamato id annotato con <code>@Id</code>; se si vuole un nome diverso funziona 
+    lo stesso ma serve più configurazione</dd>
+    <dt>chiave esterna</dt>
+    <dd>si chiama <code>nometabella_id</code>, dove il nome della tabella è quello SQL (snake_case),
+    quindi ad esempio <code>hotel_id</code>, non hotelId né idHotel ne fk_hotel</dd>
+</dl>
 
 <h3>Interfaccia verso il db</h3>
 <p>Questa è probabilmente la classe più strana... in effetti non è neanche
@@ -115,7 +146,7 @@ che ci serve per poter fare un tipo particolare di ricerca: una ricerca per appr
 L'annotazione <code>@Query</code> serve per specificare la query da eseguire e il suo
 parametro <code>nativeQuery</code> impostato a true nel nostro caso è essenziale perché
 stiamo scrivendo la query in SQL (e per uno specifico motore di database,
-se usiamo una nsintassi valida solo per uno specifico database in caso che volessimo
+se usiamo una sintassi valida solo per uno specifico database in caso che volessimo
 cambiarlo dovremmo riscrivere la query),
 se non lo avessimo messo avremmo dovuto
 usare la sintassi JPA nella query che è leggermente diversa da quella di SQL
@@ -216,12 +247,12 @@ public class ToDoManager {
 }
 </code></pre>
 
-<p>Al soilito tante cose vengono risolte dalle annotazioni: <code>@RestController</code>
+<p>Al solito tante cose vengono risolte dalle annotazioni: <code>@RestController</code>
 indica che questa classe offre servizi di tipo REST mentre <code>@Autowired</code>
 fa una cosa un pochino più complicata. <code>ToDoRepository repoToDo</code> dichiara una
 variabile ma non c'è traccia di costruzione dell'oggetto: questo perché Spring
 usa una tecnica chiamata "Dependency Injection" che in pratica significa che l'oggetto
-del titpo giusto lo crea Spring e quando la nostra classe funzionerà avrà una
+del tipo giusto lo crea Spring e quando la nostra classe funzionerà avrà una
 istanza di ToDoRepository da poter utilizzare.</p>
 
 <p>Vediamo i singoli metodi uno per uno, poniamo per semplicità che il 
@@ -236,7 +267,7 @@ public List&lt;ToDo&gt; elenco() {
 }
 </code></pre>
 <p><code>@GetMapping</code> indica due cose: che la funzione elenco() risponde al metodo
-GET di HTTTP e che risponde alla URL "/todos"... più facile a farsi che a dirsi
+GET di HTTP e che risponde alla URL "/todos"... più facile a farsi che a dirsi
 "http://localhost:8080/todos" e otterremo un elenco di tutte le cose da fare.</p>
 <p>Il metodo in questione ritorna una lista di oggetti di tipo ToDo poi ci penserà
 Spring a rappresentarli come JSON. Per recuperare gli oggetti dal DB usa il metodo
@@ -312,7 +343,7 @@ indica che l'oggetto da inserire (uno di tipo ToDo) deve
 essere scritto nel corpo ovviamente in formato JSON!
 L'unica istruzione della funzione serve a salvare l'oggetto nel DB.</p>
 <p>Attenzione che questa richiesta non si può inviare inserendo la URL
-nella barra del browser perché questa sarebbe una rchiesta GET,
+nella barra del browser perché questa sarebbe una richiesta GET,
 bisogna usare uno strumento tipo PostMan o fare una richiesta asincrona, 
 in ogni caso va inserita una rappresentazione JSON di un ToDo
 nel corpo della richiesta.</p>
@@ -414,7 +445,7 @@ di un insieme di persone, alcuni esempi di azione / end point:</p>
 
 <dl>
     <dt>[GET] /persona/317</dt>
-    <dd>restituisce un singolo oggeto Persona
+    <dd>restituisce un singolo oggetto Persona
     con le informazioni riguardo all'utente il cui id è 317</dd>
     <dt>[GET] /persone?anno=2009</dt>
     <dd>restituisce un elenco di Persona che sono nate nel 2009</dd>

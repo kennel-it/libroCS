@@ -3,6 +3,7 @@
 <!-- autoIndex requires="springBootApplicazione" group="spring" coords="110,20" -->
 <!-- changelog 2024-04-28 inserito capitolo -->
 <!-- changelog 2024-05-18 attributo value di @JsonManagedReference/@JsonBackReference -->
+<!-- changelog 2026-04-14 aggiunta rappresentazione ad albero del progetto -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -21,8 +22,8 @@
             }
             .h2 { background-color: #b9cafa}
             .h2::before { background-image: url('immagini/H2_logo.png') }
-            .mysql {background-color: #ffc869}
-            .mysql::before { background-image: url('immagini/mysql_logo.png') }
+            .mariadb {background-color: #ffc869}
+            .mariadb::before { background-image: url('immagini/MariaDB_logo.png') }
             section { padding:1em ; margin:1em 0}
             section.h2::before, section.mysql::before { height: 3em; width: 6em;}
         </style>
@@ -43,7 +44,7 @@ semplice per essere generalizzabile, in questo capitolo vediamo come si realizza
 un sistema che usa due oggeti che sono in una relazione <em>uno a molti</em>.</p>
 
 <p>La realtà che andiamo a modellare prevede che ci siano degli hotel ciascuno dei quali
-ha più stanze. Non scriveremeo il sistema per intero ma soltanto le parti
+ha più stanze. Non scriveremo il sistema per intero ma soltanto le parti
 "diverse" rispetto al caso di entità di un solo tipo.</p>
 
 
@@ -51,7 +52,7 @@ ha più stanze. Non scriveremeo il sistema per intero ma soltanto le parti
 <p>Come dicevamo un oggeto Hotel con alcune proprietà legato a più oggetti Stanza
 con altre proprietà.</p>
 <p>Il database va creato con queste due istruzioni (o con piccoli aggiustamenti
-dovuti al fatto che si usa h2 o MySQL o altro):</p>
+dovuti al fatto che si usa h2 o MariaDB o altro):</p>
 <pre><code>
 create table hotel (
     id integer not null auto_increment,
@@ -159,6 +160,8 @@ in Stanza (da Stanza non devo passare ad Hotel).</p>
 
 <pre><code>
 package it.aspix.hotel;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -189,7 +192,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -232,6 +235,28 @@ public class Stanza {
 
     ...
 </code></pre>
+
+<p>Al termine la cartella del progetto dovrebbe contenere i seguenti file:</p>
+<pre>
+├── pom.xml
+└── src
+    └── main
+        ├── java
+        │   └── it
+        │       └── aspix
+        │           └── hotel
+        │               ├── HotelApplication.java
+        │               ├── Hotel.java
+        │               ├── HotelManager.java
+        │               ├── HotelRepository.java
+        │               ├── Stanza.java
+        │               └── StanzaRepository.java
+        └── resources
+            ├── application.properties
+            ├── data.sql
+            └── schema.sql</pre>
+
+<p>Potrebbe essere presente anche una cartella con i test che per adesso non usiamo.</p>
 
 <h2>Ancora sui nomi dei servizi</h2>
 <p>Nulla cambia rispetto a ciò che è scritto nel capitolo precedente,
