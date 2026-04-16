@@ -6,6 +6,7 @@
 <!-- changelog 2026-04-14 sistemati nomi end point -->
 <!-- changelog 2026-04-14 aggiunte alcune convenzioni -->
 <!-- changelog 2026-04-14 #patch-optional aggiunto un approfondimento sul tipo Optional -->
+<!-- changelog 2026-04-16 #patch-example aggiunto un approfondimento sul tipo Example -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -302,6 +303,15 @@ metodo servono appunto a creare l'esempio!
 Creo l'oggetto <code>t</code> e imposto due dei suoi campi (eventualmente a null se non 
 erano presenti nella richiesta), poi con <code>Example.of(t)</code> creo un "Esempio"
 da fornire alla funzione di ricerca.</p>
+
+<div class="approfondimento" id="patch-example">
+    <h3><small>org.springframework.data.domain.</small>Example</h3>
+    <p>È una classe di utilità che permette di fare le ricerche del tipo "trovami tutti gli
+    oggetti simili a questo" considerando tutte le proprietà specificate e ignorando quelle 
+    che hanno valore <code>null</code> nell'oggetto di esempio che contiene.</p>
+    <p>Volendo è possibile specificare criteri più complicati di uguale/ignora ma non lo faremo
+    in questi appunti.</p> 
+</div>
 
 <h4>cerca2()</h4>
 <pre><code>
