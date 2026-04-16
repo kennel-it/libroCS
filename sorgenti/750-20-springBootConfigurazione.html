@@ -70,7 +70,7 @@ chiamati "funzioni".</p>
 <p>Quella che ci apprestiamo a realizzare è la parte server (o backend) di una
 semplice applicazione per gestire una lista di cose da fare ( "todo" ).
 Il sistema gestisce più liste ma di un solo utente: deve permettere sia di visualizzare le liste
-che di fare ricerche che di inserire nuove cose da fare nelle liste che di cancellare delle voci.</p>
+che di fare ricerche che di inserire nuove cose da fare nelle liste che di cancellare degli elementi della lista stessa.</p>
 <p>Per rappresentare le informazioni forzando un po' la mano
 (magari uno schema ER ben fatto prevederebbe più relazioni)
 utilizziamo un singolo oggetto (e quindi avremo una singola tabella)
@@ -98,16 +98,16 @@ rappresentandoli in JSON... perché è il metodo più utilizzato e
 perché Spring Boot lo fa in automatico.</p>
 
 <p>Una scelta però la lasciamo aperta: il database.
-Nel seguito di questo capitolo seguiremo per quanto riguarda il db due strade parallele, ovviamente
+In questo capitolo seguiremo per quanto riguarda il db due strade parallele, ovviamente
 una volta scelto ne va seguita una sola! I due percorsi si possono riconoscere dai relativi colori.</p>
 <p class="h2">Questo percorso riguarda l'uso del database 
 <a href="https://www.h2database.com/html/main.html">H2</a> che verrà incluso
 nell'applicazione e quindi non va installato a parte, percorso buono per fare delle prove.
-H2 gestirà il database in memoria, database che quindi verrà
-resettato ad ogni avvio del server. In questo caso non c'è un server da configurare</p>
+Chiederemo ad H2 di gestire il database in memoria: aquesto implica che i dati verranno
+resettati ad ogni avvio del server. In questo caso non c'è un server da configurare</p>
 <p class="mariadb">Questo percorso riguarda l'uso del server <a href="https://mariadb.org/download/">MariaDB</a>
 (o volendo <a href="https://www.mysql.com/">MySQL</a>) che però deve essere già
-stato installato e configurato, è la strata che normalmente si segue in un progetto funzionante
+stato installato e configurato, è la strada che normalmente si segue in un progetto funzionante
 ma bisogna avere in esecuzione un server MariaDB/MySQL e saperlo configurare.</p>
 
 <h3>Il progetto</h3>
@@ -121,7 +121,7 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
     <dd>il tipo di progetto che deve essere creato, nel nostro caso
     un progetto gestito da Maven</dd>
     <dt>Language [2]</dt>
-    <dd>questo è piuttosto evidente: il linguaggio che vorremo usare per scrivere il codice</dd>
+    <dd>questo è piuttosto evidente: il linguaggio che vorremo usare per scrivere il codice (noi scegliamo Java)</dd>
     <dt>Spring Boot [3]</dt>
     <dd>la versione di Spring Boot da utilizzare, in genere è una buona scelta per i nuovi
     progetti prendere l'ultima versione escludendo i vari SNAPSHOT e Milestone se
@@ -135,9 +135,10 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
     tipo Tomcat</dd>
     <dt>Java [6]</dt>
     <dd>la versione di Java che vogliamo usare, qui mettere l'ultima potrebbe non essere 
-    una buona idea: nella figura sono presentate soltanto alcune versioni: 8, 11 e 17 sono
-    versioni con supporto al lungo termine (meglio prendere l'ultima di queste se possibile)
-    mentre la 20 è l'ultima versione uscita</dd>
+    una buona idea. Nella figura sono presentate soltanto alcune versioni: 8, 11 e 17 sono
+    versioni con supporto al lungo termine (LTS), meglio prendere l'ultima di queste se possibile.
+    La versione 20 in nel momento in cui è stato fatto lo screenshoot è l'ultima versione uscita,
+    dall'elenco non si può capire quali sono le LTS: bisogna informarsi.</dd>
     <dt>Dependencies [7]</dt>
     <dd>facendo click su questo pulsante si possono aggiungere le dipendenze al progetto,
     a noi ne servono alcune che sono descritte qui sotto ma ne esistono tantissime:
@@ -146,9 +147,10 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
             web di tipo REST e usare Tomcat</li>
             <li>Spring Data JPA: un modo semplice per comunicare con i database, 
             serve poi un driver per un database specifico</li>
-            <li class="h2">H2 Database: in questo caso come DB usiamo H2</li>
-            <li class="mariadb">MariaDB driver: una liberia che consente
-            di dialogare con un server MariaDB.</li>
+            <li>ci serve poi un modo per usare un DB, potremmo usare ad esempio
+            <code class="h2">H2 Database</code> per includere H2 nel progetto oppure 
+            <code class="mariadb">MariaDB driver</code> per poterci collegare 
+            con un server MariaDB esistente.</li>
         </ul>
     </dd>
     <dt>GENERATE [8]</dt>
@@ -159,7 +161,7 @@ Qui sotto è riportato il progetto del tutto configurato, a seguire la descrizio
 
 
 <h3>IDE</h3>
-<p>Usiamo Eclipse (nella versione " Eclipse IDE for Enterprise Java and Web Developers")
+<p>Usiamo Eclipse (nella versione "Eclipse IDE for Enterprise Java and Web Developers")
 per cui è disponibile una estensione per Spring Boot: click sul menu "/help/Eclipse Marketplace..."
 e nella casella "find" scrivere <em>Spring Tools</em> e installare "Spring Tools 4",
 a questo punto verrà installata l'estensione.</p>
@@ -307,7 +309,7 @@ leggermente formattato per evidenziare le cose che più ci interessano:</p>
 <span>2024-03-23T19:02:12.975+01:00  INFO 35563 --- [demo] [           main]</span> o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
 <span>2024-03-23T19:02:13.100+01:00  INFO 35563 --- [demo] [           main]</span> o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 <span>2024-03-23T19:02:13.101+01:00  INFO 35563 --- [demo] [           main]</span> j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-<span>2024-03-23T19:02:13.117+01:00  WARN 35563 --- [demo] [           main]</span> JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+<span>2024-03-23T19:02:13.117+01:00  WARN 35563 --- [demo] [           main]</span> JpaBaseConfiguration$JpaWebConfiguration : <em>spring.jpa.open-in-view is enabled by default.</em> Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 <span>2024-03-23T19:02:13.269+01:00  INFO 35563 --- [demo] [           main]</span> o.s.b.w.embedded.tomcat.TomcatWebServer  : <em>Tomcat started on port 8080 (http)</em> with context path ''
 <span>2024-03-23T19:02:13.273+01:00  INFO 35563 --- [demo] [           main]</span> com.example.demo.DemoApplication         : Started DemoApplication in 1.06 seconds (process running for 1.201)
 </samp></pre>
@@ -336,9 +338,9 @@ limitiamoci a leggere le due righe con la parte evidenziata.</p>
 
 <section class="h2">
 <p>Nel caso sia stato correttamente configurato H2 tra i messaggi si troverà una riga particolare simile a questa:</p>
-<pre><samp>
-<span>2024-03-23T19:20:11.243+01:00  INFO 35819 --- [demo] [           main]</span> o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:todolist'
-</samp></pre>
+<pre><code>
+<span>2024-03-23T19:20:11.243+01:00  INFO 35819 --- [demo] [           main]</span> o.s.b.a.h2.H2ConsoleAutoConfiguration: <br><em>H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:todolist'</em>
+</code></pre>
 
 <p>In questo caso potremmo connetterci a <code>http://localhost:8080/h2-console</code> per poter ispezionare il database,
 nel form ci verrà richiesto un "JDBC URL" e dovremmo specificare <code>jdbc:h2:mem:todolist</code>,
