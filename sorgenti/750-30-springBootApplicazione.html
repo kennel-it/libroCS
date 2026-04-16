@@ -71,7 +71,7 @@ public class ToDo {
 </code></pre>
 <p>Piccola annotazione: nel resto del capitolo per leggere l'attributo "fatto"
 si utilizzerà "isFatto()" perché rappresenta un valore di verità, siccome però
-<code>Boolean</code> non la stessa cosa di <code>boolean</code> Eclipse in automatico
+<code>Boolean</code> non è la stessa cosa di <code>boolean</code> Eclipse in automatico
 genererà un "get" piuttosto che un "is", basta correggere il nome.</p>
 
 <p>Un normalissimo oggetto Java con alcune accortezze. Concentriamoci adesso
@@ -89,7 +89,7 @@ specificare il nome della tabella, altrimenti non sarebbe stato necessario
 <p><code>@Id</code> marca l'attributo che è chiave primaria e il 
 successivo <code>@GeneratedValue</code> con il suo attributo <code>strategy</code> indicano
 che la colonna sul db è di tipo auto_increment.</p>
-<p>Una ultima cosa da notare: l'attributo <code>id</code> è di tipo <code>Integer</code>
+<p>Un'ultima cosa da notare: l'attributo <code>id</code> è di tipo <code>Integer</code>
 e non <code>int</code>, questo perché vogliamo che l'attributo possa essere null
 (fa comodo quando si fanno le ricerche),
 questo non sarebbe possibile con il tipo int, stesso discorso vale per
@@ -97,7 +97,7 @@ questo non sarebbe possibile con il tipo int, stesso discorso vale per
 
 <h3>Convenzioni</h3>
 <p>Nell'esempio sopra abbiamo visto che è stato necessario inserire <code>@Table</code>
-perché volevamo dare un nome particolare3 ad una tabella, in genere questo non è necessario
+perché volevamo dare un nome particolare ad una tabella, in genere questo non è necessario
 purché si seguano le convenzioni, qui sotto alcune da tenere ben presente.</p>
 
 <dl>
