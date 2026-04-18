@@ -7,6 +7,7 @@
 <!-- changelog 2026-04-14 aggiunte alcune convenzioni -->
 <!-- changelog 2026-04-14 #patch-optional aggiunto un approfondimento sul tipo Optional -->
 <!-- changelog 2026-04-16 #patch-example aggiunto un approfondimento sul tipo Example -->
+<!-- changelog 2026-04-18 #patch-convenzioni sistemata parte sulle convenzioni di naming -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8"/>
@@ -96,26 +97,35 @@ e non <code>int</code>, questo perché vogliamo che l'attributo possa essere nul
 questo non sarebbe possibile con il tipo int, stesso discorso vale per
 <code>Boolean fatto</code>.</p>
 
-<h3>Convenzioni</h3>
+<h3 id="patch-convenzioni">Convenzioni</h3>
 <p>Nell'esempio sopra abbiamo visto che è stato necessario inserire <code>@Table</code>
 perché volevamo dare un nome particolare ad una tabella, in genere questo non è necessario
 purché si seguano le convenzioni, qui sotto alcune da tenere ben presente.</p>
 
 <dl>
-    <dt>nomi variabili</dt>
-    <dd>Java camelCase → SQL snake_case: JPA converte in automatico, 
-    quindi <code>nomeHotel</code> diventa <code>nome_hotel</code>, 
-    <code>ToDo</code> diventa <code>to_do</code></dd>
+    <dt>nomi proprietà</dt>
+    <dd>Java camelCase → SQL snake_case: la conversione avviene in automatico, 
+    quindi la proprietà <code>nomeHotel</code> diventa <code>nome_hotel</code>.
+    Attenzione al fatto che il meccanismo funziona se le parole non sono di una sola lettera: "dataI" viene
+    trasformato diversamente ma la soluzione è facile: non chiamare il campo <code>dataI</code> ma in maniera
+    più descrittiva <code>dataInizio</code>. Per tutte le esigenze particolari è possibile usare
+    l'annotazione <code>@Column(name = "nome_colonna")</code>.</dd>
     <dt>nome tabella</dt>
     <dd>il nome della classe Java in snake_case minuscolo, quindi 
-    <code>Hotel</code> → <code>hotel</code>, <code>ToDo</code> → <code>to_do</code></dd>
+    <code>Hotel</code> → <code>hotel</code>, <code>ToDo</code> → <code>to_do</code>,
+    se si vuol fare diversamente si usa <code>@Table(name="nome_tabella")</code></dd>
     <dt>chiave primaria</dt>
-    <dd>Hibernate (è la libreria che Spring usa internamente per implementare la persistenza dei dati su DB)
-    si aspetta un campo chiamato id annotato con <code>@Id</code>; se si vuole un nome diverso funziona 
-    lo stesso ma serve più configurazione</dd>
+    <dd>Uno dei campi dell'entità deve essere annotato con <code>@Id</code>, per il resto valgono le regole
+    di naming degli altri attributi</dd>
     <dt>chiave esterna</dt>
-    <dd>si chiama <code>nometabella_id</code>, dove il nome della tabella è quello SQL (snake_case),
-    quindi ad esempio <code>hotel_id</code>, non hotelId né idHotel ne fk_hotel</dd>
+    <dd>se due entità Java sono in relazione uno a molti nella classe dal "lato molti"
+    avrò una proprietà che mi porta alla classe dal "lato uno":
+    ad esempio nella classe <code>Stanza</code> ragionevolmente troveremo
+    <code>Hotel hotel</code>, l'hotel in quanto entità avrà un <code>@Id</code> poniamo sul campo <code>Long id</code>,
+    ci si aspetta che nella tabella <code>stanza</code> nel db ci sia un campo <code>hotel_id</code>. 
+    Se i campi si fossero chiamati rispettivamente <code>Hotel edificio</code> e <code>Long mioNumero</code>
+    nella tabella <code>stanza</code> dovremmo avere la colonna<code>edificio_mio_numero</code>.
+    Al solito è possibile forzare i nomi usando una annotazione: <code>@JoinColumn(name="nome_colonna")</code>.</dd>
 </dl>
 
 <h3>Interfaccia verso il db</h3>
