@@ -3,6 +3,7 @@
 <!-- autoIndex requires="elaborazioneJsonClient http richiestaHttp rispostaHttp" group="servizi" coords="70,45" -->
 <!-- changelog 2019-04-28 inserito capitolo -->
 <!-- changelog 2025-08-12 aggiunto Bruno per i test -->
+<!-- changelog 2026-11-09 sostanzialmente riscritto il capitolo -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -16,25 +17,71 @@
 	<p>Application programming interface</p>
 </header>
 <article>
-	<p>Sostanzialmente quando si parla di API si sta parlando di un modo 
-	che può usare una applicazione per parlare con un'altra, 
-	qui ci concentreremo su un particolare tipo di API molto diffuso
-	attualmente sul WEB: 
-	<a href="https://it.wikipedia.org/wiki/Representational_State_Transfer">
-	REpresentational State Transfer</a>
-	(solitamente scritto usando l'acronimo REST).</p>
+    <p>Con il termine API si possono indicare due cose: 
+    delle librerie da usare in un qualche linguaggio di programmazione o dei servizi
+    disponibili via web. Entrambe sono un <em>contratto</em> che specifica cosa chiedere
+    e come, la prima ci consente
+    di chiedere di fare qualcosa ad un pezzo di codice che verrà eseguito nel nostro programma e
+    la seconda di usare un servizio disponibile in rete. Qui ci occuperemo della seconda.</p>
+
+    <p>Perché: usiamo delle API web quando la nostra applicazione non può fare tutto da sola.
+    Può avere bisogno di <em>informazioni</em> che possiede qualcun altro e che sarebbe
+    impossibile o troppo costoso raccogliere in proprio (ad esempio le previsioni meteo, che
+    richiedono una rete di stazioni di misura), oppure di <em>agire</em> sui sistemi di qualcun
+    altro (ad esempio pagare un ordine, pubblicare un contenuto, registrare un'informazione).
+    In entrambi i casi l'altro sistema è già in funzione, scritto da altri e con
+    tecnologie che non scegliamo noi: l'API web è lo strumento con cui quel sistema
+    ci permette di usarlo senza conoscerne l’interno.</p>
+
+    <p><em>Come</em>: esistono molti modi con cui un'applicazione può chiedere qualcosa a un'altra
+    attraverso la rete, e ciascuno ha le sue regole su come formulare la richiesta e come
+    ricevere la risposta. Noi ci concentreremo su <a href="https://it.wikipedia.org/wiki/Representational_State_Transfer">
+    REpresentational State Transfer</a> (solitamente scritto con l'acronimo REST), per due motivi.
+    Il primo è che si appoggia su ciò che già conosciamo: usa HTTP per comunicare
+    e di solito risponde in JSON, quindi non richiede strumenti nuovi.
+    Il secondo è che oggi è largamente lo stile più diffuso: la grande maggioranza delle API
+    che incontrerete, dai servizi pubblici come quelli di GitHub o Google alle applicazioni
+    aziendali, è di questo tipo, e ciò che si impara qui serve ovunque.</p>
 
 	<h2>REST</h2>
 	<p>Questo tipo di architettura si presta molto bene all'uso in sistemi
-	client/server orientati ai servizi come quelle WEB e ha le seguenti caratteristiche:</p>
+	client/server orientati ai servizi come quelli WEB e ha le seguenti caratteristiche:</p>
 	<ul>
 		<li>usa HTTP come protocollo per trasferire i dati</li>
 		<li>non usa le sessioni: ogni richiesta viene elaborata senza
-		tener conto delle richieste precedenti</li>
+		tener conto delle richieste precedenti perché porta con sé tutto ciò che serve 
+        (autenticazione compresa), 
+        quindi il server non ricorda nulla e volendo si può replicare facilmente</li>
 		<li>gli oggetti vengono indicati tramite URL
-		(es: https://api.magazzino.com/fornitore/138)</li>
+		(es: https://api.magazzino.com/fornitori/138)</li>
 		<li>le azioni da compiere sull'oggetto sono quelle di HTTP</li>
 	</ul>
+
+    <p>Vediamo un esempio pratico: un sistema per organizzare gare di corsa.
+    Nella tabella ogni riga è una richiesta al server: l'<em>azione</em> è il metodo HTTP
+    e il <em>path</em> indica l'oggetto su cui agire (è la parte della URL che segue
+    il dominio, ad esempio <code>https://api.gare.example/gare/42</code> ha path
+    <code>/gare/42</code>).</p>
+
+    <table>
+        <tr><th>Azione</th><th>Path</th><th>Spiegazione</th></tr>
+        <tr><td><code>GET</code></td><td><code>/gare</code></td><td>elenco delle gare</td></tr>
+        <tr><td><code>GET</code></td><td><code>/gare/42</code></td><td>informazioni dettagliate della gara 42</td></tr>
+        <tr><td><code>GET</code></td><td><code>/gare/42/iscrizioni</code></td><td>elenco degli iscritti alla gara 42</td></tr>
+        <tr><td><code>GET</code></td><td><code>/gare/42/iscrizioni?categoria=junior</code></td><td>solo gli iscritti di una categoria (ricerca via parametri)</td></tr>
+        <tr><td><code>POST</code></td><td><code>/gare/42/iscrizioni</code></td><td>iscrive un nuovo partecipante (i dati stanno nel corpo della richiesta)</td></tr>
+        <tr><td><code>GET</code></td><td><code>/gare/42/iscrizioni/7</code></td><td>dati dell'iscrizione 7</td></tr>
+        <tr><td><code>PUT</code></td><td><code>/gare/42/iscrizioni/7</code></td><td>sostituisce i dati dell'iscrizione 7</td></tr>
+        <tr><td><code>PATCH</code></td><td><code>/gare/42/iscrizioni/7</code></td><td>modifica solo alcuni campi (es. la taglia della maglia)</td></tr>
+        <tr><td><code>DELETE</code></td><td><code>/gare/42/iscrizioni/7</code></td><td>annulla l'iscrizione 7</td></tr>
+    </table>
+
+    <p>Quelle qui sopra sono richieste, non è detto che il server accetti di fare quello
+    che viene chiesto. Una volta inviata la richiesta bisogna aspettare di vederne l'esito nella risposta:
+    non tutti i server si comportano in maniera ortodossa usando il codice HTTP (ad esempio
+    201 CREATED dopo un POST), a volte la risposta è sempre
+    200 e poi nel corpo c'è una descrizione dell'esito, questo comportamento purtroppo
+    varia da server a server.</p>
 	
 	<p>Altri aspetti comodi di questo tipo di API sono anche:</p>
 	<ul>
@@ -49,23 +96,25 @@
 		che però richiede di registrarsi.</li>
 	</ul>
 	
-	<p>Moltissimi servizi on-line permetteno di interfacciarsi usando
-	delle API pubbliche che molto spesso sono REST, l'unico inconveniente
+	<p>Moltissimi servizi on-line permettono di interfacciarsi usando
+	delle API pubbliche che molto spesso sono REST in qualche misura
+    (nel senso che potrebbero non rispettarne tutti i vincoli), l'unico inconveniente
 	è che per poterle usare è necessario usare delle chiavi di accesso
 	che vengono concesse ad ogni utente (oppure alle singole applicazioni che
 	si vogliono creare) previa registrazione; questo vale per Facebook, Instagram, 
 	Google e tantissimi altri.</p>
 	
-	<h3>GitHub</h3>
+	<h3>Un esempio: l'API di GitHub</h3>
 	<p>GitHub permette l'accesso (limitando il numero di richieste al minuto)
 	anche senza registrazione utilizzando una 
 	<a href="https://developer.github.com/v3/">API REST</a>, 
-	questo ci permette di fare alcuni esperimenti.</p>
+	questo ci permette di fare alcuni esperimenti semplicemente scrivendo
+    una URL nella barra degli indirizzi del browser.</p>
 	
 	<p>Come primo esperimento possiamo provare a fare una ricerca per 
-	trovare un progetto su GitHub, per farlo seguiamo le idicazioni
+	trovare un progetto su GitHub, per farlo seguiamo le indicazioni
 	<a href="https://developer.github.com/v3/search/#search-repositories">
-	Search repositories</a> e visto che vogliamo cercare un progetto sui quesitonari
+	Search repositories</a> e visto che vogliamo cercare un progetto sui questionari
 	scritto in php usiamo la URL
 	<code><a href="https://api.github.com/search/repositories?q=questionario+language:php">https://api.github.com/search/repositories?q=questionario+language:php</a>
 	</code>
@@ -122,7 +171,7 @@
 	   	</p>
 	    <a onclick="sbagliata(this)">un elenco di rami<span class="spiegazione">non è del tutto esatto</span></a>
 	    <a onclick="giusta(this)">rami e relative descrizioni</a> 
-	    <a onclick="sbagliata(this)">lo stato di svilupo<span class="spiegazione">no, dovresti provare a caricare la URL</span></a> 
+	    <a onclick="sbagliata(this)">lo stato di sviluppo<span class="spiegazione">no, dovresti provare a caricare la URL</span></a> 
 	</div>
 	
 	<div class="test">

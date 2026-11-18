@@ -4,12 +4,13 @@
 <!-- changelog 2018-02-21 inserita prima parte dei contenuti -->
 <!-- changelog 2020-03-01 inseriti link, alcune precisazioni e rimosso "work in progress" -->
 <!-- changelog 2023-04-17 sistemazione generale e aggiunto stringify -->
+<!-- changelog 2026-11-09 corretto output di stringify, nota su JSON e oggetto JS -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
        <title>elaborazioneJsonClient</title>
        <link type="text/css" rel="stylesheet" href="style.css"/>
-       <script type="text/javascript" src="script/test.js"></script>         
+       <script type="text/javascript" src="script/test.js"></script>
    </head>
 <body>
 <header>
@@ -22,7 +23,7 @@
 	per tutti i linguaggi esistono librerie per fare le cose che vediamo qui sotto.</p>
 	
 	<p>Il nome stesso del formato (JavaScript Object Notation) 
-	ci da indicazioni sulla sua semplicità di uso con JavaScript che
+	ci dà indicazioni sulla sua semplicità di uso con JavaScript che
 	ci mette a disposizione un oggetto predefinito 
 	<a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a>
 	per trasformare un testo JSON in un oggetto e viceversa.</p>
@@ -78,7 +79,11 @@ oggetto.attori = ["Christian Bale","Val Kilmer"];
 let testo = JSON.stringify(oggetto);
 </code></pre>
 
-    <p>la variabile testo conterrà:</p>
+    <p>La variabile testo conterrà:</p>
+<pre><code>
+{"nome":"Batman","citta":"Gotham","attori":["Christian Bale","Val Kilmer"]}
+</code></pre>
+    <p>che se solo ci prendiamo il disturbo di formattarla meglio potremmo scriverla così:</p>
 <pre><code>
 {
   "nome": "Batman",
@@ -95,6 +100,10 @@ let testo = JSON.stringify(oggetto);
 let oggetto = {nome: "Batman", citta: "Gotham", attori : ["Christian Bale","Val Kilmer"]};
 let testo = JSON.stringify(oggetto);
 </code></pre>
+
+    <p>Nota che nell’oggetto JS le chiavi (<code>nome</code>, <code>citta</code>) non hanno virgolette,
+    mentre nel testo JSON prodotto da <code>stringify</code> le hanno sempre: il JSON è una stringa
+    con regole più rigide, l’oggetto è ciò che scriviamo e usiamo nel codice.</p>
 
 </article>
 </body>

@@ -4,6 +4,7 @@
 <!-- changelog 2018-01-24 inseriti contenuti -->
 <!-- changelog 2019-03-16 inserito esempio più complesso -->
 <!-- changelog 2020-03-29 errore battitura -->
+<!-- changelog 2026-11-09 inserite molte precisazioni e correzioni -->
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
    	<meta charset="UTF-8"/>
@@ -25,9 +26,10 @@
 	<p><a href="https://www.json.org/json-it.html">JSON</a> sta per
 	<b>J</b>ava<b>S</b>cript <b>O</b>bject <b>N</b>otation ed è un formato leggero per l'interscambio dei dati.
 	L'idea che ha portato alla sua creazione era di avere un linguaggio facile da leggere per
-	le persone e da analizzare/generare per i computers.
-	Quello che viene rappresentato è un singolo oggetto ed
-	è basato sulla notazione che usa Javascript per definire le costanti e i vettori.</p>
+	le persone e da analizzare/generare per i computer.
+	Quello che viene rappresentato è un singolo valore:
+    di solito un oggetto o un array.
+    La sintassi è basata sul modo in cui in JavaScript si scrivono oggetti e array direttamente nel codice.</p>
 
 	<p>Quello che segue è un esempio di specifica di una rubrica:</p>
 
@@ -44,11 +46,28 @@
 	<p>Le regole da seguire sono piuttosto semplici:</p>
 	<ul>
 		<li>le parentesi quadre contengono array (composti da un elenco di valori separati da virgola)</li>
-		<li>le parentesi graffe contengono oggetti (composti da un elenco di <code>nome: valore</code> separati da virgole)</li>
-		<li>i nomi vanno racchiusi tra virgolette</li>
-		<li>i valori di tipo stringa vanno tra virgolette</li>
-		<li>i valori di tipo numerico e booleano non hanno bisogno di virgolette</li>
+		<li>le parentesi graffe contengono oggetti (composti da un elenco di <code>"nome": valore</code> separati da virgola)</li>
+		<li>i nomi vanno racchiusi tra virgolette doppie</li>
+        <li>un valore può essere:
+            <ul>
+                <li>una stringa, tra virgolette doppie: <code>"Pluto"</code></li>
+                <li>un numero, senza virgolette: <code>18</code>, <code>5.5</code>, <code>-3e2</code></li>
+                <li>un booleano: <code>true</code> o <code>false</code></li>
+                <li>il valore nullo: <code>null</code></li>
+                <li>un oggetto o un array (che quindi possono essere annidati)</li>
+            </ul>
+        </li>
 	</ul>
+
+    <p>A differenza di quello che succede in un programma JavaScript in JSON non si può:</p>
+    <ul>
+        <li>usare gli apici singoli: <code>'Pluto'</code> è un errore</li>
+        <li>lasciare una virgola dopo l'ultimo elemento: <code>[1, 2, 3,]</code></li>
+        <li>inserire commenti</li>
+        <li>scrivere numeri con zeri iniziali (<code>007</code>) o valori come <code>NaN</code> e <code>Infinity</code></li>
+    </ul>
+    <p>Infine, all'interno delle stringhe i caratteri speciali si scrivono con il backslash:
+    <code>\"</code> per le virgolette, <code>\\</code> per il backslash, <code>\n</code> per andare a capo.</p>
 
 	<p>Ad oggi moltissimi linguaggi hanno delle librerie per leggere/scrivere dati in formato JSON
 	e alcuni database permettono di registrare le informazioni in questo formato.</p>
@@ -56,15 +75,15 @@
 	<p>Proviamo a vedere un oggetto un pochino più complicato: il menu di una pizzeria.</p>
 <pre><samp>
 {
-    "pizzeria": "Il pappagallo rosso",
+    "nome": "Il pappagallo rosso",
     "piatti": [
         {
-            "nome": "pizza margherita",
+            "nome": "pizza Margherita",
             "prezzo": 5.5,
             "ingredienti": ["pasta", "mozzarella", "pomodoro", "basilico"]
         },
         {
-            "nome": "pizza marinara",
+            "nome": "pizza Napoletana",
             "prezzo": 6.5,
             "ingredienti": ["pasta", "mozzarella", "pomodoro", "alici", "capperi"]
         }
